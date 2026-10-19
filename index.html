@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Darren Labs — Agentic AI Studio</title>
+<meta name="description" content="Darren Labs is an Agentic AI Studio. We design and ship agentic AI systems that build real apps. Two flagships: VoltWorks Power and AI Architecture Patterns.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Darren Labs home">
+      <span class="mark" aria-hidden="true">DL</span>
+      <span class="brand-text">Darren <span>Labs</span></span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav" aria-label="Primary">
+      <a href="#how">How we build</a>
+      <a href="#flagships">Flagships</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Agentic AI Studio</p>
+        <h1>Darren Labs</h1>
+        <p class="tagline">We design and ship agentic AI systems that build real apps.</p>
+        <p class="hero-sub">One person sets the direction. A team of AI agents builds. A human checks the work. The result is a real app you can use.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#flagships">See flagship work</a>
+          <a class="btn btn-ghost" href="#how">How we build →</a>
+        </div>
+        <p class="hero-note">Founded by Tri Adi S, known in his work as Darren Lieu.</p>
+      </div>
+      <div class="viz-wrap" data-viz="hero">
+        <canvas id="hero3d" class="viz-canvas" width="520" height="340" aria-label="Interactive 3D diagram of Darren Labs studio: central hub with orbiting agent nodes connected to two flagships"></canvas>
+        <div class="viz-controls">
+          <button type="button" class="viz-btn" data-rotate-toggle="hero3d" aria-pressed="true">Pause rotation</button>
+          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click a node</span>
+        </div>
+        <p class="viz-label" id="hero3d-label">Studio hub &mdash; click a node to see what it is.</p>
+        <noscript><p class="viz-label">3D needs JavaScript. Static site still works without it.</p></noscript>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE BUILD -->
+  <section class="section how" id="how">
+    <div class="wrap">
+      <p class="section-label">How we build</p>
+      <h2>Simple process. Checked work.</h2>
+      <p class="section-lead">Every Darren Labs system follows the same discipline — no claim without evidence.</p>
+      <ol class="steps">
+        <li><strong><span class="step-num">01</span> Brief</strong><span>Darren sets direction, scope, and what good looks like.</span></li>
+        <li><strong><span class="step-num">02</span> Generate</strong><span>Agents build the first version.</span></li>
+        <li><strong><span class="step-num">03</span> Verify</strong><span>Darren checks it against explicit criteria.</span></li>
+        <li><strong><span class="step-num">04</span> Fix &amp; re-verify</strong><span>Agents fix, then it is checked again until it meets the bar.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FLAGSHIPS — TWO, CONCISE -->
+  <section class="section flagship" id="flagships">
+    <div class="wrap">
+      <p class="section-label">Flagships</p>
+      <h2>Two flagships. One architecture.</h2>
+      <p class="section-lead">One proves applied engineering. One proves architect thinking. Both are built the same way: direction, agents, verification.</p>
+
+      <div class="flagship-item flagship-grid">
+        <div>
+          <p class="flagship-num">Flagship 01</p>
+          <h3>VoltWorks Power</h3>
+          <p class="flagship-desc">Power-system CAD automation that removes repetitive drafting — so engineers can design with confidence, and beginners can understand what they are looking at.</p>
+          <ul class="points">
+            <li><strong>True-scale 3D substation</strong> — drawn at real heights, 1 unit = 1&nbsp;m, with equipment you can inspect.</li>
+            <li><strong>SLD builder with its own 3D view</strong> — draw a single-line diagram, see it in 3D, and check what changes when you open a breaker.</li>
+            <li><strong>Calculators that explain themselves</strong> — guided onboarding and plain language, matched to industrial standards.</li>
+            <li><strong>Built to standards</strong> — IEC 60364 / 60909, IEEE 1584-2018, NFPA 70E.</li>
+          </ul>
+        </div>
+        <aside class="flagship-card" aria-label="VoltWorks at a glance">
+          <p class="card-eyebrow">VoltWorks Power</p>
+          <p class="card-title">Design power systems<br>with confidence.</p>
+          <p class="card-body">Calculators, 3D substation, and SLD builder — in one place, for beginners and professionals.</p>
+          <div class="card-meta">
+            <span>3D substation</span>
+            <span>SLD builder</span>
+            <span>Standards-based</span>
+          </div>
+        </aside>
+      </div>
+      <div class="viz-wrap viz-wrap-flagship" data-viz="volt">
+        <canvas id="volt3d" class="viz-canvas" width="720" height="300" aria-label="Interactive 3D preview of VoltWorks substation: pylon, transformer, switchgear and bus"></canvas>
+        <div class="viz-controls">
+          <button type="button" class="viz-btn" data-rotate-toggle="volt3d" aria-pressed="true">Pause rotation</button>
+          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click equipment</span>
+        </div>
+        <p class="viz-label" id="volt3d-label">VoltWorks preview &mdash; simplified substation. Click equipment to inspect it.</p>
+      </div>
+
+      <div class="flagship-item flagship-grid flagship-second">
+        <div>
+          <p class="flagship-num">Flagship 02</p>
+          <h3>AI Architecture Patterns</h3>
+          <p class="flagship-desc">A visual design library for AI systems — the diagrams, tradeoffs, and judgment behind building AI that actually works.</p>
+          <ul class="points">
+            <li><strong>Visual patterns</strong> — diagrams that show how AI systems fit together, in plain language.</li>
+            <li><strong>Tradeoffs, not hype</strong> — what each pattern gains, what it costs, and when it breaks.</li>
+            <li><strong>Runnable demos</strong> — try the idea, don&rsquo;t just read about it.</li>
+            <li><strong>When NOT to use it</strong> — the part everyone skips, included for every pattern.</li>
+          </ul>
+        </div>
+        <aside class="flagship-card flagship-card-light" aria-label="AI Architecture Patterns at a glance">
+          <p class="card-eyebrow">AI Architecture Patterns</p>
+          <p class="card-title">Think clearly<br>about AI systems.</p>
+          <p class="card-body">Diagrams, tradeoffs, runnable demos, and when not to use each pattern.</p>
+          <div class="card-meta">
+            <span>Diagrams</span>
+            <span>Tradeoffs</span>
+            <span>Runnable demos</span>
+          </div>
+        </aside>
+      </div>
+      <div class="viz-wrap viz-wrap-flagship" data-viz="patterns">
+        <canvas id="patterns3d" class="viz-canvas" width="720" height="300" aria-label="Interactive 3D diagram of AI Architecture Patterns: Brief, Generate, Verify, Fix connected in a loop"></canvas>
+        <div class="viz-controls">
+          <button type="button" class="viz-btn" data-rotate-toggle="patterns3d" aria-pressed="true">Pause rotation</button>
+          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click a step</span>
+        </div>
+        <p class="viz-label" id="patterns3d-label">Architecture loop &mdash; Brief &rarr; Generate &rarr; Verify &rarr; Fix. Click a step.</p>
+      </div>
+
+      <p class="flagship-foot">Two flagships: VoltWorks + AI Architecture Patterns.</p>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section class="section architecture" id="architecture">
+    <div class="wrap narrow">
+      <p class="section-label">Architecture</p>
+      <h2>Why two flagships prove the architecture.</h2>
+      <p>VoltWorks is not a single tool. It is a system: agent orchestration to build it, verification loops to check it, and a coherent design that holds calculators, 3D, and diagrams together. AI Architecture Patterns is the other half: the thinking, tradeoffs, and judgment behind choosing the right system in the first place. That is what an AI architect does — design systems that can build real, usable software, again and again, and explain why.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section about" id="about">
+    <div class="wrap narrow">
+      <p class="section-label">About</p>
+      <h2>Tri Adi S, known as Darren Lieu.</h2>
+      <p>Darren is CEO of Darren Labs. His goal is becoming an AI architect. He works through agents — setting direction and priorities while agents own execution, sequencing, and verification.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="wrap narrow">
+      <p class="section-label">Contact</p>
+      <h2>Start a conversation.</h2>
+      <ul class="contact-list">
+        <li><span>LinkedIn</span> Tri Adi S</li>
+        <li><span>Company page</span> Darren Labs — coming</li>
+        <li><span>Planned domain</span> darrenlabs.is-a.dev <em>(planned, not live yet)</em></li>
+      </ul>
+      <p class="contact-note">No email or phone listed here. Please reach out via LinkedIn.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p>© 2026 Darren Labs — Agentic AI Studio</p>
+    <p class="footer-domain">Planned domain: darrenlabs.is-a.dev (planned, not live yet)</p>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
