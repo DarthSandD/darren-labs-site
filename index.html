@@ -17,8 +17,7 @@
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
-      <a href="#how">How we build</a>
-      <a href="#flagships">Flagships</a>
+      <a href="#story">Story</a>
       <a href="#architecture">Architecture</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -27,119 +26,108 @@
 </header>
 
 <main id="main">
-  <!-- HERO -->
+  <!-- HERO — short, no 3D -->
   <section class="hero" id="top">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="eyebrow">Agentic AI Studio</p>
-        <h1>Darren Labs</h1>
-        <p class="tagline">We design and ship agentic AI systems that build real apps.</p>
-        <p class="hero-sub">One person sets the direction. A team of AI agents builds. A human checks the work. The result is a real app you can use.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#flagships">See flagship work</a>
-          <a class="btn btn-ghost" href="#how">How we build →</a>
-        </div>
-        <p class="hero-note">Founded by Tri Adi S, known in his work as Darren Lieu.</p>
+    <div class="wrap hero-single">
+      <p class="eyebrow">Agentic AI Studio</p>
+      <h1>Darren Labs</h1>
+      <p class="tagline">We design and ship agentic AI systems that build real apps.</p>
+      <p class="hero-sub">One person sets the direction. A team of AI agents builds. A human checks the work. The result is a real app you can use.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#story">See the story &darr;</a>
+        <a class="btn btn-ghost" href="#architecture">Why two flagships?</a>
       </div>
-      <div class="viz-wrap" data-viz="hero">
-        <canvas id="hero3d" class="viz-canvas" width="520" height="340" aria-label="Interactive 3D diagram of Darren Labs studio: central hub with orbiting agent nodes connected to two flagships"></canvas>
-        <div class="viz-controls">
-          <button type="button" class="viz-btn" data-rotate-toggle="hero3d" aria-pressed="true">Pause rotation</button>
-          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click a node</span>
-        </div>
-        <p class="viz-label" id="hero3d-label">Studio hub &mdash; click a node to see what it is.</p>
-        <noscript><p class="viz-label">3D needs JavaScript. Static site still works without it.</p></noscript>
-      </div>
+      <p class="hero-note">Founded by Tri Adi S, known in his work as Darren Lieu.</p>
     </div>
   </section>
 
-  <!-- HOW WE BUILD -->
-  <section class="section how" id="how">
+  <!-- STORY — one sticky 3D stage + 4 scroll chapters -->
+  <section class="section story" id="story">
     <div class="wrap">
-      <p class="section-label">How we build</p>
-      <h2>Simple process. Checked work.</h2>
-      <p class="section-lead">Every Darren Labs system follows the same discipline — no claim without evidence.</p>
-      <ol class="steps">
-        <li><strong><span class="step-num">01</span> Brief</strong><span>Darren sets direction, scope, and what good looks like.</span></li>
-        <li><strong><span class="step-num">02</span> Generate</strong><span>Agents build the first version.</span></li>
-        <li><strong><span class="step-num">03</span> Verify</strong><span>Darren checks it against explicit criteria.</span></li>
-        <li><strong><span class="step-num">04</span> Fix &amp; re-verify</strong><span>Agents fix, then it is checked again until it meets the bar.</span></li>
-      </ol>
-    </div>
-  </section>
+      <p class="section-label">The story</p>
+      <h2>One studio. One story. Scroll to see it build.</h2>
+      <p class="section-lead">Scroll down. The 3D scene builds itself as you read — studio forms, substation assembles, loop builds, then pulls back.</p>
+      <div class="story-progress" aria-hidden="true"><div class="story-progress-bar" id="story-progress-bar"></div></div>
 
-  <!-- FLAGSHIPS — TWO, CONCISE -->
-  <section class="section flagship" id="flagships">
-    <div class="wrap">
-      <p class="section-label">Flagships</p>
-      <h2>Two flagships. One architecture.</h2>
-      <p class="section-lead">One proves applied engineering. One proves architect thinking. Both are built the same way: direction, agents, verification.</p>
-
-      <div class="flagship-item flagship-grid">
-        <div>
-          <p class="flagship-num">Flagship 01</p>
-          <h3>VoltWorks Power</h3>
-          <p class="flagship-desc">Power-system CAD automation that removes repetitive drafting — so engineers can design with confidence, and beginners can understand what they are looking at.</p>
-          <ul class="points">
-            <li><strong>True-scale 3D substation</strong> — drawn at real heights, 1 unit = 1&nbsp;m, with equipment you can inspect.</li>
-            <li><strong>SLD builder with its own 3D view</strong> — draw a single-line diagram, see it in 3D, and check what changes when you open a breaker.</li>
-            <li><strong>Calculators that explain themselves</strong> — guided onboarding and plain language, matched to industrial standards.</li>
-            <li><strong>Built to standards</strong> — IEC 60364 / 60909, IEEE 1584-2018, NFPA 70E.</li>
-          </ul>
-        </div>
-        <aside class="flagship-card" aria-label="VoltWorks at a glance">
-          <p class="card-eyebrow">VoltWorks Power</p>
-          <p class="card-title">Design power systems<br>with confidence.</p>
-          <p class="card-body">Calculators, 3D substation, and SLD builder — in one place, for beginners and professionals.</p>
-          <div class="card-meta">
-            <span>3D substation</span>
-            <span>SLD builder</span>
-            <span>Standards-based</span>
+      <div class="story-layout">
+        <!-- Sticky 3D stage -->
+        <div class="story-stage">
+          <div class="story-stage-inner">
+            <h3 class="viz-title" id="story-stage-title">Studio &mdash; who does what</h3>
+            <canvas id="story3d" class="viz-canvas story-canvas" width="640" height="420" tabindex="0" aria-label="Interactive 3D story: scroll to build the studio, substation, and loop. Drag to orbit, click an item for details, arrow keys + Enter work too."></canvas>
+            <div class="viz-controls">
+              <button type="button" class="viz-btn viz-toggle-on" id="story-energized" aria-pressed="true">Energized path: On</button>
+              <button type="button" class="viz-btn" id="story-next">Next chapter &rarr;</button>
+              <span class="viz-hint">Scroll builds the scene &middot; Drag to orbit (pauses scroll for 3s) &middot; Click an item for details</span>
+            </div>
+            <ul class="viz-legend" id="story-legend" aria-label="Legend"></ul>
+            <div class="viz-chips" id="story-chips" role="group" aria-label="Story items, choose one to see details"></div>
+            <div class="viz-details" id="story3d-details" aria-live="polite">
+              <h4 id="story3d-details-title">Darren &mdash; sets direction</h4>
+              <p id="story3d-details-body">Darren decides the goal, scope, and what &ldquo;good&rdquo; looks like. Agents do the building. Darren checks the result.</p>
+              <p class="viz-details-what" id="story3d-details-what">What it does: keeps every build pointed at a real outcome, not just output.</p>
+            </div>
+            <p class="viz-label" id="story3d-label">Studio &mdash; click an item to see what it does.</p>
+            <noscript><p class="viz-label">3D needs JavaScript. Static site still works without it.</p></noscript>
           </div>
-        </aside>
-      </div>
-      <div class="viz-wrap viz-wrap-flagship" data-viz="volt">
-        <canvas id="volt3d" class="viz-canvas" width="720" height="300" aria-label="Interactive 3D preview of VoltWorks substation: pylon, transformer, switchgear and bus"></canvas>
-        <div class="viz-controls">
-          <button type="button" class="viz-btn" data-rotate-toggle="volt3d" aria-pressed="true">Pause rotation</button>
-          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click equipment</span>
         </div>
-        <p class="viz-label" id="volt3d-label">VoltWorks preview &mdash; simplified substation. Click equipment to inspect it.</p>
-      </div>
 
-      <div class="flagship-item flagship-grid flagship-second">
-        <div>
-          <p class="flagship-num">Flagship 02</p>
-          <h3>AI Architecture Patterns</h3>
-          <p class="flagship-desc">A visual design library for AI systems — the diagrams, tradeoffs, and judgment behind building AI that actually works.</p>
-          <ul class="points">
-            <li><strong>Visual patterns</strong> — diagrams that show how AI systems fit together, in plain language.</li>
-            <li><strong>Tradeoffs, not hype</strong> — what each pattern gains, what it costs, and when it breaks.</li>
-            <li><strong>Runnable demos</strong> — try the idea, don&rsquo;t just read about it.</li>
-            <li><strong>When NOT to use it</strong> — the part everyone skips, included for every pattern.</li>
-          </ul>
-        </div>
-        <aside class="flagship-card flagship-card-light" aria-label="AI Architecture Patterns at a glance">
-          <p class="card-eyebrow">AI Architecture Patterns</p>
-          <p class="card-title">Think clearly<br>about AI systems.</p>
-          <p class="card-body">Diagrams, tradeoffs, runnable demos, and when not to use each pattern.</p>
-          <div class="card-meta">
-            <span>Diagrams</span>
-            <span>Tradeoffs</span>
-            <span>Runnable demos</span>
-          </div>
-        </aside>
-      </div>
-      <div class="viz-wrap viz-wrap-flagship" data-viz="patterns">
-        <canvas id="patterns3d" class="viz-canvas" width="720" height="300" aria-label="Interactive 3D diagram of AI Architecture Patterns: Brief, Generate, Verify, Fix connected in a loop"></canvas>
-        <div class="viz-controls">
-          <button type="button" class="viz-btn" data-rotate-toggle="patterns3d" aria-pressed="true">Pause rotation</button>
-          <span class="viz-hint">Drag to orbit &middot; Scroll / pinch to zoom &middot; Click a step</span>
-        </div>
-        <p class="viz-label" id="patterns3d-label">Architecture loop &mdash; Brief &rarr; Generate &rarr; Verify &rarr; Fix. Click a step.</p>
-      </div>
+        <!-- Scroll chapters -->
+        <div class="story-chapters">
+          <article class="story-chapter active" id="story-chapter-0" data-chapter="0">
+            <p class="chapter-num">Chapter 01 &middot; Studio</p>
+            <h3>One person sets direction. Agents build. Human checks.</h3>
+            <p>Darren Labs is one person plus a team of AI agents. Darren decides the goal, scope, and what &ldquo;good&rdquo; looks like. Agents build the first version. Darren checks it against explicit criteria.</p>
+            <ul class="points">
+              <li><strong>Brief &rarr; Generate &rarr; Verify &rarr; Fix &amp; re-verify</strong> — the same discipline on every build.</li>
+              <li><strong>Direction &rarr; Agents &rarr; Verification</strong> — no claim without evidence.</li>
+            </ul>
+            <p class="chapter-next">Scroll &darr; VoltWorks assembles next.</p>
+          </article>
 
-      <p class="flagship-foot">Two flagships: VoltWorks + AI Architecture Patterns.</p>
+          <article class="story-chapter" id="story-chapter-1" data-chapter="1">
+            <p class="chapter-num">Chapter 02 &middot; Flagship 01 &middot; VoltWorks Power</p>
+            <h3>Power-system CAD automation that removes repetitive drafting.</h3>
+            <p>So engineers can design with confidence, and beginners can understand what they are looking at. Watch the substation assemble as you scroll.</p>
+            <div class="assembly-progress" aria-hidden="true">
+              <div class="assembly-bar"><div class="assembly-fill" id="volt-assembly-fill"></div></div>
+              <span id="volt-assembly-label">Ground ready</span>
+            </div>
+            <ul class="points">
+              <li><strong>True-scale 3D substation</strong> — drawn at real heights, 1 unit = 1&nbsp;m, with equipment you can inspect.</li>
+              <li><strong>SLD builder with its own 3D view</strong> — draw a single-line diagram, see it in 3D, and check what changes when you open a breaker.</li>
+              <li><strong>Calculators that explain themselves</strong> — guided onboarding and plain language, matched to industrial standards.</li>
+              <li><strong>Built to standards</strong> — IEC 60364 / 60909, IEEE 1584-2018, NFPA 70E.</li>
+            </ul>
+            <p class="chapter-next">Scroll &darr; The substation dissolves into the Patterns loop.</p>
+          </article>
+
+          <article class="story-chapter" id="story-chapter-2" data-chapter="2">
+            <p class="chapter-num">Chapter 03 &middot; Flagship 02 &middot; AI Architecture Patterns</p>
+            <h3>A visual design library for AI systems.</h3>
+            <p>The diagrams, tradeoffs, and judgment behind building AI that actually works. Watch the loop build — Brief, Generate, Verify, Fix.</p>
+            <ul class="points">
+              <li><strong>Visual patterns</strong> — diagrams that show how AI systems fit together, in plain language.</li>
+              <li><strong>Tradeoffs, not hype</strong> — what each pattern gains, what it costs, and when it breaks.</li>
+              <li><strong>Runnable demos</strong> — try the idea, don&rsquo;t just read about it.</li>
+              <li><strong>When NOT to use it</strong> — the part everyone skips, included for every pattern.</li>
+            </ul>
+            <p class="chapter-next">Scroll &darr; Pull back to see the whole loop.</p>
+          </article>
+
+          <article class="story-chapter" id="story-chapter-3" data-chapter="3">
+            <p class="chapter-num">Chapter 04 &middot; Verify loop</p>
+            <h3>That is what an AI architect does.</h3>
+            <p>Design systems that can build real, usable software, again and again, and explain why. Orchestration to build it, verification loops to check it, and a coherent design that holds it together.</p>
+            <ul class="points">
+              <li><strong>Orchestration</strong> — the right agent for each subtask, with fallbacks.</li>
+              <li><strong>Verification loops</strong> — checked against explicit criteria, fixed, re-verified.</li>
+              <li><strong>Coherent system</strong> — calculators, 3D, and diagrams that fit together.</li>
+            </ul>
+            <p class="chapter-next">Two flagships: VoltWorks + AI Architecture Patterns.</p>
+          </article>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -169,7 +157,7 @@
       <ul class="contact-list">
         <li><span>LinkedIn</span> Tri Adi S</li>
         <li><span>Company page</span> Darren Labs — coming</li>
-        <li><span>Planned domain</span> darrenlabs.is-a.dev <em>(planned, not live yet)</em></li>
+        <li><span>Planned domain</span> darrenlabs.pages.dev <em>(planned, not live yet)</em></li>
       </ul>
       <p class="contact-note">No email or phone listed here. Please reach out via LinkedIn.</p>
     </div>
@@ -179,7 +167,7 @@
 <footer class="site-footer">
   <div class="wrap footer-inner">
     <p>© 2026 Darren Labs — Agentic AI Studio</p>
-    <p class="footer-domain">Planned domain: darrenlabs.is-a.dev (planned, not live yet)</p>
+    <p class="footer-domain">Planned domain: darrenlabs.pages.dev (planned, not live yet)</p>
   </div>
 </footer>
 <script src="script.js"></script>

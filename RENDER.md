@@ -1,6 +1,6 @@
 # Darren Labs — Render Static Site Setup
 
-Status: DEPLOYED 2026-10-19. GitHub repo pushed (commit e9a37b9fb809738a4a4dec7bc7366d17828750ba), Render Static Site `darren-labs-site` (srv-dbap3mom7kps739nn4sg) LIVE at https://darren-labs-site.onrender.com. is-a.dev PR pending submission — owner email provided by Darren (project Gmail), CNAME set to Render URL.
+> SUPERSEDED 2026-10-19: is-a.dev is SKIPPED (template requires non-commercial + no AI agents/chatbots; Darren Labs is a commercial Agentic AI Studio). The Render Static Site `darren-labs-site` was DELETED. Current target: NEW Cloudflare Pages project `darrenlabs.pages.dev`. The rest of this file is the historical Render/is-a.dev record — do not follow it for deployment.
 
 ## Target
 
