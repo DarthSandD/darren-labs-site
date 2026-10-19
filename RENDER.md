@@ -1,6 +1,6 @@
-# Darren Labs — Render Static Site Setup (DRAFT, DO NOT DEPLOY YET)
+# Darren Labs — Render Static Site Setup
 
-Status: PREPARED LOCALLY ONLY. Nothing has been pushed to GitHub, deployed to Render, or submitted to is-a.dev. All steps below need Darren's approval before execution.
+Status: DEPLOYED 2026-10-19. GitHub repo pushed (commit e9a37b9fb809738a4a4dec7bc7366d17828750ba), Render Static Site `darren-labs-site` (srv-dbap3mom7kps739nn4sg) LIVE at https://darren-labs-site.onrender.com. is-a.dev PR pending submission — owner email provided by Darren (project Gmail), CNAME set to Render URL.
 
 ## Target
 
@@ -30,8 +30,8 @@ Status: PREPARED LOCALLY ONLY. Nothing has been pushed to GitHub, deployed to Re
    - Branch: `main` (confirm if different)
    - Build Command: (leave empty / none — static site, no build step)
    - Publish Directory: `.` (repo root) — confirm if the site lives in a subfolder; if so, use that folder.
-   - Click Create. Render will assign a URL like `<your-render-url>.onrender.com`.
-   - **DO NOT invent this URL.** After Render creates the service, copy the exact `*.onrender.com` URL it shows and use it in the next steps. Everywhere this doc says `<your-render-url>.onrender.com`, replace it with that real value.
+   - Click Create. Render will assign a URL like `darren-labs-site.onrender.com`.
+   - **Real URL (confirmed):** `darren-labs-site.onrender.com`. Use this exact value in the is-a.dev file.
 
 3. **Add the custom domain in Render**
    - In the new service: Settings → Custom Domains → Add Custom Domain
@@ -40,24 +40,24 @@ Status: PREPARED LOCALLY ONLY. Nothing has been pushed to GitHub, deployed to Re
 
 4. **Point is-a.dev at Render**
    - In `is-a-dev/darrenlabs.json` (draft in this folder), set:
-     `records.CNAME = <your-render-url>.onrender.com`
+     `records.CNAME = darren-labs-site.onrender.com`
      using the real Render URL from step 2.
-   - Fill `owner.email` — currently `YOUR-EMAIL-HERE`. Darren must supply the real email. Do NOT invent one.
+   - Fill `owner.email` — provided by Darren (project Gmail, set in is-a-dev/darrenlabs.json). Do NOT use a different email.
    - Submit the is-a.dev PR per `is-a-dev/PR_CHECKLIST.md` (on approval only).
    - Wait for PR merge + DNS propagation. Render will then automatically issue the HTTPS certificate for `darrenlabs.is-a.dev`.
 
 5. **Verify**
    - Visit `https://darrenlabs.is-a.dev` — expect the Darren Labs homepage.
-   - Visit `https://<your-render-url>.onrender.com` — should show the same site.
+   - Visit `https://darren-labs-site.onrender.com` — should show the same site.
    - In Render Dashboard → Custom Domains, confirm certificate status is valid / issued.
 
 ## Still needed from Darren (before any deploy)
 
 - [ ] Approval to create the GitHub repo + push the site
 - [ ] Approval to create the Render Static Site
-- [ ] Real Render `*.onrender.com` URL (only exists after service creation — cannot be filled in advance)
-- [ ] Owner email for the is-a.dev file (currently `YOUR-EMAIL-HERE`)
-- [ ] Approval to submit the is-a.dev PR
+- [x] Real Render `*.onrender.com` URL: `darren-labs-site.onrender.com` (service srv-dbap3mom7kps739nn4sg, deploy live)
+- [x] Owner email for the is-a.dev file (provided by Darren — project Gmail, set in is-a-dev/darrenlabs.json)
+- [ ] Approval to submit the is-a.dev PR — AUTHORIZED 2026-10-19 ("do it", email provided)
 - [ ] Confirmation that `darrenlabs.is-a.dev` is available via the is-a.dev checker
 
 ## Files in this folder
