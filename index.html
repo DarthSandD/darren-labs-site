@@ -32,10 +32,16 @@
     <div class="wrap hero-single">
       <p class="eyebrow">Agentic AI Studio</p>
       <h1>Darren Labs</h1>
+      <div class="rule-brass" aria-hidden="true"></div>
       <p class="tagline">We design and ship agentic AI systems that build real apps.</p>
       <p class="hero-sub">One person sets the direction. Agents build. A human checks.</p>
-      <p class="hero-cta"><a href="#story">See the story &darr;</a></p>
+      <p class="hero-cta"><a class="btn btn-solid" href="#story">See the story</a> <a class="btn btn-ghost" href="#flagships">View flagships</a></p>
       <p class="hero-note">Founded by Tri Adi S, known in his work as Darren Lieu.</p>
+      <dl class="spec-strip">
+        <div><dt>Focus</dt><dd>Agentic AI systems that build real software</dd></div>
+        <div><dt>Flagships</dt><dd>Three shipped systems, listed below</dd></div>
+        <div><dt>Method</dt><dd>Brief, generate, verify, fix, re-verify</dd></div>
+      </dl>
     </div>
   </section>
 
@@ -47,6 +53,7 @@
       <div class="story-layout">
         <div class="story-stage">
           <div class="story-stage-inner">
+            <div class="plate-label"><span>Plate I</span><span>The studio builds itself</span></div>
             <canvas id="story3d" class="viz-canvas" width="640" height="420" tabindex="0" aria-label="Interactive 3D story. Scroll builds the scene. Drag to orbit, click an item for one line of detail."></canvas>
             <p class="viz-caption" id="story-caption" aria-live="polite">Drag to orbit &middot; Scroll builds the scene &middot; Click an item for one line.</p>
             <noscript><p class="viz-caption">3D needs JavaScript. The site still works without it.</p></noscript>
@@ -95,20 +102,30 @@
       <h2>What the studio ships.</h2>
       <div class="flagships">
         <article class="flag-card flag-card-large">
+          <p class="flag-index">01</p>
+          <div>
           <p class="chapter-num">Flagship &middot; Power</p>
           <h3>VoltWorks Power</h3>
           <p>Power-system CAD that removes repetitive drafting. True-scale 3D (1 unit = 1 m), an SLD builder with its own 3D view, and calculators that explain themselves.</p>
           <p class="flag-standards">IEC 60364 / 60909 &middot; IEEE 1584-2018 &middot; NFPA 70E</p>
+          </div>
         </article>
         <article class="flag-card flag-card-large">
+          <p class="flag-index">02</p>
+          <div>
           <p class="chapter-num">Flagship &middot; Building Services</p>
           <h3>MEP Suits</h3>
           <p>Building Services Mechanical Toolkit — built by an engineer, for the plant room. Eight calculators: Duct Sizer, Psychrometrics, Ventilation (ASHRAE 62.1), Pipe Hydraulics, Water &amp; Coil Loads, Fan Laws, Room Cooling Load, and Unit Converter — plus a 3D System Viewer (Outdoor AC unit, duct runs, industrial pipes) live-linked to Duct + Pipe.</p>
           <p>Every tool shows its method / formula and checks against ASHRAE / CIBSE design bands. Design aid — results must be verified by a licensed engineer before construction / procurement.</p>
+          </div>
         </article>
         <article class="flag-card flag-card-compact">
+          <p class="flag-index">03</p>
+          <div>
+          <p class="chapter-num">Flagship &middot; Architecture</p>
           <h3>AI Architecture Patterns</h3>
           <p>A visual design library for AI systems — diagrams, tradeoffs, runnable demos, and when NOT to use it.</p>
+          </div>
         </article>
       </div>
     </div>
@@ -141,6 +158,7 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
+    <p class="footer-brand">Darren Labs<small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs — Agentic AI Studio</p>
     <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt — lattice transmission tower).</p>
   </div>

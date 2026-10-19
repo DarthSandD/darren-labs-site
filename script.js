@@ -56,26 +56,26 @@
       var s = fitCanvas(), dpr = s.dpr, W = s.w, H = s.h;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#eef2ef'; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#1a1e23'; ctx.font = '600 13px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#f1efe8'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#141412'; ctx.font = '600 13px system-ui, sans-serif'; ctx.textAlign = 'center';
       function node(x, y, r, label, fill) {
         ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = fill; ctx.fill();
-        ctx.strokeStyle = '#1a1e23'; ctx.lineWidth = 1.5; ctx.stroke();
-        ctx.fillStyle = '#1a1e23'; ctx.fillText(label, x, y + r + 16);
+        ctx.strokeStyle = '#141412'; ctx.lineWidth = 1.5; ctx.stroke();
+        ctx.fillStyle = '#141412'; ctx.fillText(label, x, y + r + 16);
       }
-      function line(x1, y1, x2, y2) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = '#0f6a5e'; ctx.lineWidth = 1.5; ctx.stroke(); }
+      function line(x1, y1, x2, y2) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = '#9a7b2d'; ctx.lineWidth = 1.5; ctx.stroke(); }
       if (ch === 0) {
         var cx = W / 2, cy = H / 2;
         line(cx, cy, cx - 110, cy - 45); line(cx, cy, cx + 110, cy - 45);
-        node(cx, cy, 26, 'Darren', '#1a1e23'); node(cx - 110, cy - 45, 16, 'VoltWorks', '#0f6a5e'); node(cx + 110, cy - 45, 16, 'Patterns', '#0f6a5e');
+        node(cx, cy, 26, 'Darren', '#141412'); node(cx - 110, cy - 45, 16, 'VoltWorks', '#9a7b2d'); node(cx + 110, cy - 45, 16, 'Patterns', '#9a7b2d');
       } else if (ch === 1) {
-        ctx.fillStyle = '#d9d2c0'; ctx.fillRect(0, H - 42, W, 42);
-        node(W * 0.18, H - 90, 14, 'Pylon', '#faf7f1'); node(W * 0.48, H - 70, 22, 'Generator', '#0f6a5e'); node(W * 0.76, H - 80, 16, 'Switchgear', '#1a1e23');
+        ctx.fillStyle = '#e3e1d8'; ctx.fillRect(0, H - 42, W, 42);
+        node(W * 0.18, H - 90, 14, 'Pylon', '#fafaf7'); node(W * 0.48, H - 70, 22, 'Generator', '#9a7b2d'); node(W * 0.76, H - 80, 16, 'Switchgear', '#141412');
         line(W * 0.18, H - 90, W * 0.48, H - 70); line(W * 0.48, H - 70, W * 0.76, H - 80);
       } else {
         var pts = [[W * 0.18, H * 0.5, 'Brief'], [W * 0.40, H * 0.28, 'Generate'], [W * 0.62, H * 0.5, 'Verify'], [W * 0.82, H * 0.72, 'Fix']];
         for (var i = 0; i < pts.length; i++) { var a = pts[i], b = pts[(i + 1) % pts.length]; line(a[0], a[1], b[0], b[1]); }
-        pts.forEach(function (p) { node(p[0], p[1], 16, p[2], '#0f6a5e'); });
+        pts.forEach(function (p) { node(p[0], p[1], 16, p[2], '#9a7b2d'); });
       }
       if (caption) caption.textContent = 'Static diagram shown.';
     } catch (e) { /* fallback must never break site */ }
