@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs — Agentic AI Studio</title>
-<meta name="description" content="Darren Labs is an Agentic AI Studio. We design and ship agentic AI systems that build real apps. Two flagships: VoltWorks Power and AI Architecture Patterns.">
+<meta name="description" content="Darren Labs is an Agentic AI Studio. We design and ship agentic AI systems that build real apps. Flagships: VoltWorks Power, MEP Suits, and AI Architecture Patterns.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,10 +14,12 @@
     <a class="brand" href="#top" aria-label="Darren Labs home">
       <span class="mark" aria-hidden="true">DL</span>
       <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
       <a href="#story">Story</a>
+      <a href="#flagships">Flagships</a>
       <a href="#architecture">Architecture</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -26,148 +28,121 @@
 </header>
 
 <main id="main">
-  <!-- HERO — short, no 3D -->
   <section class="hero" id="top">
     <div class="wrap hero-single">
       <p class="eyebrow">Agentic AI Studio</p>
       <h1>Darren Labs</h1>
       <p class="tagline">We design and ship agentic AI systems that build real apps.</p>
-      <p class="hero-sub">One person sets the direction. A team of AI agents builds. A human checks the work. The result is a real app you can use.</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="#story">See the story &darr;</a>
-        <a class="btn btn-ghost" href="#architecture">Why two flagships?</a>
-      </div>
+      <p class="hero-sub">One person sets the direction. Agents build. A human checks.</p>
+      <p class="hero-cta"><a href="#story">See the story &darr;</a></p>
       <p class="hero-note">Founded by Tri Adi S, known in his work as Darren Lieu.</p>
     </div>
   </section>
 
-  <!-- STORY — one sticky 3D stage + 4 scroll chapters -->
   <section class="section story" id="story">
     <div class="wrap">
       <p class="section-label">The story</p>
-      <h2>One studio. One story. Scroll to see it build.</h2>
-      <p class="section-lead">Scroll down. The 3D scene builds itself as you read — studio forms, substation assembles, loop builds, then pulls back.</p>
-      <div class="story-progress" aria-hidden="true"><div class="story-progress-bar" id="story-progress-bar"></div></div>
-
+      <h2>Scroll — the studio builds itself.</h2>
+      <p class="section-lead">One scene. Four moments. Scroll and it builds.</p>
       <div class="story-layout">
-        <!-- Sticky 3D stage -->
         <div class="story-stage">
           <div class="story-stage-inner">
-            <h3 class="viz-title" id="story-stage-title">Studio &mdash; who does what</h3>
-            <canvas id="story3d" class="viz-canvas story-canvas" width="640" height="420" tabindex="0" aria-label="Interactive 3D story: scroll to build the studio, substation, and loop. Drag to orbit, click an item for details, arrow keys + Enter work too."></canvas>
-            <div class="viz-controls">
-              <button type="button" class="viz-btn viz-toggle-on" id="story-energized" aria-pressed="true">Energized path: On</button>
-              <button type="button" class="viz-btn" id="story-next">Next chapter &rarr;</button>
-              <span class="viz-hint">Scroll builds the scene &middot; Drag to orbit (pauses scroll for 3s) &middot; Click an item for details</span>
-            </div>
-            <ul class="viz-legend" id="story-legend" aria-label="Legend"></ul>
-            <div class="viz-chips" id="story-chips" role="group" aria-label="Story items, choose one to see details"></div>
-            <div class="viz-details" id="story3d-details" aria-live="polite">
-              <h4 id="story3d-details-title">Darren &mdash; sets direction</h4>
-              <p id="story3d-details-body">Darren decides the goal, scope, and what &ldquo;good&rdquo; looks like. Agents do the building. Darren checks the result.</p>
-              <p class="viz-details-what" id="story3d-details-what">What it does: keeps every build pointed at a real outcome, not just output.</p>
-            </div>
-            <p class="viz-label" id="story3d-label">Studio &mdash; click an item to see what it does.</p>
-            <noscript><p class="viz-label">3D needs JavaScript. Static site still works without it.</p></noscript>
+            <canvas id="story3d" class="viz-canvas" width="640" height="420" tabindex="0" aria-label="Interactive 3D story. Scroll builds the scene. Drag to orbit, click an item for one line of detail."></canvas>
+            <p class="viz-caption" id="story-caption" aria-live="polite">Drag to orbit &middot; Scroll builds the scene &middot; Click an item for one line.</p>
+            <noscript><p class="viz-caption">3D needs JavaScript. The site still works without it.</p></noscript>
           </div>
         </div>
-
-        <!-- Scroll chapters -->
         <div class="story-chapters">
           <article class="story-chapter active" id="story-chapter-0" data-chapter="0">
-            <p class="chapter-num">Chapter 01 &middot; Studio</p>
-            <h3>One person sets direction. Agents build. Human checks.</h3>
-            <p>Darren Labs is one person plus a team of AI agents. Darren decides the goal, scope, and what &ldquo;good&rdquo; looks like. Agents build the first version. Darren checks it against explicit criteria.</p>
-            <ul class="points">
-              <li><strong>Brief &rarr; Generate &rarr; Verify &rarr; Fix &amp; re-verify</strong> — the same discipline on every build.</li>
-              <li><strong>Direction &rarr; Agents &rarr; Verification</strong> — no claim without evidence.</li>
-            </ul>
-            <p class="chapter-next">Scroll &darr; VoltWorks assembles next.</p>
+            <p class="chapter-num">01 &middot; Studio</p>
+            <h3>One person directs. Agents build. A human checks.</h3>
+            <p>Darren decides the goal and what &ldquo;good&rdquo; looks like. Agents build the first version. Darren checks it.</p>
+            <p class="rule">Brief &rarr; Generate &rarr; Verify &rarr; Fix &amp; re-verify.</p>
           </article>
-
           <article class="story-chapter" id="story-chapter-1" data-chapter="1">
-            <p class="chapter-num">Chapter 02 &middot; Flagship 01 &middot; VoltWorks Power</p>
-            <h3>Power-system CAD automation that removes repetitive drafting.</h3>
-            <p>So engineers can design with confidence, and beginners can understand what they are looking at. Watch the substation assemble as you scroll.</p>
-            <div class="assembly-progress" aria-hidden="true">
-              <div class="assembly-bar"><div class="assembly-fill" id="volt-assembly-fill"></div></div>
-              <span id="volt-assembly-label">Ground ready</span>
-            </div>
+            <p class="chapter-num">02 &middot; VoltWorks Power</p>
+            <h3>Power-system CAD, without repetitive drafting.</h3>
+            <p>So engineers can design with confidence, and beginners can understand what they are looking at.</p>
             <ul class="points">
-              <li><strong>True-scale 3D substation</strong> — drawn at real heights, 1 unit = 1&nbsp;m, with equipment you can inspect.</li>
-              <li><strong>SLD builder with its own 3D view</strong> — draw a single-line diagram, see it in 3D, and check what changes when you open a breaker.</li>
-              <li><strong>Calculators that explain themselves</strong> — guided onboarding and plain language, matched to industrial standards.</li>
-              <li><strong>Built to standards</strong> — IEC 60364 / 60909, IEEE 1584-2018, NFPA 70E.</li>
+              <li><strong>True-scale 3D</strong> — 1 unit = 1 m, equipment you can inspect.</li>
+              <li><strong>SLD builder</strong> with its own 3D view.</li>
+              <li><strong>Calculators that explain themselves</strong> &middot; IEC 60364 / 60909, IEEE 1584-2018, NFPA 70E.</li>
             </ul>
-            <p class="chapter-next">Scroll &darr; The substation dissolves into the Patterns loop.</p>
           </article>
-
           <article class="story-chapter" id="story-chapter-2" data-chapter="2">
-            <p class="chapter-num">Chapter 03 &middot; Flagship 02 &middot; AI Architecture Patterns</p>
-            <h3>A visual design library for AI systems.</h3>
-            <p>The diagrams, tradeoffs, and judgment behind building AI that actually works. Watch the loop build — Brief, Generate, Verify, Fix.</p>
+            <p class="chapter-num">03 &middot; AI Architecture Patterns</p>
+            <h3>Diagrams, tradeoffs, judgment.</h3>
+            <p>A visual design library for AI systems — what works, what it costs, and when not to use it.</p>
             <ul class="points">
-              <li><strong>Visual patterns</strong> — diagrams that show how AI systems fit together, in plain language.</li>
-              <li><strong>Tradeoffs, not hype</strong> — what each pattern gains, what it costs, and when it breaks.</li>
+              <li><strong>Visual patterns</strong> in plain language.</li>
+              <li><strong>Tradeoffs, not hype</strong> — gains, costs, and when it breaks.</li>
               <li><strong>Runnable demos</strong> — try the idea, don&rsquo;t just read about it.</li>
-              <li><strong>When NOT to use it</strong> — the part everyone skips, included for every pattern.</li>
             </ul>
-            <p class="chapter-next">Scroll &darr; Pull back to see the whole loop.</p>
           </article>
-
           <article class="story-chapter" id="story-chapter-3" data-chapter="3">
-            <p class="chapter-num">Chapter 04 &middot; Verify loop</p>
+            <p class="chapter-num">04 &middot; Verify loop</p>
             <h3>That is what an AI architect does.</h3>
-            <p>Design systems that can build real, usable software, again and again, and explain why. Orchestration to build it, verification loops to check it, and a coherent design that holds it together.</p>
-            <ul class="points">
-              <li><strong>Orchestration</strong> — the right agent for each subtask, with fallbacks.</li>
-              <li><strong>Verification loops</strong> — checked against explicit criteria, fixed, re-verified.</li>
-              <li><strong>Coherent system</strong> — calculators, 3D, and diagrams that fit together.</li>
-            </ul>
-            <p class="chapter-next">Two flagships: VoltWorks + AI Architecture Patterns.</p>
+            <p>Design systems that build real software, again and again — and explain why.</p>
           </article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ARCHITECTURE -->
-  <section class="section architecture" id="architecture">
-    <div class="wrap narrow">
-      <p class="section-label">Architecture</p>
-      <h2>Why two flagships prove the architecture.</h2>
-      <p>VoltWorks is not a single tool. It is a system: agent orchestration to build it, verification loops to check it, and a coherent design that holds calculators, 3D, and diagrams together. AI Architecture Patterns is the other half: the thinking, tradeoffs, and judgment behind choosing the right system in the first place. That is what an AI architect does — design systems that can build real, usable software, again and again, and explain why.</p>
+  <section class="section" id="flagships">
+    <div class="wrap">
+      <p class="section-label">Flagships</p>
+      <h2>What the studio ships.</h2>
+      <div class="flagships">
+        <article class="flag-card flag-card-large">
+          <p class="chapter-num">Flagship &middot; Power</p>
+          <h3>VoltWorks Power</h3>
+          <p>Power-system CAD that removes repetitive drafting. True-scale 3D (1 unit = 1 m), an SLD builder with its own 3D view, and calculators that explain themselves.</p>
+          <p class="flag-standards">IEC 60364 / 60909 &middot; IEEE 1584-2018 &middot; NFPA 70E</p>
+        </article>
+        <article class="flag-card flag-card-large">
+          <p class="chapter-num">Flagship &middot; Building Services</p>
+          <h3>MEP Suits</h3>
+          <p>Building Services Mechanical Toolkit — built by an engineer, for the plant room. Eight calculators: Duct Sizer, Psychrometrics, Ventilation (ASHRAE 62.1), Pipe Hydraulics, Water &amp; Coil Loads, Fan Laws, Room Cooling Load, and Unit Converter — plus a 3D System Viewer (AHU, duct run, VAV, diffuser, CHW pump + pipes) live-linked to Duct + Pipe.</p>
+          <p>Every tool shows its method / formula and checks against ASHRAE / CIBSE design bands. Design aid — results must be verified by a licensed engineer before construction / procurement.</p>
+        </article>
+        <article class="flag-card flag-card-compact">
+          <h3>AI Architecture Patterns</h3>
+          <p>A visual design library for AI systems — diagrams, tradeoffs, runnable demos, and when NOT to use it.</p>
+        </article>
+      </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section about" id="about">
+  <section class="section" id="architecture">
+    <div class="wrap narrow">
+      <p class="section-label">Architecture</p>
+      <h2>Why three flagships prove the architecture.</h2>
+      <p>VoltWorks and MEP Suits are systems: orchestration to build them, verification loops to check them, and coherent designs that hold calculators, 3D, and diagrams together. Patterns is the other half: the judgment behind choosing the right system in the first place.</p>
+    </div>
+  </section>
+
+  <section class="section" id="about">
     <div class="wrap narrow">
       <p class="section-label">About</p>
       <h2>Tri Adi S, known as Darren Lieu.</h2>
-      <p>Darren is CEO of Darren Labs. His goal is becoming an AI architect. He works through agents — setting direction and priorities while agents own execution, sequencing, and verification.</p>
+      <p>Darren is CEO of Darren Labs. His goal is becoming an AI architect — setting direction while agents own execution, sequencing, and verification.</p>
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section class="section contact" id="contact">
+  <section class="section" id="contact">
     <div class="wrap narrow">
       <p class="section-label">Contact</p>
       <h2>Start a conversation.</h2>
-      <ul class="contact-list">
-        <li><span>LinkedIn</span> Tri Adi S</li>
-        <li><span>Company page</span> Darren Labs — coming</li>
-        <li><span>Planned domain</span> darrenlabs.pages.dev <em>(planned, not live yet)</em></li>
-      </ul>
-      <p class="contact-note">No email or phone listed here. Please reach out via LinkedIn.</p>
+      <p>LinkedIn: Tri Adi S &middot; Company page: Darren Labs — coming.</p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p>© 2026 Darren Labs — Agentic AI Studio</p>
-    <p class="footer-domain">Planned domain: darrenlabs.pages.dev (planned, not live yet)</p>
+    <p>&copy; 2026 Darren Labs — Agentic AI Studio</p>
+    <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt — lattice transmission tower).</p>
   </div>
 </footer>
 <script src="script.js"></script>
