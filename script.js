@@ -19,14 +19,15 @@
   var canvas = document.getElementById('story3d');
   var caption = document.getElementById('story-caption');
   var chapterEls = Array.prototype.slice.call(document.querySelectorAll('.story-chapter'));
-  var CAPTION_DEFAULT = 'Drag to orbit \u00B7 Scroll builds the scene \u00B7 Click an item for one line.';
+  var CAPTION_DEFAULT = 'Three zones \u2014 AI Studio \u00B7 VoltWorks Power \u00B7 AI Architecture Patterns. Drag to orbit \u00B7 Scroll builds the scene \u00B7 Click an item for one line.';
   var INFO = {
     darren: 'Darren \u2014 sets direction, scope, and what \u201Cgood\u201D looks like.',
-    agent: 'Agent \u2014 real downloaded 3D model (CC0, Quaternius). Builds the first version from the brief.',
+    agent: 'Agent \u2014 real downloaded 3D model (CC0, Quaternius). Works at a desk in the AI Studio, building from the brief.',
     voltworks: 'VoltWorks Power \u2014 power-system CAD that removes repetitive drafting.',
-    patterns: 'AI Architecture Patterns \u2014 diagrams, tradeoffs, and judgment.',
-    pylon: 'Pylon \u2014 lattice tower carrying the overhead line at safe height.',
+    patterns: 'AI Architecture Patterns \u2014 the node diagram on the board: components, and how they connect.',
+    pylon: 'Pylon \u2014 real lattice transmission tower model (BSD-3-Clause). Carries the overhead line at safe height.',
     generator: 'Generator \u2014 real downloaded 3D model (CC0, Poly Haven). Power equipment, shown at true scale.',
+    transformer: 'Transformer \u2014 steps voltage between the overhead line and the switchgear.',
     switchgear: 'Switchgear \u2014 breaker + protection. Green = closed, red = open.',
     bus: 'Bus line \u2014 the shared conductor everything connects to.',
     scale: 'Scale \u2014 figure 1.8 m, bar 1 m. 1 unit = 1 m.',
@@ -49,6 +50,8 @@
     return { w: w, h: h, dpr: dpr };
   }
 
+  /* 2D fallback — the same three zones, drawn flat. Used when WebGL or
+     Three.js is unavailable. The active chapter's zone gets the brass frame. */
   function drawFallback(ch) {
     try {
       var ctx = canvas.getContext('2d');
@@ -57,26 +60,45 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
       ctx.fillStyle = '#f1efe8'; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#141412'; ctx.font = '600 13px system-ui, sans-serif'; ctx.textAlign = 'center';
-      function node(x, y, r, label, fill) {
-        ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = fill; ctx.fill();
-        ctx.strokeStyle = '#141412'; ctx.lineWidth = 1.5; ctx.stroke();
-        ctx.fillStyle = '#141412'; ctx.fillText(label, x, y + r + 16);
-      }
-      function line(x1, y1, x2, y2) { ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.strokeStyle = '#9a7b2d'; ctx.lineWidth = 1.5; ctx.stroke(); }
-      if (ch === 0) {
-        var cx = W / 2, cy = H / 2;
-        line(cx, cy, cx - 110, cy - 45); line(cx, cy, cx + 110, cy - 45);
-        node(cx, cy, 26, 'Darren', '#141412'); node(cx - 110, cy - 45, 16, 'VoltWorks', '#9a7b2d'); node(cx + 110, cy - 45, 16, 'Patterns', '#9a7b2d');
-      } else if (ch === 1) {
-        ctx.fillStyle = '#e3e1d8'; ctx.fillRect(0, H - 42, W, 42);
-        node(W * 0.18, H - 90, 14, 'Pylon', '#fafaf7'); node(W * 0.48, H - 70, 22, 'Generator', '#9a7b2d'); node(W * 0.76, H - 80, 16, 'Switchgear', '#141412');
-        line(W * 0.18, H - 90, W * 0.48, H - 70); line(W * 0.48, H - 70, W * 0.76, H - 80);
-      } else {
-        var pts = [[W * 0.18, H * 0.5, 'Brief'], [W * 0.40, H * 0.28, 'Generate'], [W * 0.62, H * 0.5, 'Verify'], [W * 0.82, H * 0.72, 'Fix']];
-        for (var i = 0; i < pts.length; i++) { var a = pts[i], b = pts[(i + 1) % pts.length]; line(a[0], a[1], b[0], b[1]); }
-        pts.forEach(function (p) { node(p[0], p[1], 16, p[2], '#9a7b2d'); });
-      }
+      ctx.fillStyle = '#e3e1d8'; ctx.fillRect(0, H - 34, W, 34);
+      var zones = [
+        { name: 'AI Studio', sub: 'AGENTS AT WORK' },
+        { name: 'VoltWorks Power', sub: 'POWER SYSTEMS' },
+        { name: 'AI Architecture Patterns', sub: 'SYSTEM DESIGN' }
+      ];
+      var pad = 14, gap = 12, zw = (W - pad * 2 - gap * 2) / 3, zt = 26, zb = H - 52;
+      zones.forEach(function (z, i) {
+        var x0 = pad + i * (zw + gap), cx = x0 + zw / 2;
+        var active = (ch === 3) || (ch === i);
+        ctx.strokeStyle = active ? '#9a7b2d' : '#c9c5b8'; ctx.lineWidth = active ? 2 : 1;
+        ctx.strokeRect(x0, zt, zw, zb - zt);
+        ctx.fillStyle = '#141412'; ctx.font = '600 13px Georgia, serif'; ctx.textAlign = 'center';
+        ctx.fillText(z.name, cx, zt + 22, zw - 8);
+        ctx.fillStyle = '#6e541a'; ctx.font = '700 8.5px ui-monospace, Menlo, monospace';
+        ctx.fillText(z.sub, cx, zt + 38, zw - 8);
+        ctx.strokeStyle = '#141412'; ctx.fillStyle = '#141412'; ctx.lineWidth = 1.5;
+        if (i === 0) {
+          for (var d = 0; d < 3; d++) {
+            var dx = x0 + zw * (0.22 + d * 0.28), dy = zb - 44;
+            ctx.strokeRect(dx - 13, dy, 26, 4);
+            ctx.beginPath(); ctx.arc(dx, dy - 12, 6, 0, Math.PI * 2); ctx.fillStyle = '#0f6a5e'; ctx.fill();
+          }
+        } else if (i === 1) {
+          var px = x0 + zw * 0.3, py = zb - 16;
+          ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + 10, py - 58); ctx.lineTo(px + 20, py); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(px - 4, py - 40); ctx.lineTo(px + 24, py - 40); ctx.stroke();
+          ctx.fillStyle = '#9a7b2d'; ctx.fillRect(x0 + zw * 0.55, zb - 34, zw * 0.32, 18);
+          ctx.fillStyle = '#141412'; ctx.font = '9px system-ui, sans-serif'; ctx.fillText('Generator', x0 + zw * 0.71, zb - 40);
+        } else {
+          var nd = [[0.22, 0.62], [0.5, 0.5], [0.78, 0.62], [0.5, 0.82]];
+          ctx.strokeStyle = '#9a7b2d';
+          for (var e = 0; e < 3; e++) { ctx.beginPath(); ctx.moveTo(x0 + zw * nd[e][0], zt + (zb - zt) * nd[e][1]); ctx.lineTo(x0 + zw * nd[e + 1][0], zt + (zb - zt) * nd[e + 1][1]); ctx.stroke(); }
+          ctx.beginPath(); ctx.moveTo(x0 + zw * 0.5, zt + (zb - zt) * 0.5); ctx.lineTo(x0 + zw * 0.5, zt + (zb - zt) * 0.82); ctx.stroke();
+          nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#0f6a5e'; ctx.fill(); });
+        }
+      });
+      ctx.fillStyle = '#5c5c55'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(ch === 3 ? 'Verify loop \u2014 brief, generate, verify, fix.' : 'Static diagram \u2014 the three zones of the studio.', W / 2, H - 14);
       if (caption) caption.textContent = 'Static diagram shown.';
     } catch (e) { /* fallback must never break site */ }
   }
@@ -151,59 +173,77 @@
     return obj;
   }
 
-  /* Load real CC0 GLB models. On ANY failure, show a clean message and keep
-     the rest of the site working — NO placeholder blocks are shown as the scene. */
+  /* Load the real CC0 / BSD GLB models. The robot file is fetched once per
+     desk (browser-cached) so each agent is an independent animated figure.
+     On ANY failure, show a clean message and keep the rest of the site
+     working — NO placeholder blocks are shown as the scene. */
   function loadModels(THREE, built) {
-    function failAgent() {
-      built.agentFailed = true;
-      if (built.agentGroup) built.agentGroup.visible = false;
-      if (caption) caption.textContent = '3D robot model could not load — the rest of the site still works. Refresh to retry.';
+    function failRobot(i) {
+      built.robotFailed[i] = true;
+      if (built.robotGroups[i]) built.robotGroups[i].visible = false;
+      if (caption) caption.textContent = 'A 3D agent model could not load \u2014 the rest of the site still works. Refresh to retry.';
     }
     function failGenerator() {
       built.generatorFailed = true;
       if (built.generatorGroup) built.generatorGroup.visible = false;
-      if (caption) caption.textContent = '3D generator model could not load — the rest of the site still works. Refresh to retry.';
+      if (caption) caption.textContent = '3D generator model could not load \u2014 the rest of the site still works. Refresh to retry.';
     }
     function failPylon() {
       built.pylonFailed = true;
       if (built.pylonGroup) built.pylonGroup.visible = false;
-      if (caption) caption.textContent = '3D pylon model could not load — the rest of the site still works. Refresh to retry.';
+      if (caption) caption.textContent = '3D pylon model could not load \u2014 the rest of the site still works. Refresh to retry.';
     }
     loadGLTF().then(function (Loader) {
       var loader = new Loader();
-      loader.load('models/robot-expressive.glb', function (gltf) {
-        var obj = gltf.scene || gltf.scenes[0];
-        placeModel(THREE, built.agentGroup, obj, 1.7, 1.0, 'agent', built.allMeshes);
-        if (gltf.animations && gltf.animations.length) {
-          var mx = new THREE.AnimationMixer(obj);
-          var clip = gltf.animations.filter(function (c) { return /idle/i.test(c.name); })[0] || gltf.animations[0];
-          mx.clipAction(clip).play();
-          built.mixers.push(mx);
-        }
-      }, undefined, function () { failAgent(); });
+      var robotPref = ['Idle', 'Wave', 'Idle'];
+      built.robotGroups.forEach(function (group, i) {
+        loader.load('models/robot-expressive.glb', function (gltf) {
+          var obj = gltf.scene || gltf.scenes[0];
+          placeModel(THREE, group, obj, 1.02, 0.62, 'agent', built.allMeshes);
+          if (gltf.animations && gltf.animations.length) {
+            var mx = new THREE.AnimationMixer(obj);
+            var want = robotPref[i] || 'Idle';
+            var clip = gltf.animations.filter(function (c) { return c.name.toLowerCase().indexOf(want.toLowerCase()) !== -1; })[0]
+              || gltf.animations.filter(function (c) { return /idle/i.test(c.name); })[0]
+              || gltf.animations[0];
+            var action = mx.clipAction(clip); action.time = i * 0.6; action.play();
+            built.mixers.push(mx);
+          }
+        }, undefined, function () { failRobot(i); });
+      });
       loader.load('models/portable-generator.glb', function (gltf) {
         var obj = gltf.scene || gltf.scenes[0];
-        placeModel(THREE, built.generatorGroup, obj, 1.0, 1.4, 'generator', built.allMeshes);
+        placeModel(THREE, built.generatorGroup, obj, 0.95, 1.35, 'generator', built.allMeshes);
       }, undefined, function () { failGenerator(); });
       loader.load('models/pylon.glb', function (gltf) {
         var obj = gltf.scene || gltf.scenes[0];
-        placeModel(THREE, built.pylonGroup, obj, 3.2, 1.6, 'pylon', built.allMeshes);
+        placeModel(THREE, built.pylonGroup, obj, 2.6, 1.3, 'pylon', built.allMeshes);
       }, undefined, function () { failPylon(); });
-    }).catch(function () { failAgent(); failGenerator(); failPylon(); });
+    }).catch(function () {
+      built.robotGroups.forEach(function (g, i) { failRobot(i); });
+      failGenerator(); failPylon();
+    });
   }
 
   function ease(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
 
+  /* ONE scene, THREE labelled zones on a single ground plane:
+       left   — AGENTIC AI STUDIO: robot agents at desks with monitors
+       centre — VOLTWORKS POWER: pylon + transformer + generator + switchgear
+       right  — AI ARCHITECTURE PATTERNS: a blueprint board with a node diagram
+     Scrolling assembles the zones left to right; the final chapter rings all
+     three with the Brief → Generate → Verify → Fix loop. Every zone carries
+     an always-visible plate label so the work reads at a glance. */
   function buildScene(THREE) {
     var scene = new THREE.Scene(); scene.background = null;
     var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 1.9, 6.0); camera.lookAt(0, 0, 0);
+    camera.position.set(0, 2.0, 6.2); camera.lookAt(0, 0.05, 0);
     // Lighting: hemisphere + key (shadows) + warm fill + cool rim + IBL env (set in init via RoomEnvironment).
     scene.add(new THREE.HemisphereLight(0xfff8ec, 0x8a8a8a, 0.6));
     var key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(4, 7, 5);
     key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
-    key.shadow.camera.left = -4.5; key.shadow.camera.right = 4.5; key.shadow.camera.top = 4; key.shadow.camera.bottom = -3;
-    key.shadow.camera.near = 1; key.shadow.camera.far = 20;
+    key.shadow.camera.left = -8; key.shadow.camera.right = 8; key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
+    key.shadow.camera.near = 1; key.shadow.camera.far = 22;
     key.shadow.bias = -0.0004; key.shadow.normalBias = 0.02;
     key.shadow.camera.updateProjectionMatrix();
     scene.add(key);
@@ -219,16 +259,17 @@
       teal: std(0x0f6a5e, { rough: 0.42, metal: 0.25 }), tealDark: std(0x0b4f47, { rough: 0.45, metal: 0.25 }),
       steel: std(0x6b7280, { rough: 0.35, metal: 0.65 }), steelDark: std(0x374151, { rough: 0.4, metal: 0.6 }),
       ceramic: std(0xfaf7f1, { rough: 0.35 }), wood: std(0x8a5a2b, { rough: 0.7 }),
-      gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), amber: std(0xe8b93c, { rough: 0.4, metal: 0.2, emissive: 0x8a6a00, ei: 0.35 }),
+      gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), brass: std(0x9a7b2d, { rough: 0.45, metal: 0.35 }),
+      amber: std(0xe8b93c, { rough: 0.4, metal: 0.2, emissive: 0x8a6a00, ei: 0.35 }),
       skin: std(0xd9a97a, { rough: 0.65 }), paper: std(0xf2eee5, { rough: 0.8 }),
       green: std(0x2fa36b, { rough: 0.4, emissive: 0x0a3d22, ei: 0.6 }), red: std(0xc0392b, { rough: 0.4, emissive: 0x4a0f0a, ei: 0.6 })
     };
 
     var root = new THREE.Group(); scene.add(root);
-    var groups = { studio: new THREE.Group(), volt: new THREE.Group(), loop: new THREE.Group() };
-    root.add(groups.studio); root.add(groups.volt); root.add(groups.loop);
+    var SC = new THREE.Group(); root.add(SC);
     var allMeshes = [];
-    var parts = []; // {obj, group, appear, baseY, baseScale}
+    var labels = [];
+    var parts = []; // {obj, group, appear}
     function reg(obj, group, appear, itemId) {
       obj.userData.itemId = itemId || null; obj.userData.appear = appear; obj.userData.baseY = obj.position.y;
       obj.castShadow = true; obj.receiveShadow = true;
@@ -239,135 +280,232 @@
     function box(w, h, d, mat, x, y, z, g, ap, id) { return mesh(new THREE.BoxGeometry(w, h, d), mat, x, y, z, g, ap, id); }
     function cyl(rt, rb, h, mat, x, y, z, g, ap, id, seg) { return mesh(new THREE.CylinderGeometry(rt, rb, h, seg || 20), mat, x, y, z, g, ap, id); }
     function sph(r, mat, x, y, z, g, ap, id) { return mesh(new THREE.SphereGeometry(r, 24, 16), mat, x, y, z, g, ap, id); }
-    function torus(r, t, mat, x, y, z, g, ap, id) { return mesh(new THREE.TorusGeometry(r, t, 12, 28), mat, x, y, z, g, ap, id); }
+    function torus(r, t, mat, x, y, z, g, ap, id) { return mesh(new THREE.TorusGeometry(r, t, 12, 40), mat, x, y, z, g, ap, id); }
     function cone(r, h, mat, x, y, z, g, ap, id) { return mesh(new THREE.ConeGeometry(r, h, 20), mat, x, y, z, g, ap, id); }
-    function line3(a, b, mat, g, ap) {
+    function edge3(a, b, hex, opacity, g, ap) {
       var geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a[0], a[1], a[2]), new THREE.Vector3(b[0], b[1], b[2])]);
-      var l = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: 0x9ab8b2, transparent: true, opacity: 0.6 }));
-      l.position.set(0, 0, 0); g.add(l); parts.push({ obj: l, group: g, appear: ap }); return l;
+      var l = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: opacity }));
+      g.add(l); parts.push({ obj: l, group: g, appear: ap }); return l;
     }
-    function ground(g, hex) {
-      var p = new THREE.Mesh(new THREE.PlaneGeometry(14, 8), new THREE.MeshStandardMaterial({ color: hex, roughness: 1.0, metalness: 0 }));
-      p.rotation.x = -Math.PI / 2; p.position.y = -1.0; p.receiveShadow = true; g.add(p);
-      var grid = new THREE.GridHelper(13, 20, 0xd8d0bd, 0xe8e2d4); grid.position.y = -0.99; grid.material.transparent = true; grid.material.opacity = 0.25; g.add(grid);
+
+    /* Always-visible plate label: serif name + mono descriptor on a bone
+       plate with a brass hairline — the site's editorial plate style, in 3D.
+       Billboarded toward the camera every frame (see init). */
+    function makeLabel(main, sub, o) {
+      o = o || {};
+      var fsMain = o.fs || 46, fsSub = Math.round(fsMain * 0.52), padX = 26, padY = 15;
+      var c = document.createElement('canvas'); var g = c.getContext('2d');
+      var fMain = '600 ' + fsMain + 'px Georgia, "Times New Roman", serif';
+      var fSub = '700 ' + fsSub + 'px ui-monospace, Menlo, Consolas, monospace';
+      g.font = fMain; var wMain = g.measureText(main).width;
+      var wSub = 0; if (sub) { g.font = fSub; wSub = g.measureText(sub).width; }
+      c.width = Math.ceil(Math.max(wMain, wSub) + padX * 2);
+      c.height = Math.ceil(padY * 2 + fsMain * 1.12 + (sub ? fsSub * 1.55 : 0));
+      g = c.getContext('2d');
+      g.fillStyle = 'rgba(250,250,247,0.97)'; g.fillRect(0, 0, c.width, c.height);
+      g.strokeStyle = '#9a7b2d'; g.lineWidth = 3; g.strokeRect(2, 2, c.width - 4, c.height - 4);
+      g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      g.fillStyle = '#141412'; g.font = fMain;
+      var yMain = padY + fsMain * 0.9;
+      g.fillText(main, c.width / 2, yMain);
+      if (sub) { g.fillStyle = '#6e541a'; g.font = fSub; g.fillText(sub, c.width / 2, yMain + fsSub * 1.5); }
+      var tex = new THREE.CanvasTexture(c);
+      if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
+      tex.anisotropy = 4;
+      var mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+      var h = o.h || 0.5, w = h * c.width / c.height;
+      var m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), mat);
+      m.renderOrder = 20; m.userData.isLabel = true;
+      labels.push(m);
+      return m;
     }
-    ground(groups.studio, 0xe9e2d3); ground(groups.volt, 0xd9d2c0); ground(groups.loop, 0xe9e2d3);
+    function addLabel(parent, main, sub, o, x, y, z, appear) {
+      var m = makeLabel(main, sub, o);
+      m.position.set(x, y, z);
+      m.userData.appear = appear; m.userData.baseY = y; m.userData.baseScale = 1;
+      parent.add(m); parts.push({ obj: m, group: parent, appear: appear });
+      return m;
+    }
 
-    /* Studio — Darren + 1 real agent model + 2 flagship minis */
-    var S = groups.studio;
-    cyl(0.42, 0.46, 0.08, M.ink, 0, -0.98, 0, S, 0, 'darren', 28);
-    cyl(0.20, 0.26, 0.95, M.ink, 0, -0.45, 0, S, 0, 'darren');
-    sph(0.28, M.skin, 0, 0.28, 0, S, 0, 'darren');
-    cyl(0.24, 0.26, 0.10, M.teal, 0, 0.50, 0, S, 0, 'darren');
-    // Agent — real downloaded GLB (RobotExpressive, CC0). Placeholder group; model loads async.
-    // Final: group at (1.75, -1.0, 0.35), base on ground y=-1.0, fitted to ≤1.7 m tall, ≤1.0 m wide.
-    var agentGroup = new THREE.Group();
-    agentGroup.position.set(1.75, -1.0, 0.35);
-    agentGroup.userData.itemId = 'agent'; agentGroup.userData.appear = 0.15; agentGroup.userData.baseY = -1.0; agentGroup.userData.baseScale = 1;
-    S.add(agentGroup);
-    parts.push({ obj: agentGroup, group: S, appear: 0.15 });
-    // Flagship minis
-    box(0.9, 0.08, 0.6, M.paper, 2.8, -0.98, -1.0, S, 0.60, 'voltworks');
-    cyl(0.05, 0.06, 0.9, M.steelDark, 2.5, -0.5, -1.0, S, 0.60, 'voltworks');
-    box(0.5, 0.07, 0.07, M.steelDark, 2.5, -0.12, -1.0, S, 0.60, 'voltworks');
-    box(0.55, 0.5, 0.4, M.teal, 3.0, -0.70, -1.0, S, 0.60, 'voltworks');
-    box(0.08, 0.3, 0.4, M.tealDark, 3.3, -0.70, -1.0, S, 0.60, 'voltworks');
-    line3([0, 0, 0], [2.8, -0.6, -1.0], null, S, 0.60);
-    box(0.65, 0.06, 0.5, M.paper, -2.8, -0.70, -1.0, S, 0.75, 'patterns');
-    box(0.65, 0.06, 0.5, M.teal, -2.8, -0.60, -1.0, S, 0.75, 'patterns');
-    box(0.65, 0.06, 0.5, M.gold, -2.8, -0.50, -1.0, S, 0.75, 'patterns');
-    box(0.9, 0.08, 0.6, M.paper, -2.8, -0.98, -1.0, S, 0.75, 'patterns');
-    line3([0, 0, 0], [-2.8, -0.6, -1.0], null, S, 0.75);
+    var GY = -0.92; // top surface of the zone plates — everything stands on this
 
-    /* VoltWorks — pylon / generator / switchgear / bus / scale */
-    var V = groups.volt;
+    /* One ground plane for the whole scene */
+    var groundPlane = new THREE.Mesh(new THREE.PlaneGeometry(18, 11), new THREE.MeshStandardMaterial({ color: 0xece7da, roughness: 1.0, metalness: 0 }));
+    groundPlane.rotation.x = -Math.PI / 2; groundPlane.position.y = -1.02; groundPlane.receiveShadow = true; SC.add(groundPlane);
+    var grid = new THREE.GridHelper(17, 26, 0xd8d0bd, 0xe2dccb); grid.position.y = -1.01; grid.material.transparent = true; grid.material.opacity = 0.22; SC.add(grid);
+
+    /* Zone plates — three clearly separated slabs with a brass rim */
+    function zonePlate(zx, hex) {
+      var rimM = box(3.05, 0.03, 3.45, M.brass, zx, -1.005, 0, SC, 0, null); rimM.castShadow = false;
+      var slab = box(2.95, 0.08, 3.35, std(hex, { rough: 0.9, metal: 0 }), zx, -0.96, 0, SC, 0, null); slab.castShadow = false;
+    }
+    zonePlate(-3.35, 0xe9e2d3); zonePlate(0, 0xded6c2); zonePlate(3.35, 0xe9e2d3);
+
+    /* ============ ZONE 1 — AGENTIC AI STUDIO (left) ============ */
+    var ZX1 = -3.35;
+    addLabel(SC, 'AI Studio', 'AGENTS AT WORK', { h: 0.52 }, ZX1, 1.95, -0.6, 0.05);
+    // Darren — the director, standing at the front corner of the studio plate
+    cyl(0.3, 0.34, 0.06, M.ink, -4.35, GY + 0.03, 1.05, SC, 0.02, 'darren', 24);
+    cyl(0.16, 0.21, 0.8, M.ink, -4.35, GY + 0.46, 1.05, SC, 0.02, 'darren');
+    sph(0.21, M.skin, -4.35, GY + 1.05, 1.05, SC, 0.02, 'darren');
+    cyl(0.19, 0.2, 0.08, M.teal, -4.35, GY + 1.22, 1.05, SC, 0.02, 'darren');
+    // Three workstations: desk + monitor + papers, robot agent behind each desk.
+    // The robots are real GLBs (RobotExpressive, CC0) loaded async into these groups.
+    var robotGroups = [];
+    var deskX = [-4.15, -3.3, -2.45];
+    deskX.forEach(function (dx, i) {
+      var ap = 0.03 + i * 0.03;
+      box(0.8, 0.05, 0.52, M.wood, dx, GY + 0.72, 0.35, SC, ap, 'agent');
+      box(0.05, 0.7, 0.46, M.inkLight, dx - 0.36, GY + 0.36, 0.35, SC, ap, 'agent');
+      box(0.05, 0.7, 0.46, M.inkLight, dx + 0.36, GY + 0.36, 0.35, SC, ap, 'agent');
+      box(0.46, 0.32, 0.03, M.ink, dx, GY + 1.02, 0.18, SC, ap, 'agent');
+      box(0.4, 0.26, 0.012, M.paper, dx, GY + 1.02, 0.198, SC, ap, 'agent');
+      cyl(0.03, 0.03, 0.14, M.steelDark, dx, GY + 0.8, 0.18, SC, ap, 'agent');
+      box(0.34, 0.015, 0.24, M.paper, dx - 0.08, GY + 0.755, 0.4, SC, ap, 'agent');
+      box(0.3, 0.02, 0.12, M.inkLight, dx + 0.1, GY + 0.76, 0.44, SC, ap, 'agent');
+      if (i === 1) {
+        cyl(0.015, 0.015, 0.3, M.steelDark, dx + 0.31, GY + 0.9, 0.2, SC, ap, 'agent');
+        sph(0.05, M.amber, dx + 0.31, GY + 1.07, 0.2, SC, ap, 'agent');
+      }
+      var rg = new THREE.Group();
+      rg.position.set(dx, GY, -0.28);
+      rg.rotation.y = (i - 1) * 0.18;
+      rg.userData.itemId = 'agent'; rg.userData.appear = ap; rg.userData.baseY = GY; rg.userData.baseScale = 1;
+      SC.add(rg); robotGroups.push(rg);
+      parts.push({ obj: rg, group: SC, appear: ap });
+    });
+
+    /* ============ ZONE 2 — VOLTWORKS POWER (centre) ============ */
+    addLabel(SC, 'VoltWorks Power', 'POWER SYSTEMS', { h: 0.52 }, 0, 2.32, -0.6, 0.28);
     // Pylon — real downloaded GLB (lattice transmission tower, BSD-3-Clause).
-    // Placeholder group; model loads async. Source is 21 m wide × 42 m tall;
-    // fitted to ≤3.2 m tall × ≤1.6 m wide so it reads as a yard miniature.
     var pylonGroup = new THREE.Group();
-    pylonGroup.position.set(-2.6, -1.0, 0);
-    pylonGroup.userData.itemId = 'pylon'; pylonGroup.userData.appear = 0.05; pylonGroup.userData.baseY = -1.0; pylonGroup.userData.baseScale = 1;
-    V.add(pylonGroup);
-    parts.push({ obj: pylonGroup, group: V, appear: 0.05 });
-    // Generator — real downloaded GLB (Poly Haven, CC0, full PBR). Placeholder group; model loads async.
-    // Final: group at (-0.15, -1.0, 0.1), base on ground y=-1.0, fitted to ≤1.0 m tall, ≤1.4 m wide (≈0.99 m tall × 1.40 m wide given true 0.82 × 0.58 m bounds).
+    pylonGroup.position.set(-0.78, GY, -0.55); pylonGroup.rotation.y = 0.15;
+    pylonGroup.userData.itemId = 'pylon'; pylonGroup.userData.appear = 0.30; pylonGroup.userData.baseY = GY; pylonGroup.userData.baseScale = 1;
+    SC.add(pylonGroup);
+    parts.push({ obj: pylonGroup, group: SC, appear: 0.30 });
+    // Transformer — tank, cooling fins, bushings, conservator, nameplate
+    var TX = 1.02, TZ = -0.5, TAP = 0.34;
+    box(0.6, 0.78, 0.48, M.steel, TX, GY + 0.39, TZ, SC, TAP, 'transformer');
+    box(0.66, 0.06, 0.54, M.steelDark, TX, GY + 0.81, TZ, SC, TAP, 'transformer');
+    for (var fi = 0; fi < 5; fi++) box(0.04, 0.58, 0.36, M.steelDark, TX - 0.22 + fi * 0.11, GY + 0.39, TZ + 0.27, SC, TAP, 'transformer');
+    [0.87, 1.02, 1.17].forEach(function (bx) {
+      cyl(0.028, 0.045, 0.24, M.ceramic, bx, GY + 0.96, TZ + 0.08, SC, TAP, 'transformer');
+      sph(0.04, M.gold, bx, GY + 1.1, TZ + 0.08, SC, TAP, 'transformer');
+    });
+    var cons = cyl(0.09, 0.09, 0.42, M.steel, TX, GY + 1.14, TZ - 0.12, SC, TAP, 'transformer'); cons.rotation.z = Math.PI / 2;
+    box(0.05, 0.22, 0.05, M.steelDark, TX - 0.14, GY + 0.95, TZ - 0.12, SC, TAP, 'transformer');
+    box(0.05, 0.22, 0.05, M.steelDark, TX + 0.14, GY + 0.95, TZ - 0.12, SC, TAP, 'transformer');
+    box(0.015, 0.15, 0.22, M.gold, TX + 0.31, GY + 0.45, TZ, SC, TAP, 'transformer');
+    addLabel(SC, 'Transformer', null, { h: 0.2, fs: 38 }, TX, 0.58, TZ, 0.35);
+    // Generator — real downloaded GLB (Poly Haven, CC0, full PBR).
     var generatorGroup = new THREE.Group();
-    generatorGroup.position.set(-0.15, -1.0, 0.1);
-    generatorGroup.userData.itemId = 'generator'; generatorGroup.userData.appear = 0.30; generatorGroup.userData.baseY = -1.0; generatorGroup.userData.baseScale = 1;
-    V.add(generatorGroup);
-    parts.push({ obj: generatorGroup, group: V, appear: 0.30 });
-    // Switchgear — 3 cubicles
-    for (var ci = 0; ci < 3; ci++) {
-      var cx = 1.55 + ci * 0.70;
-      box(0.62, 1.25, 0.62, M.ink, cx, -0.35, 0, V, 0.55, 'switchgear');
-      box(0.50, 1.05, 0.04, M.inkLight, cx, -0.35, 0.32, V, 0.55, 'switchgear');
-      box(0.06, 0.22, 0.06, M.gold, cx + 0.16, -0.35, 0.36, V, 0.55, 'switchgear');
-      sph(0.07, ci < 2 ? M.green : M.red, cx - 0.16, 0.22, 0.32, V, 0.55, 'switchgear');
-      box(0.30, 0.08, 0.02, M.steel, cx, -0.75, 0.32, V, 0.55, 'switchgear');
-    }
-    // Bus — amber, emissive, with flow dots
-    var busMat = M.amber;
-    var busPts = [[-2.6, 1.5, 0], [-0.15, 0.35, 0.1], [2.25, 0.42, 0]];
+    generatorGroup.position.set(0.72, GY, 0.72); generatorGroup.rotation.y = -0.3;
+    generatorGroup.userData.itemId = 'generator'; generatorGroup.userData.appear = 0.37; generatorGroup.userData.baseY = GY; generatorGroup.userData.baseScale = 1;
+    SC.add(generatorGroup);
+    parts.push({ obj: generatorGroup, group: SC, appear: 0.37 });
+    addLabel(SC, 'Generator', null, { h: 0.2, fs: 38 }, 0.72, 0.38, 0.72, 0.38);
+    // Switchgear — 2 cubicles with doors, handles, status lamps
+    [-0.92, -0.34].forEach(function (cx, ci) {
+      box(0.58, 1.15, 0.55, M.ink, cx, GY + 0.575, 0.85, SC, 0.41, 'switchgear');
+      box(0.48, 0.98, 0.03, M.inkLight, cx, GY + 0.575, 1.13, SC, 0.41, 'switchgear');
+      box(0.05, 0.2, 0.05, M.gold, cx + 0.15, GY + 0.55, 1.16, SC, 0.41, 'switchgear');
+      sph(0.06, ci === 0 ? M.green : M.red, cx - 0.15, GY + 0.95, 1.14, SC, 0.41, 'switchgear');
+      box(0.26, 0.07, 0.02, M.steel, cx, GY + 0.3, 1.14, SC, 0.41, 'switchgear');
+    });
+    addLabel(SC, 'Switchgear', null, { h: 0.2, fs: 38 }, -0.63, 0.5, 0.85, 0.42);
+    // Bus line — pylon → transformer → switchgear, with flow dots
+    var busPts = [[-0.78, 1.42, -0.55], [1.02, 0.28, -0.42], [-0.63, 0.33, 0.85]];
     function busSeg(a, b) {
       var dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
       var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      var c = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, len, 12), busMat);
+      var c = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, len, 12), M.amber);
       c.position.set((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2);
-      c.castShadow = true; V.add(c); allMeshes.push(c);
-      parts.push({ obj: c, group: V, appear: 0.75 });
-      c.userData.itemId = 'bus';
-      var up = new THREE.Vector3(0, 1, 0), dv = new THREE.Vector3(dx, dy, dz).normalize();
-      c.quaternion.setFromUnitVectors(up, dv);
+      c.castShadow = true; c.userData.itemId = 'bus'; c.userData.baseY = c.position.y;
+      SC.add(c); allMeshes.push(c);
+      parts.push({ obj: c, group: SC, appear: 0.45 });
+      c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(dx, dy, dz).normalize());
       return c;
     }
     busSeg(busPts[0], busPts[1]); busSeg(busPts[1], busPts[2]);
     var flowDots = [];
-    for (var di = 0; di < 5; di++) { var d = sph(0.08, std(0xffd94d, { rough: 0.3, emissive: 0x8a6a00, ei: 0.8 }), 0, 0, 0, V, 0.85, 'bus'); d.castShadow = false; flowDots.push(d); }
-    // Scale — 1.8 m person + 1 m bar. Moved to (3.35, z 1.05) to clear the last switchgear cubicle (x 2.95, z 0).
-    sph(0.12, M.skin, 3.35, 0.95, 1.05, V, 0.85, 'scale');
-    cyl(0.13, 0.15, 1.15, M.ink, 3.35, 0.25, 1.05, V, 0.85, 'scale');
-    cyl(0.11, 0.13, 0.45, M.inkLight, 3.35, -0.72, 1.05, V, 0.85, 'scale');
-    box(1.0, 0.06, 0.06, M.gold, 3.35, -0.97, 1.05, V, 0.85, 'scale');
+    for (var di = 0; di < 5; di++) { var d = sph(0.08, std(0xffd94d, { rough: 0.3, emissive: 0x8a6a00, ei: 0.8 }), 0, 0, 0, SC, 0.45, 'bus'); d.castShadow = false; flowDots.push(d); }
+    // Scale — 1.8 m figure + 1 m bar at the front of the power plate
+    sph(0.12, M.skin, 0.05, GY + 1.68, 1.38, SC, 0.47, 'scale');
+    cyl(0.12, 0.13, 0.71, M.ink, 0.05, GY + 1.2, 1.38, SC, 0.47, 'scale');
+    cyl(0.1, 0.12, 0.85, M.inkLight, 0.05, GY + 0.42, 1.38, SC, 0.47, 'scale');
+    box(1.0, 0.05, 0.05, M.gold, 0.05, GY + 0.03, 1.38, SC, 0.47, 'scale');
 
-    /* Loop — 4 stations + ring */
-    var L = groups.loop;
-    cyl(0.55, 0.60, 0.16, M.paper, 0, -0.98, 0, L, 0, null, 28);
-    cyl(0.35, 0.35, 0.10, M.teal, 0, -0.86, 0, L, 0, null);
-    var ring2 = torus(2.05, 0.045, M.amber, 0, -0.92, 0, L, 0.85, null); ring2.rotation.x = Math.PI / 2;
-    var stations = [
-      { id: 'brief', x: -2.05, z: 0, ap: 0.05 }, { id: 'generate', x: 0, z: 2.05, ap: 0.25 },
-      { id: 'verify', x: 2.05, z: 0, ap: 0.45 }, { id: 'fix', x: 0, z: -2.05, ap: 0.65 }
+    /* ============ ZONE 3 — AI ARCHITECTURE PATTERNS (right) ============ */
+    var ZX3 = 3.35;
+    addLabel(SC, 'AI Architecture Patterns', 'SYSTEM DESIGN', { h: 0.52 }, ZX3, 1.42, -0.3, 0.55);
+    // Drawing table
+    box(2.3, 0.06, 1.6, M.wood, ZX3, GY + 0.55, -0.15, SC, 0.57, 'patterns');
+    [[-1.05, -0.65], [1.05, -0.65], [-1.05, 0.65], [1.05, 0.65]].forEach(function (off) {
+      cyl(0.04, 0.04, 0.55, M.inkLight, ZX3 + off[0], GY + 0.27, -0.15 + off[1], SC, 0.57, 'patterns');
+    });
+    // Blueprint board, tilted toward the viewer like a drawing board
+    var panelGroup = new THREE.Group();
+    panelGroup.position.set(ZX3, GY + 1.15, -0.3); panelGroup.rotation.x = -0.35;
+    SC.add(panelGroup);
+    box(2.15, 1.4, 0.03, M.ink, 0, 0, -0.03, panelGroup, 0.57, 'patterns');
+    box(2.05, 1.3, 0.05, M.paper, 0, 0, 0, panelGroup, 0.57, 'patterns');
+    // Node diagram on the board: components (discs) + connections (edges)
+    var nodes = [
+      { x: -0.78, y: 0.33 }, { x: -0.26, y: 0.33 }, { x: 0.26, y: 0.33 }, { x: 0.78, y: 0.33 }, { x: 0, y: -0.36 }
     ];
-    stations.forEach(function (st, idx) {
-      cyl(0.58, 0.62, 0.09, M.paper, st.x, -0.98, st.z, L, st.ap, st.id, 28);
+    nodes.forEach(function (n, ni) {
+      var nd = cyl(0.085, 0.085, 0.05, M.teal, n.x, n.y, 0.05, panelGroup, 0.60 + ni * 0.015, 'patterns');
+      nd.rotation.x = Math.PI / 2;
+      sph(0.032, M.gold, n.x, n.y, 0.09, panelGroup, 0.60 + ni * 0.015, 'patterns');
+    });
+    [[0, 1], [1, 2], [2, 3], [1, 4], [2, 4]].forEach(function (pr) {
+      var a = nodes[pr[0]], b = nodes[pr[1]];
+      edge3([a.x, a.y, 0.04], [b.x, b.y, 0.04], 0x9a7b2d, 0.85, panelGroup, 0.64);
+    });
+    box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
+    box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
+
+    /* ============ VERIFY LOOP — a ring around all three zones ============ */
+    var ring = torus(5.2, 0.04, M.amber, 0, -0.95, 0, SC, 0.78, null); ring.rotation.x = Math.PI / 2;
+    for (var ai = 0; ai < 4; ai++) {
+      var ang = ai * Math.PI / 2;
+      var cn = cone(0.11, 0.3, M.amber, Math.cos(ang) * 5.2, -0.9, Math.sin(ang) * 5.2, SC, 0.80, null);
+      cn.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-Math.sin(ang), 0, Math.cos(ang)));
+    }
+    var stations = [
+      { id: 'brief', name: 'BRIEF', x: -3.68, z: 3.68, ap: 0.82 },
+      { id: 'generate', name: 'GENERATE', x: 3.68, z: 3.68, ap: 0.85 },
+      { id: 'verify', name: 'VERIFY', x: 3.68, z: -3.68, ap: 0.88 },
+      { id: 'fix', name: 'FIX', x: -3.68, z: -3.68, ap: 0.91 }
+    ];
+    stations.forEach(function (st) {
+      cyl(0.5, 0.54, 0.08, M.paper, st.x, -0.96, st.z, SC, st.ap, st.id, 28);
       if (st.id === 'brief') {
-        box(0.52, 0.68, 0.06, M.ink, st.x, -0.35, st.z, L, st.ap, st.id);
-        box(0.22, 0.08, 0.08, M.gold, st.x, 0.02, st.z, L, st.ap, st.id);
-        for (var li = 0; li < 3; li++) box(0.34, 0.05, 0.02, M.ceramic, st.x, -0.18 - li * 0.14, st.z + 0.04, L, st.ap, st.id);
+        box(0.44, 0.58, 0.05, M.ink, st.x, -0.55, st.z, SC, st.ap, st.id);
+        box(0.2, 0.07, 0.07, M.gold, st.x, -0.22, st.z, SC, st.ap, st.id);
+        for (var li = 0; li < 3; li++) box(0.3, 0.045, 0.02, M.ceramic, st.x, -0.42 - li * 0.13, st.z + 0.04, SC, st.ap, st.id);
       } else if (st.id === 'generate') {
-        var g1 = torus(0.26, 0.07, M.teal, st.x - 0.14, -0.45, st.z, L, st.ap, st.id); g1.rotation.x = Math.PI / 2;
-        var g2 = torus(0.18, 0.06, M.gold, st.x + 0.22, -0.45, st.z, L, st.ap, st.id); g2.rotation.x = Math.PI / 2;
-        cyl(0.08, 0.08, 0.12, M.ink, st.x - 0.14, -0.45, st.z, L, st.ap, st.id);
+        var g1 = torus(0.24, 0.065, M.teal, st.x - 0.13, -0.5, st.z, SC, st.ap, st.id); g1.rotation.x = Math.PI / 2;
+        var g2 = torus(0.17, 0.055, M.gold, st.x + 0.2, -0.5, st.z, SC, st.ap, st.id); g2.rotation.x = Math.PI / 2;
+        cyl(0.07, 0.07, 0.1, M.ink, st.x - 0.13, -0.5, st.z, SC, st.ap, st.id);
       } else if (st.id === 'verify') {
-        var sh = sph(0.30, M.teal, st.x, -0.45, st.z, L, st.ap, st.id); sh.scale.set(1, 1.15, 0.45);
-        var c1 = box(0.22, 0.07, 0.05, M.ceramic, st.x - 0.08, -0.50, st.z + 0.16, L, st.ap, st.id); c1.rotation.z = 0.7;
-        var c2 = box(0.34, 0.07, 0.05, M.ceramic, st.x + 0.10, -0.44, st.z + 0.16, L, st.ap, st.id); c2.rotation.z = -0.7;
+        var sh = sph(0.28, M.teal, st.x, -0.5, st.z, SC, st.ap, st.id); sh.scale.set(1, 1.15, 0.45);
+        var c1 = box(0.2, 0.065, 0.05, M.ceramic, st.x - 0.07, -0.55, st.z + 0.15, SC, st.ap, st.id); c1.rotation.z = 0.7;
+        var c2 = box(0.32, 0.065, 0.05, M.ceramic, st.x + 0.09, -0.49, st.z + 0.15, SC, st.ap, st.id); c2.rotation.z = -0.7;
       } else {
-        box(0.10, 0.55, 0.08, M.ink, st.x, -0.55, st.z, L, st.ap, st.id);
-        torus(0.18, 0.07, M.teal, st.x, -0.18, st.z, L, st.ap, st.id);
-        var arr = torus(0.38, 0.045, M.amber, st.x, -0.45, st.z, L, st.ap, st.id); arr.rotation.x = Math.PI / 2;
+        box(0.09, 0.5, 0.07, M.ink, st.x, -0.58, st.z, SC, st.ap, st.id);
+        torus(0.16, 0.06, M.teal, st.x, -0.24, st.z, SC, st.ap, st.id);
       }
-      var nxt = stations[(idx + 1) % stations.length];
-      var mx = (st.x + nxt.x) / 2, mz = (st.z + nxt.z) / 2;
-      var ang = Math.atan2(nxt.z - st.z, nxt.x - st.x);
-      var cm = cone(0.12, 0.32, M.amber, mx, -0.55, mz, L, st.ap, st.id);
-      cm.rotation.z = -Math.PI / 2; cm.rotation.y = -ang;
-      var lg = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(st.x, -0.95, st.z), new THREE.Vector3(nxt.x, -0.95, nxt.z)]);
-      var ll = new THREE.Line(lg, new THREE.LineBasicMaterial({ color: 0x0f6a5e, transparent: true, opacity: 0.45 }));
-      L.add(ll); parts.push({ obj: ll, group: L, appear: st.ap });
+      addLabel(SC, st.name, null, { h: 0.2, fs: 40 }, st.x, 0.32, st.z, st.ap);
     });
 
-    return { scene: scene, camera: camera, root: root, groups: groups, parts: parts, allMeshes: allMeshes, flowDots: flowDots, busPts: busPts, agentGroup: agentGroup, generatorGroup: generatorGroup, pylonGroup: pylonGroup, mixers: [], agentFailed: false, generatorFailed: false, pylonFailed: false };
+    return {
+      scene: scene, camera: camera, root: root, parts: parts, allMeshes: allMeshes, labels: labels,
+      flowDots: flowDots, busPts: busPts,
+      robotGroups: robotGroups, robotFailed: [false, false, false],
+      generatorGroup: generatorGroup, pylonGroup: pylonGroup,
+      mixers: [], generatorFailed: false, pylonFailed: false
+    };
   }
 
   function init() {
@@ -379,7 +517,7 @@
     loadThree().then(function (THREE) {
       try {
         var built = buildScene(THREE);
-        var size = fitCanvas(canvas);
+        var size = fitCanvas();
         var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         renderer.setClearColor(0x000000, 0);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -401,29 +539,36 @@
         built.camera.aspect = size.w / size.h; built.camera.updateProjectionMatrix();
         loadModels(THREE, built);
 
-        var state = { rotX: 0.08, rotY: 0, dragging: false, lastX: 0, lastY: 0, moved: 0, dist: 5.8, targetDist: 5.8, cur: 0, target: 0, active: 0, local: 0 };
+        var state = { rotX: 0.08, rotY: 0, dragging: false, lastX: 0, lastY: 0, moved: 0, dist: 5.8, targetDist: 5.8, camX: 0, targetCamX: 0, cur: 0, target: 0, active: 0, local: 0 };
         var start = performance.now();
         var lastT = start;
-        var CAMDIST = [6.0, 6.6, 6.2, 7.4];
+        var CAMDIST = [5.4, 6.3, 6.3, 7.5];
+        var CAMX = [-1.1, 0.1, 1.1, 0]; // chapter focus drifts across the three zones
 
         function setActive(ch) {
           state.active = ch;
           chapterEls.forEach(function (el) { el.classList.toggle('active', parseInt(el.getAttribute('data-chapter'), 10) === ch); });
         }
+        /* Scroll assembles zones left → right along global progress p.
+           Once built, a zone stays built — the scene only gains, never swaps. */
         function applyAssembly() {
-          var active = state.active, local = state.local;
-          var visibleGroup = active === 0 ? 'studio' : active === 1 ? 'volt' : 'loop';
-          ['studio', 'volt', 'loop'].forEach(function (k) { built.groups[k].visible = (k === visibleGroup); });
-          built.parts.forEach(function (p) {
-            if (p.group !== built.groups[visibleGroup]) { p.obj.visible = false; return; }
-            if ((p.obj === built.agentGroup && built.agentFailed) || (p.obj === built.generatorGroup && built.generatorFailed) || (p.obj === built.pylonGroup && built.pylonFailed)) { p.obj.visible = false; return; }
-            var t = (local - p.appear) / Math.max(0.01, 1 - p.appear);
-            var s = ease(t);
-            p.obj.visible = s > 0.02;
-            if (p.obj.isMesh || p.obj.isGroup) { var bs = p.obj.userData.baseScale || 1; p.obj.scale.setScalar(Math.max(0.02, bs * (0.6 + 0.4 * s))); p.obj.position.y = (p.obj.userData.baseY || 0) + (1 - s) * 0.25; }
+          var p = state.cur;
+          built.parts.forEach(function (pt) {
+            var o = pt.obj;
+            var ri = built.robotGroups.indexOf(o);
+            if (ri !== -1 && built.robotFailed[ri]) { o.visible = false; return; }
+            if (o === built.generatorGroup && built.generatorFailed) { o.visible = false; return; }
+            if (o === built.pylonGroup && built.pylonFailed) { o.visible = false; return; }
+            var s = ease((p - pt.appear) / 0.10);
+            o.visible = s > 0.02;
+            if (o.visible && (o.isMesh || o.isGroup)) {
+              var bs = o.userData.baseScale || 1;
+              o.scale.setScalar(Math.max(0.02, bs * (0.6 + 0.4 * s)));
+              o.position.y = (o.userData.baseY || 0) + (1 - s) * 0.25;
+            }
           });
-          // Flow dots only in Volt chapter, near end
-          built.flowDots.forEach(function (dot) { dot.visible = (active === 1 && local > 0.85); });
+          // Flow dots only once the power zone is built
+          built.flowDots.forEach(function (dot) { dot.visible = p > 0.52; });
         }
         function computeScroll() {
           var story = document.getElementById('story');
@@ -439,10 +584,10 @@
         var ticking = false;
         function onScroll() {
           if (ticking) return; ticking = true;
-          requestAnimationFrame(function () { ticking = false; var c = computeScroll(); state.target = c.p; state.active = c.active; state.local = c.local; setActive(c.active); state.targetDist = CAMDIST[c.active]; });
+          requestAnimationFrame(function () { ticking = false; var c = computeScroll(); state.target = c.p; state.active = c.active; state.local = c.local; setActive(c.active); state.targetDist = CAMDIST[c.active]; state.targetCamX = CAMX[c.active]; });
         }
         window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', function () { var s = fitCanvas(canvas); renderer.setSize(s.w, s.h, false); built.camera.aspect = s.w / s.h; built.camera.updateProjectionMatrix(); onScroll(); });
+        window.addEventListener('resize', function () { var s = fitCanvas(); renderer.setSize(s.w, s.h, false); built.camera.aspect = s.w / s.h; built.camera.updateProjectionMatrix(); onScroll(); });
 
         var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
         function pick(cx, cy) {
@@ -469,18 +614,35 @@
           else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (caption) caption.textContent = INFO.darren; }
         });
 
-        if (REDUCED) { state.cur = 1; state.target = 1; state.active = 3; state.local = 1; setActive(3); state.targetDist = CAMDIST[3]; state.dist = CAMDIST[3]; applyAssembly(); }
+        if (REDUCED) { state.cur = 1; state.target = 1; state.active = 3; state.local = 1; setActive(3); state.targetDist = CAMDIST[3]; state.dist = CAMDIST[3]; state.camX = 0; state.targetCamX = 0; applyAssembly(); }
         else { onScroll(); setTimeout(onScroll, 120); }
 
+        var tmpPQ = new THREE.Quaternion();
         function frame(now) {
           requestAnimationFrame(frame);
-          if (!REDUCED) { state.cur += (state.target - state.cur) * 0.12; var p = state.cur; state.active = Math.min(3, Math.floor(p * 4)); state.local = Math.min(1, Math.max(0, (p - state.active * 0.25) / 0.25)); setActive(state.active); state.targetDist = CAMDIST[state.active]; applyAssembly(); }
+          if (!REDUCED) {
+            state.cur += (state.target - state.cur) * 0.12;
+            var p = state.cur;
+            state.active = Math.min(3, Math.floor(p * 4));
+            state.local = Math.min(1, Math.max(0, (p - state.active * 0.25) / 0.25));
+            setActive(state.active);
+            state.targetDist = CAMDIST[state.active]; state.targetCamX = CAMX[state.active];
+            applyAssembly();
+          }
           state.dist += (state.targetDist - state.dist) * 0.08;
+          state.camX += (state.targetCamX - state.camX) * 0.08;
           built.root.rotation.set(state.rotX, state.rotY, 0);
-          built.camera.position.set(0, 1.9, state.dist); built.camera.lookAt(0, 0, 0);
+          built.camera.position.set(state.camX, 2.0, state.dist); built.camera.lookAt(state.camX * 0.6, 0.05, 0);
+          // Labels always face the camera, whatever the orbit.
+          for (var li = 0; li < built.labels.length; li++) {
+            var lb = built.labels[li];
+            if (!lb.visible) continue;
+            lb.parent.getWorldQuaternion(tmpPQ); tmpPQ.invert();
+            lb.quaternion.copy(tmpPQ.multiply(built.camera.quaternion));
+          }
           if (!REDUCED && built.mixers.length) { var dt = Math.min(0.05, (now - lastT) / 1000); built.mixers.forEach(function (mx) { mx.update(dt); }); }
           lastT = now;
-          if (built.flowDots.length && state.active === 1 && state.local > 0.85) {
+          if (built.flowDots.length && state.cur > 0.52) {
             var t = (((now - start) / 1000) * 0.25) % 1;
             built.flowDots.forEach(function (dot, di) {
               var tt = (t + di / built.flowDots.length) % 1;
