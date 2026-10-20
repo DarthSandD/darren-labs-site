@@ -199,7 +199,10 @@
       built.robotGroups.forEach(function (group, i) {
         loader.load('models/robot-expressive.glb', function (gltf) {
           var obj = gltf.scene || gltf.scenes[0];
-          placeModel(THREE, group, obj, 1.02, 0.62, 'agent', built.allMeshes);
+          /* Height governs: the raw bbox is dominated by the arm span
+             (6.6 wide vs 4.8 tall), so a tight width cap shrinks the
+             robot to 0.45 tall and the desk hides it completely. */
+          placeModel(THREE, group, obj, 1.08, 2.4, 'agent', built.allMeshes);
           if (gltf.animations && gltf.animations.length) {
             var mx = new THREE.AnimationMixer(obj);
             var want = robotPref[i] || 'Idle';
@@ -328,12 +331,6 @@
     function sph(r, mat, x, y, z, g, ap, id) { return mesh(new THREE.SphereGeometry(r, 24, 16), mat, x, y, z, g, ap, id); }
     function torus(r, t, mat, x, y, z, g, ap, id) { return mesh(new THREE.TorusGeometry(r, t, 12, 40), mat, x, y, z, g, ap, id); }
     function cone(r, h, mat, x, y, z, g, ap, id) { return mesh(new THREE.ConeGeometry(r, h, 20), mat, x, y, z, g, ap, id); }
-    function edge3(a, b, hex, opacity, g, ap) {
-      var geo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a[0], a[1], a[2]), new THREE.Vector3(b[0], b[1], b[2])]);
-      var l = new THREE.Line(geo, new THREE.LineBasicMaterial({ color: hex, transparent: true, opacity: opacity }));
-      g.add(l); parts.push({ obj: l, group: g, appear: ap }); return l;
-    }
-
     /* Always-visible plate label: grotesque name + mono descriptor on a dark
        plate with an amber hairline — the site's instrument style, in 3D.
        Billboarded toward the camera every frame (see init). */
@@ -414,7 +411,7 @@
         sph(0.05, M.amber, dx + 0.31, GY + 1.07, 0.2, SC, ap, 'agent');
       }
       var rg = new THREE.Group();
-      rg.position.set(dx, GY, -0.28);
+      rg.position.set(dx + 0.3, GY, -0.28);
       rg.rotation.y = (i - 1) * 0.18;
       rg.userData.itemId = 'agent'; rg.userData.appear = ap; rg.userData.baseY = GY; rg.userData.baseScale = 1;
       SC.add(rg); robotGroups.push(rg);
@@ -446,18 +443,21 @@
     parts.push({ obj: pylonGroup, group: SC, appear: 0.30 });
     // Transformer — tank, cooling fins, bushings, conservator, nameplate
     var TX = 1.02, TZ = -0.5, TAP = 0.34;
-    box(0.6, 0.78, 0.48, M.steel, TX, GY + 0.39, TZ, SC, TAP, 'transformer');
-    box(0.66, 0.06, 0.54, M.steelDark, TX, GY + 0.81, TZ, SC, TAP, 'transformer');
-    for (var fi = 0; fi < 5; fi++) box(0.04, 0.58, 0.36, M.steelDark, TX - 0.22 + fi * 0.11, GY + 0.39, TZ + 0.27, SC, TAP, 'transformer');
-    [0.87, 1.02, 1.17].forEach(function (bx) {
-      cyl(0.028, 0.045, 0.24, M.ceramic, bx, GY + 0.96, TZ + 0.08, SC, TAP, 'transformer');
-      sph(0.04, M.gold, bx, GY + 1.1, TZ + 0.08, SC, TAP, 'transformer');
+    box(0.78, 0.95, 0.6, M.steel, TX, GY + 0.475, TZ, SC, TAP, 'transformer');
+    box(0.84, 0.07, 0.66, M.steelDark, TX, GY + 0.985, TZ, SC, TAP, 'transformer');
+    for (var fi = 0; fi < 5; fi++) box(0.05, 0.72, 0.06, M.steelDark, TX - 0.26 + fi * 0.13, GY + 0.475, TZ + 0.33, SC, TAP, 'transformer');
+    [-1, 1].forEach(function (sd) {
+      for (var si = 0; si < 3; si++) box(0.05, 0.72, 0.14, M.steelDark, TX + sd * 0.42, GY + 0.475, TZ - 0.19 + si * 0.19, SC, TAP, 'transformer');
     });
-    var cons = cyl(0.09, 0.09, 0.42, M.steel, TX, GY + 1.14, TZ - 0.12, SC, TAP, 'transformer'); cons.rotation.z = Math.PI / 2;
-    box(0.05, 0.22, 0.05, M.steelDark, TX - 0.14, GY + 0.95, TZ - 0.12, SC, TAP, 'transformer');
-    box(0.05, 0.22, 0.05, M.steelDark, TX + 0.14, GY + 0.95, TZ - 0.12, SC, TAP, 'transformer');
-    box(0.015, 0.15, 0.22, M.gold, TX + 0.31, GY + 0.45, TZ, SC, TAP, 'transformer');
-    addLabel(SC, 'Transformer', null, { h: 0.2, fs: 38 }, TX, 0.58, TZ, 0.35);
+    [0.82, 1.02, 1.22].forEach(function (bx) {
+      cyl(0.032, 0.052, 0.3, M.ceramic, bx, GY + 1.17, TZ + 0.08, SC, TAP, 'transformer');
+      sph(0.045, M.gold, bx, GY + 1.36, TZ + 0.08, SC, TAP, 'transformer');
+    });
+    var cons = cyl(0.12, 0.12, 0.55, M.steel, TX, GY + 1.38, TZ - 0.14, SC, TAP, 'transformer'); cons.rotation.z = Math.PI / 2;
+    box(0.05, 0.34, 0.05, M.steelDark, TX - 0.17, GY + 1.16, TZ - 0.14, SC, TAP, 'transformer');
+    box(0.05, 0.34, 0.05, M.steelDark, TX + 0.17, GY + 1.16, TZ - 0.14, SC, TAP, 'transformer');
+    box(0.02, 0.18, 0.26, M.gold, TX + 0.4, GY + 0.5, TZ, SC, TAP, 'transformer');
+    addLabel(SC, 'Transformer', null, { h: 0.2, fs: 38 }, TX, 0.75, TZ, 0.35);
     // Generator — real downloaded GLB (Poly Haven, CC0, full PBR).
     var generatorGroup = new THREE.Group();
     generatorGroup.position.set(0.72, GY, 0.72); generatorGroup.rotation.y = -0.3;
@@ -522,7 +522,7 @@
     });
     // Blueprint board, tilted toward the viewer like a drawing board
     var panelGroup = new THREE.Group();
-    panelGroup.position.set(ZX3, GY + 1.15, -0.3); panelGroup.rotation.x = -0.35;
+    panelGroup.position.set(ZX3, GY + 1.15, -0.3); panelGroup.rotation.x = -0.12;
     SC.add(panelGroup);
     box(2.15, 1.4, 0.03, M.ink, 0, 0, -0.03, panelGroup, 0.57, 'patterns');
     box(2.05, 1.3, 0.05, M.paper, 0, 0, 0, panelGroup, 0.57, 'patterns');
@@ -531,13 +531,17 @@
       { x: -0.78, y: 0.33 }, { x: -0.26, y: 0.33 }, { x: 0.26, y: 0.33 }, { x: 0.78, y: 0.33 }, { x: 0, y: -0.36 }
     ];
     nodes.forEach(function (n, ni) {
-      var nd = cyl(0.085, 0.085, 0.05, M.teal, n.x, n.y, 0.05, panelGroup, 0.60 + ni * 0.015, 'patterns');
+      var nd = cyl(0.115, 0.115, 0.05, M.teal, n.x, n.y, 0.05, panelGroup, 0.60 + ni * 0.015, 'patterns');
       nd.rotation.x = Math.PI / 2;
-      sph(0.032, M.gold, n.x, n.y, 0.09, panelGroup, 0.60 + ni * 0.015, 'patterns');
+      sph(0.045, M.gold, n.x, n.y, 0.1, panelGroup, 0.60 + ni * 0.015, 'patterns');
     });
     [[0, 1], [1, 2], [2, 3], [1, 4], [2, 4]].forEach(function (pr) {
       var a = nodes[pr[0]], b = nodes[pr[1]];
-      edge3([a.x, a.y, 0.04], [b.x, b.y, 0.04], 0xFFB224, 0.85, panelGroup, 0.64);
+      /* Solid amber tubes instead of 1px lines: lines wash out at the
+         default camera distance, tubes keep the diagram legible. */
+      var len = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+      var ln = cyl(0.016, 0.016, len, M.amber, (a.x + b.x) / 2, (a.y + b.y) / 2, 0.045, panelGroup, 0.64, 'patterns');
+      ln.rotation.z = Math.atan2(b.y - a.y, b.x - a.x) - Math.PI / 2;
     });
     box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
     box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
