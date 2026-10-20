@@ -19,22 +19,22 @@
   var canvas = document.getElementById('story3d');
   var caption = document.getElementById('story-caption');
   var chapterEls = Array.prototype.slice.call(document.querySelectorAll('.story-chapter'));
-  var CAPTION_DEFAULT = 'Three zones \u2014 AI Studio \u00B7 VoltWorks Power \u00B7 AI Architecture Patterns. Drag to orbit \u00B7 Scroll builds the scene \u00B7 Click an item for one line.';
+  var CAPTION_DEFAULT = 'Three zones: AI Studio \u00B7 VoltWorks Power \u00B7 AI Architecture Patterns. Drag to orbit \u00B7 Scroll builds the scene \u00B7 Select an item for a short description.';
   var INFO = {
-    darren: 'Darren \u2014 sets direction, scope, and what \u201Cgood\u201D looks like.',
-    agent: 'Agent \u2014 real downloaded 3D model (CC0, Quaternius). Works at a desk in the AI Studio, building from the brief.',
-    voltworks: 'VoltWorks Power \u2014 power-system CAD that removes repetitive drafting.',
-    patterns: 'AI Architecture Patterns \u2014 the node diagram on the board: components, and how they connect.',
-    pylon: 'Pylon \u2014 real lattice transmission tower model (BSD-3-Clause). Carries the overhead line at safe height.',
-    generator: 'Generator \u2014 real downloaded 3D model (CC0, Poly Haven). Power equipment, shown at true scale.',
-    transformer: 'Transformer \u2014 steps voltage between the overhead line and the switchgear.',
-    switchgear: 'Switchgear \u2014 breaker + protection. Green = closed, red = open.',
-    bus: 'Bus line \u2014 the shared conductor everything connects to.',
-    scale: 'Scale \u2014 figure 1.8 m, bar 1 m. 1 unit = 1 m.',
-    brief: '01 Brief \u2014 Darren sets direction. No building without it.',
-    generate: '02 Generate \u2014 agents build the first working version.',
-    verify: '03 Verify \u2014 checked against explicit criteria.',
-    fix: '04 Fix \u2014 fix, then re-verify until it meets the bar.'
+    darren: 'Darren: sets direction, scope, and the definition of \u201Cgood\u201D.',
+    agent: 'Agent: 3D model (CC0, Quaternius), working at a desk in the AI Studio, building from the brief.',
+    voltworks: 'VoltWorks Power: power-system CAD that removes repetitive drafting.',
+    patterns: 'AI Architecture Patterns: the node diagram on the board \u2014 components and how they connect.',
+    pylon: 'Pylon: lattice transmission tower model (BSD-3-Clause). Carries the overhead line at a safe height.',
+    generator: 'Generator: 3D model (CC0, Poly Haven). Power equipment, shown at true scale.',
+    transformer: 'Transformer: steps voltage between the overhead line and the switchgear.',
+    switchgear: 'Switchgear: breaker and protection. Green = closed, red = open.',
+    bus: 'Bus line: the shared conductor everything connects to.',
+    scale: 'Scale: figure 1.8 m, bar 1 m. 1 unit = 1 m.',
+    brief: '01 Brief: Darren sets direction. Nothing is built without it.',
+    generate: '02 Generate: agents build the first working version.',
+    verify: '03 Verify: checked against explicit criteria.',
+    fix: '04 Fix: correct and re-verify until it meets the acceptance criteria.'
   };
 
   function fitCanvas() {
@@ -98,7 +98,7 @@
         }
       });
       ctx.fillStyle = '#5c5c55'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillText(ch === 3 ? 'Verify loop \u2014 brief, generate, verify, fix.' : 'Static diagram \u2014 the three zones of the studio.', W / 2, H - 14);
+      ctx.fillText(ch === 3 ? 'Verify loop: brief, generate, verify, fix.' : 'Static diagram: the three zones of the studio.', W / 2, H - 14);
       if (caption) caption.textContent = 'Static diagram shown.';
     } catch (e) { /* fallback must never break site */ }
   }
@@ -181,17 +181,17 @@
     function failRobot(i) {
       built.robotFailed[i] = true;
       if (built.robotGroups[i]) built.robotGroups[i].visible = false;
-      if (caption) caption.textContent = 'A 3D agent model could not load \u2014 the rest of the site still works. Refresh to retry.';
+      if (caption) caption.textContent = 'The 3D agent model could not load. The rest of the site still works; refresh to retry.';
     }
     function failGenerator() {
       built.generatorFailed = true;
       if (built.generatorGroup) built.generatorGroup.visible = false;
-      if (caption) caption.textContent = '3D generator model could not load \u2014 the rest of the site still works. Refresh to retry.';
+      if (caption) caption.textContent = 'The 3D generator model could not load. The rest of the site still works; refresh to retry.';
     }
     function failPylon() {
       built.pylonFailed = true;
       if (built.pylonGroup) built.pylonGroup.visible = false;
-      if (caption) caption.textContent = '3D pylon model could not load \u2014 the rest of the site still works. Refresh to retry.';
+      if (caption) caption.textContent = 'The 3D pylon model could not load. The rest of the site still works; refresh to retry.';
     }
     loadGLTF().then(function (Loader) {
       var loader = new Loader();
