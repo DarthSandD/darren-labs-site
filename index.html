@@ -154,8 +154,31 @@
   <section class="section" id="contact">
     <div class="wrap narrow">
       <p class="section-label">Contact</p>
-      <h2>Start a conversation.</h2>
-      <p>LinkedIn: Tri Adi S &middot; Company page: Darren Labs (coming soon).</p>
+      <h2>Send a project query.</h2>
+      <p class="section-lead">Tell us what you want built: the workflow it replaces, the volume it should handle, and what a good result looks like. We read every query.</p>
+      <form class="contact-form" id="contact-form">
+        <input type="hidden" name="access_key" value="2a3ce100-4433-4f2b-afb0-b15483befc9f" id="web3forms-key">
+        <input type="hidden" name="subject" value="New project query from the Darren Labs website">
+        <input type="hidden" name="from_name" value="Darren Labs website">
+        <input type="checkbox" name="botcheck" class="contact-form__honey" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="contact-form__row">
+          <div class="contact-form__field">
+            <label class="contact-form__label" for="form-name">Name</label>
+            <input class="contact-form__input" type="text" id="form-name" name="name" required placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="contact-form__field">
+            <label class="contact-form__label" for="form-email">Email</label>
+            <input class="contact-form__input" type="email" id="form-email" name="email" required placeholder="you@company.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="contact-form__field">
+          <label class="contact-form__label" for="form-message">Project query</label>
+          <textarea class="contact-form__textarea" id="form-message" name="message" rows="5" required placeholder="Describe the system you want built: current tools, where it breaks, what done looks like."></textarea>
+        </div>
+        <button type="submit" class="btn btn-solid" id="form-submit">Send query</button>
+        <p class="contact-form__feedback" id="form-feedback" role="status" aria-live="polite"></p>
+      </form>
+      <p class="contact-alt">Prefer LinkedIn: Tri Adi S &middot; Company page: Darren Labs (coming soon).</p>
     </div>
   </section>
 </main>

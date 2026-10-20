@@ -162,3 +162,23 @@ h2{margin:0 0 16px;font-family:var(--font-display);font-weight:700;font-size:cla
   .story-chapter{opacity:1;min-height:auto}
   *,*::before,*::after{transition:none!important}
 }
+
+/* Contact form - same instrument-panel tokens: dark surface, hairline
+   borders, mono labels, one amber signal. No gradients. */
+.contact-form{margin-top:40px;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--radius-card);padding:32px}
+.contact-form__row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.contact-form__field{margin:0 0 20px}
+.contact-form__label{display:block;margin:0 0 8px;font-family:var(--font-mono);font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.contact-form__input,.contact-form__textarea{width:100%;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);color:var(--text);font:inherit;font-size:16px;padding:12px 14px;transition:border-color .2s ease}
+.contact-form__input::placeholder,.contact-form__textarea::placeholder{color:var(--faint)}
+.contact-form__input:focus,.contact-form__textarea:focus{outline:none;border-color:var(--accent)}
+.contact-form__textarea{min-height:140px;resize:vertical}
+.contact-form__honey{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.contact-form__feedback{margin:16px 0 0;min-height:24px;font-size:15px}
+.contact-form__feedback--success{color:var(--ok)}
+.contact-form__feedback--error{color:#E06C5B}
+.contact-alt{margin-top:24px;color:var(--muted);font-size:14px;font-family:var(--font-mono)}
+@media (max-width:640px){
+  .contact-form{padding:24px 20px}
+  .contact-form__row{grid-template-columns:1fr}
+}

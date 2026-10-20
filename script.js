@@ -225,6 +225,52 @@
     });
   }
 
+  /* Per-chapter lazy models (all CC0, Poly Haven: see ASSETS.md). The three
+     eager models above are the initial payload (about 4 MB); these five load
+     once, the first time their chapter (or any later chapter) activates:
+       chapter 0, Studio:    metal office desk + classic laptop
+       chapter 1, VoltWorks: power box + drill
+       chapter 2, Patterns:  circuit board
+     Loading is cumulative, matching the scene rule that a built zone stays
+     built. A failed load marks only that model failed; applyAssembly hides
+     its group and the rest of the scene keeps working. */
+  function loadChapterModels(THREE, built, ch) {
+    var want = [];
+    if (ch >= 0) want.push('desk', 'laptop');
+    if (ch >= 1) want.push('powerbox', 'drill');
+    if (ch >= 2) want.push('circuit');
+    var pending = want.filter(function (k) { return !built.lazyState[k]; });
+    if (!pending.length) return;
+    pending.forEach(function (k) { built.lazyState[k] = 'loading'; });
+    var SPECS = {
+      desk: { file: 'models/metal-office-desk.glb', group: built.deskGroup, targetH: 0.79, targetW: 2.0, itemId: 'desk' },
+      laptop: { file: 'models/classic-laptop.glb', group: built.laptopGroup, targetH: 0.28, targetW: 0.40, itemId: 'laptop' },
+      powerbox: { file: 'models/power-box.glb', group: built.powerBoxGroup, targetH: 0.50, targetW: 0.55, itemId: 'powerbox' },
+      drill: { file: 'models/drill.glb', group: built.drillGroup, targetH: 0.185, targetW: 0.19, itemId: 'drill' },
+      circuit: { file: 'models/circuit-board.glb', group: built.circuitGroup, targetH: 0.08, targetW: 0.41, itemId: 'circuit' }
+    };
+    loadGLTF().then(function (Loader) {
+      var loader = new Loader();
+      pending.forEach(function (k) {
+        var spec = SPECS[k];
+        loader.load(spec.file, function (gltf) {
+          var obj = gltf.scene || gltf.scenes[0];
+          var rawH = 0;
+          if (k === 'desk') {
+            var rb = new THREE.Box3().setFromObject(obj); var rs = new THREE.Vector3(); rb.getSize(rs); rawH = rs.y;
+          }
+          placeModel(THREE, spec.group, obj, spec.targetH, spec.targetW, spec.itemId, built.allMeshes);
+          built.lazyState[k] = 'loaded';
+          /* Sit the laptop exactly on the fitted desktop, whatever scale
+             placeModel chose for the desk. */
+          if (k === 'desk' && rawH > 0) built.laptopGroup.position.y = rawH * obj.scale.x;
+        }, undefined, function () { built.lazyState[k] = 'failed'; built.lazyFailed[k] = true; });
+      });
+    }).catch(function () {
+      pending.forEach(function (k) { built.lazyState[k] = 'failed'; built.lazyFailed[k] = true; });
+    });
+  }
+
   function ease(t) { t = Math.max(0, Math.min(1, t)); return t * t * (3 - 2 * t); }
 
   /* ONE scene, THREE labelled zones on a single ground plane:
@@ -374,6 +420,21 @@
       SC.add(rg); robotGroups.push(rg);
       parts.push({ obj: rg, group: SC, appear: ap });
     });
+    /* Real workstation (CC0, Poly Haven): a metal office desk at the front
+       of the studio plate with a laptop on top. Both GLBs load lazily with
+       chapter 0 (see loadChapterModels); until then these groups stay empty. */
+    var deskGroup = new THREE.Group();
+    deskGroup.position.set(-2.98, GY, 1.10);
+    deskGroup.userData.itemId = 'desk'; deskGroup.userData.appear = 0.06; deskGroup.userData.baseY = GY; deskGroup.userData.baseScale = 1;
+    deskGroup.userData.lazyId = 'desk';
+    SC.add(deskGroup);
+    parts.push({ obj: deskGroup, group: SC, appear: 0.06 });
+    var laptopGroup = new THREE.Group();
+    /* Child of the desk: it rides the desk's assembly motion. Position is
+       relative to the desk base (plate top). y is corrected to the fitted
+       desktop height when the desk GLB loads. */
+    laptopGroup.position.set(0.1, 0.788, 0.05);
+    deskGroup.add(laptopGroup);
 
     /* ============ ZONE 2 — VOLTWORKS POWER (centre) ============ */
     addLabel(SC, 'VoltWorks Power', 'POWER SYSTEMS', { h: 0.52 }, 0, 2.32, -0.6, 0.28);
@@ -413,6 +474,22 @@
       box(0.26, 0.07, 0.02, M.steel, cx, GY + 0.3, 1.14, SC, 0.41, 'switchgear');
     });
     addLabel(SC, 'Switchgear', null, { h: 0.2, fs: 38 }, -0.63, 0.5, 0.85, 0.42);
+    /* Power box (CC0, Poly Haven): an electrical cabinet with its door open,
+       standing at the back of the power plate beside the transformer. Drill
+       (CC0, Poly Haven) rests on top of the left switchgear cubicle. Both
+       load lazily with chapter 1 (see loadChapterModels). */
+    var powerBoxGroup = new THREE.Group();
+    powerBoxGroup.position.set(1.12, GY, -1.05); powerBoxGroup.rotation.y = 0.35;
+    powerBoxGroup.userData.itemId = 'powerbox'; powerBoxGroup.userData.appear = 0.40; powerBoxGroup.userData.baseY = GY; powerBoxGroup.userData.baseScale = 1;
+    powerBoxGroup.userData.lazyId = 'powerbox';
+    SC.add(powerBoxGroup);
+    parts.push({ obj: powerBoxGroup, group: SC, appear: 0.40 });
+    var drillGroup = new THREE.Group();
+    drillGroup.position.set(-0.92, GY + 1.15, 0.85); drillGroup.rotation.y = 0.5;
+    drillGroup.userData.itemId = 'drill'; drillGroup.userData.appear = 0.41; drillGroup.userData.baseY = GY + 1.15; drillGroup.userData.baseScale = 1;
+    drillGroup.userData.lazyId = 'drill';
+    SC.add(drillGroup);
+    parts.push({ obj: drillGroup, group: SC, appear: 0.41 });
     // Bus line — pylon → transformer → switchgear, with flow dots
     var busPts = [[-0.78, 1.42, -0.55], [1.02, 0.28, -0.42], [-0.63, 0.33, 0.85]];
     function busSeg(a, b) {
@@ -464,6 +541,15 @@
     });
     box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
     box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
+    /* Circuit board (CC0, Poly Haven): a physical PCB sample lying on the
+       drawing table beside the diagram board. Loads lazily with chapter 2
+       (see loadChapterModels). */
+    var circuitGroup = new THREE.Group();
+    circuitGroup.position.set(2.62, GY + 0.58, 0.28); circuitGroup.rotation.y = 0.3;
+    circuitGroup.userData.itemId = 'circuit'; circuitGroup.userData.appear = 0.58; circuitGroup.userData.baseY = GY + 0.58; circuitGroup.userData.baseScale = 1;
+    circuitGroup.userData.lazyId = 'circuit';
+    SC.add(circuitGroup);
+    parts.push({ obj: circuitGroup, group: SC, appear: 0.58 });
 
     /* ============ VERIFY LOOP — a ring around all three zones ============ */
     var ring = torus(5.2, 0.04, M.amber, 0, -0.95, 0, SC, 0.78, null); ring.rotation.x = Math.PI / 2;
@@ -504,6 +590,9 @@
       flowDots: flowDots, busPts: busPts,
       robotGroups: robotGroups, robotFailed: [false, false, false],
       generatorGroup: generatorGroup, pylonGroup: pylonGroup,
+      deskGroup: deskGroup, laptopGroup: laptopGroup,
+      powerBoxGroup: powerBoxGroup, drillGroup: drillGroup, circuitGroup: circuitGroup,
+      lazyState: {}, lazyFailed: {},
       mixers: [], generatorFailed: false, pylonFailed: false
     };
   }
@@ -547,6 +636,7 @@
 
         function setActive(ch) {
           state.active = ch;
+          loadChapterModels(THREE, built, ch);
           chapterEls.forEach(function (el) { el.classList.toggle('active', parseInt(el.getAttribute('data-chapter'), 10) === ch); });
         }
         /* Scroll assembles zones left → right along global progress p.
@@ -559,6 +649,7 @@
             if (ri !== -1 && built.robotFailed[ri]) { o.visible = false; return; }
             if (o === built.generatorGroup && built.generatorFailed) { o.visible = false; return; }
             if (o === built.pylonGroup && built.pylonFailed) { o.visible = false; return; }
+            if (o.userData.lazyId && built.lazyFailed[o.userData.lazyId]) { o.visible = false; return; }
             var s = ease((p - pt.appear) / 0.10);
             o.visible = s > 0.02;
             if (o.visible && (o.isMesh || o.isGroup)) {
@@ -666,4 +757,73 @@
     setTimeout(function () { if (canvas.dataset.init !== '1') init(); }, 300);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initAll); else initAll();
+})();
+
+/* Contact form: same pattern as the portfolio site. Fetch POST as JSON to
+   Web3Forms with the hidden key field, inline success/error feedback, no
+   page reload. The 3D scene code above is untouched. */
+(function () {
+  'use strict';
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var keyInput = document.getElementById('web3forms-key');
+  var submitBtn = document.getElementById('form-submit');
+  var feedback = document.getElementById('form-feedback');
+  if (!keyInput || !submitBtn || !feedback) return;
+
+  function setFeedback(msg, kind) {
+    feedback.textContent = msg;
+    feedback.className = 'contact-form__feedback' + (kind ? ' contact-form__feedback--' + kind : '');
+  }
+
+  function sendSuccess() {
+    setFeedback('Query sent. Thank you, we will take a look.', 'success');
+    form.reset();
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    /* Honeypot: humans never see or check this box. If it is checked,
+       show the success state and send nothing. */
+    var honey = form.querySelector('input[name="botcheck"]');
+    if (honey && honey.checked) { sendSuccess(); return; }
+
+    var key = keyInput.value.trim();
+    if (!key) {
+      setFeedback('This form is not configured yet. Please reach out via LinkedIn instead.', 'error');
+      return;
+    }
+
+    var originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    setFeedback('', '');
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: key,
+        apikey: key,
+        subject: form.subject.value,
+        from_name: form.from_name.value,
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      })
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.success) { sendSuccess(); }
+        else { setFeedback((data && data.message) || 'Something went wrong. Please try again.', 'error'); }
+      })
+      .catch(function () {
+        setFeedback('Network error. Check your connection and try again.', 'error');
+      })
+      .then(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      });
+  });
 })();

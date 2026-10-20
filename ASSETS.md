@@ -200,3 +200,100 @@ requires attribution — see its entry).
   not a physical object — per brief).
 - Reduced-motion: the robot's idle animation does not play; the scene is static.
 - 2D fallback: if WebGL/Three.js fails, the canvas draws a clean 2D diagram.
+
+## Added 2026-10-20: per-chapter lazy-loaded models (CC0, Poly Haven)
+
+Five more real CC0 models, integrated into the existing three-zone scene. They
+load lazily per scroll chapter (desk + laptop with the Studio chapter,
+power box + drill with the VoltWorks chapter, circuit board with the
+Patterns chapter), so the initial payload stays at the three eager models
+above (4,039,748 bytes). Full scene (all 8 models): 15,188,856 bytes,
+static-hosting friendly.
+
+Provenance baseline for all five (copied from the research report
+`darrenlabs-upgrade/research-models/REPORT.md`):
+- **License: CC0 1.0 Universal** - every asset on Poly Haven is CC0
+  (official: https://polyhaven.com/license).
+- Source pages: `https://polyhaven.com/a/<id>` - download manifest:
+  `https://api.polyhaven.com/files/<id>` - per-asset meta:
+  `https://api.polyhaven.com/info/<id>`.
+- Repack method (no quality loss): downloaded the model's official 1k gltf
+  + .bin + JPEG PBR maps (Diffuse + nor_gl + ARM pack) from the
+  `gltf > 1k > gltf > include` manifest, then embedded bin + textures into a
+  single GLB (geometry, materials, textures untouched; only container changed).
+- Verification: standalone checks on every file (glTF magic, JSON parses,
+  meshes > 0, zero external buffer/image URIs, no Draco). All PASS.
+
+### 4. Metal Office Desk (Studio zone - real workstation desk)
+- **File:** `models/metal-office-desk.glb` (1,601,008 bytes)
+- **Model:** Metal Office Desk
+- **Author:** Ulan Cabanilla
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/metal_office_desk
+- **Files manifest:** https://api.polyhaven.com/files/metal_office_desk
+- **Meshes:** 9 - **Images (embedded):** 3
+- **Used as:** the desk of a real workstation at the front of the AI Studio
+  zone, with the classic laptop on top of it. Fitted to natural size
+  (2.00 x 0.79 x 0.95 m).
+
+### 5. Classic Laptop (Studio zone - on the desk)
+- **File:** `models/classic-laptop.glb` (2,181,136 bytes)
+- **Model:** Classic Laptop
+- **Author:** Arrangemonk
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/classic_laptop
+- **Files manifest:** https://api.polyhaven.com/files/classic_laptop
+- **Meshes:** 3 - **Images (embedded):** 3
+- **Used as:** the open laptop on the workstation desk (fitted to
+  0.34 x 0.28 x 0.25 m). The model's screen faces +z (verified from node
+  transforms: the screen node sits at the back edge, z = -0.213), so it faces
+  the viewer with no rotation needed.
+
+### 6. Power Box 01 (VoltWorks zone - electrical cabinet)
+- **File:** `models/power-box.glb` (2,723,964 bytes)
+- **Model:** Power Box 01 (wall electrical cabinet)
+- **Author:** Rico Cilliers (model/texture), Yann Kervran (rigging)
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/power_box_01
+- **Files manifest:** https://api.polyhaven.com/files/power_box_01
+- **Meshes:** 2 - **Images (embedded):** 3
+- **Used as:** an open electrical cabinet standing at the back of the
+  VoltWorks plate, beside the procedural transformer. It is the closest
+  CC0 match to the requested electrical cabinet / switchgear. The model's
+  door ships open (node rotation -109 degrees about y), revealing the
+  interior, which is kept as authored.
+
+### 7. Drill 01 (VoltWorks zone - workbench prop)
+- **File:** `models/drill.glb` (500,116 bytes)
+- **Model:** Drill 01
+- **Author:** Fernando Quinn
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/Drill_01
+- **Files manifest:** https://api.polyhaven.com/files/Drill_01
+- **Meshes:** 1 - **Images (embedded):** 3
+- **Used as:** a small workbench prop resting on top of the left
+  procedural switchgear cubicle (fitted to natural 0.18 x 0.19 x 0.05 m,
+  authored standing upright).
+
+### 8. Circuit Board (Patterns zone - physical tech prop)
+- **File:** `models/circuit-board.glb` (4,142,884 bytes)
+- **Model:** Circuit Board
+- **Author:** Benny Weimer
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/circuit_board
+- **Files manifest:** https://api.polyhaven.com/files/circuit_board
+- **Meshes:** 1 - **Images (embedded):** 4 (one uses alpha cutout, handled by GLTFLoader)
+- **Used as:** a physical PCB sample lying on the drawing table beside the
+  node diagram board (fitted to natural 0.40 x 0.08 x 0.40 m, components
+  face up as authored).
+
+## Loading + fallback (added 2026-10-20)
+- The 5 new models do NOT load at page load. They load once, the first time
+  their chapter (or any later chapter) becomes active; the hook is in
+  `setActive(ch)` in script.js. Loading is cumulative: once a zone's models
+  are in, they stay.
+- Reduced-motion: the scene jumps straight to chapter 3, which triggers all
+  5 lazy loads immediately (correct: the whole scene is shown at once).
+- A per-model failure hides only that model's group (via
+  `built.lazyFailed` in `applyAssembly`); the scene keeps working. No
+  placeholder blocks are ever shown.
