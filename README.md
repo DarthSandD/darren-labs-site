@@ -1,5 +1,9 @@
 # Darren Labs
 
+<p align="center">
+  <img src="docs/assets/darren-labs-banner.png" alt="Darren Labs banner">
+</p>
+
 **Darren Labs** is an agentic AI studio. We design and ship agentic AI systems that build real software.
 
 Live site: **https://darthsandd.github.io/darren-labs-site/**
