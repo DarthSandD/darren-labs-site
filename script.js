@@ -51,7 +51,7 @@
   }
 
   /* 2D fallback — the same three zones, drawn flat. Used when WebGL or
-     Three.js is unavailable. The active chapter's zone gets the brass frame. */
+     Three.js is unavailable. The active chapter's zone gets the amber frame. */
   function drawFallback(ch) {
     try {
       var ctx = canvas.getContext('2d');
@@ -59,8 +59,8 @@
       var s = fitCanvas(), dpr = s.dpr, W = s.w, H = s.h;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#f1efe8'; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#e3e1d8'; ctx.fillRect(0, H - 34, W, 34);
+      ctx.fillStyle = '#0B0D10'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#15181C'; ctx.fillRect(0, H - 34, W, 34);
       var zones = [
         { name: 'AI Studio', sub: 'AGENTS AT WORK' },
         { name: 'VoltWorks Power', sub: 'POWER SYSTEMS' },
@@ -70,13 +70,13 @@
       zones.forEach(function (z, i) {
         var x0 = pad + i * (zw + gap), cx = x0 + zw / 2;
         var active = (ch === 3) || (ch === i);
-        ctx.strokeStyle = active ? '#9a7b2d' : '#c9c5b8'; ctx.lineWidth = active ? 2 : 1;
+        ctx.strokeStyle = active ? '#FFB224' : '#39414B'; ctx.lineWidth = active ? 2 : 1;
         ctx.strokeRect(x0, zt, zw, zb - zt);
-        ctx.fillStyle = '#141412'; ctx.font = '600 13px Georgia, serif'; ctx.textAlign = 'center';
+        ctx.fillStyle = '#F2EFE9'; ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; ctx.textAlign = 'center';
         ctx.fillText(z.name, cx, zt + 22, zw - 8);
-        ctx.fillStyle = '#6e541a'; ctx.font = '700 8.5px ui-monospace, Menlo, monospace';
+        ctx.fillStyle = '#FFB224'; ctx.font = '700 8.5px ui-monospace, Menlo, monospace';
         ctx.fillText(z.sub, cx, zt + 38, zw - 8);
-        ctx.strokeStyle = '#141412'; ctx.fillStyle = '#141412'; ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#F2EFE9'; ctx.fillStyle = '#F2EFE9'; ctx.lineWidth = 1.5;
         if (i === 0) {
           for (var d = 0; d < 3; d++) {
             var dx = x0 + zw * (0.22 + d * 0.28), dy = zb - 44;
@@ -87,17 +87,17 @@
           var px = x0 + zw * 0.3, py = zb - 16;
           ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + 10, py - 58); ctx.lineTo(px + 20, py); ctx.stroke();
           ctx.beginPath(); ctx.moveTo(px - 4, py - 40); ctx.lineTo(px + 24, py - 40); ctx.stroke();
-          ctx.fillStyle = '#9a7b2d'; ctx.fillRect(x0 + zw * 0.55, zb - 34, zw * 0.32, 18);
-          ctx.fillStyle = '#141412'; ctx.font = '9px system-ui, sans-serif'; ctx.fillText('Generator', x0 + zw * 0.71, zb - 40);
+          ctx.fillStyle = '#FFB224'; ctx.fillRect(x0 + zw * 0.55, zb - 34, zw * 0.32, 18);
+          ctx.fillStyle = '#0B0D10'; ctx.font = '9px system-ui, sans-serif'; ctx.fillText('Generator', x0 + zw * 0.71, zb - 40);
         } else {
           var nd = [[0.22, 0.62], [0.5, 0.5], [0.78, 0.62], [0.5, 0.82]];
-          ctx.strokeStyle = '#9a7b2d';
+          ctx.strokeStyle = '#FFB224';
           for (var e = 0; e < 3; e++) { ctx.beginPath(); ctx.moveTo(x0 + zw * nd[e][0], zt + (zb - zt) * nd[e][1]); ctx.lineTo(x0 + zw * nd[e + 1][0], zt + (zb - zt) * nd[e + 1][1]); ctx.stroke(); }
           ctx.beginPath(); ctx.moveTo(x0 + zw * 0.5, zt + (zb - zt) * 0.5); ctx.lineTo(x0 + zw * 0.5, zt + (zb - zt) * 0.82); ctx.stroke();
           nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#0f6a5e'; ctx.fill(); });
         }
       });
-      ctx.fillStyle = '#5c5c55'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#A8A59C'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(ch === 3 ? 'Verify loop: brief, generate, verify, fix.' : 'Static diagram: the three zones of the studio.', W / 2, H - 14);
       if (caption) caption.textContent = 'Static diagram shown.';
     } catch (e) { /* fallback must never break site */ }
@@ -259,8 +259,8 @@
       teal: std(0x0f6a5e, { rough: 0.42, metal: 0.25 }), tealDark: std(0x0b4f47, { rough: 0.45, metal: 0.25 }),
       steel: std(0x6b7280, { rough: 0.35, metal: 0.65 }), steelDark: std(0x374151, { rough: 0.4, metal: 0.6 }),
       ceramic: std(0xfaf7f1, { rough: 0.35 }), wood: std(0x8a5a2b, { rough: 0.7 }),
-      gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), brass: std(0x9a7b2d, { rough: 0.45, metal: 0.35 }),
-      amber: std(0xe8b93c, { rough: 0.4, metal: 0.2, emissive: 0x8a6a00, ei: 0.35 }),
+      gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), brass: std(0xFFB224, { rough: 0.45, metal: 0.35 }),
+      amber: std(0xFFB224, { rough: 0.4, metal: 0.2, emissive: 0x6a4500, ei: 0.45 }),
       skin: std(0xd9a97a, { rough: 0.65 }), paper: std(0xf2eee5, { rough: 0.8 }),
       green: std(0x2fa36b, { rough: 0.4, emissive: 0x0a3d22, ei: 0.6 }), red: std(0xc0392b, { rough: 0.4, emissive: 0x4a0f0a, ei: 0.6 })
     };
@@ -288,27 +288,27 @@
       g.add(l); parts.push({ obj: l, group: g, appear: ap }); return l;
     }
 
-    /* Always-visible plate label: serif name + mono descriptor on a bone
-       plate with a brass hairline — the site's editorial plate style, in 3D.
+    /* Always-visible plate label: grotesque name + mono descriptor on a dark
+       plate with an amber hairline — the site's instrument style, in 3D.
        Billboarded toward the camera every frame (see init). */
     function makeLabel(main, sub, o) {
       o = o || {};
       var fsMain = o.fs || 46, fsSub = Math.round(fsMain * 0.52), padX = 26, padY = 15;
       var c = document.createElement('canvas'); var g = c.getContext('2d');
-      var fMain = '600 ' + fsMain + 'px Georgia, "Times New Roman", serif';
+      var fMain = '600 ' + fsMain + 'px "Space Grotesk", system-ui, sans-serif';
       var fSub = '700 ' + fsSub + 'px ui-monospace, Menlo, Consolas, monospace';
       g.font = fMain; var wMain = g.measureText(main).width;
       var wSub = 0; if (sub) { g.font = fSub; wSub = g.measureText(sub).width; }
       c.width = Math.ceil(Math.max(wMain, wSub) + padX * 2);
       c.height = Math.ceil(padY * 2 + fsMain * 1.12 + (sub ? fsSub * 1.55 : 0));
       g = c.getContext('2d');
-      g.fillStyle = 'rgba(250,250,247,0.97)'; g.fillRect(0, 0, c.width, c.height);
-      g.strokeStyle = '#9a7b2d'; g.lineWidth = 3; g.strokeRect(2, 2, c.width - 4, c.height - 4);
+      g.fillStyle = 'rgba(14,16,19,0.97)'; g.fillRect(0, 0, c.width, c.height);
+      g.strokeStyle = '#FFB224'; g.lineWidth = 3; g.strokeRect(2, 2, c.width - 4, c.height - 4);
       g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-      g.fillStyle = '#141412'; g.font = fMain;
+      g.fillStyle = '#F2EFE9'; g.font = fMain;
       var yMain = padY + fsMain * 0.9;
       g.fillText(main, c.width / 2, yMain);
-      if (sub) { g.fillStyle = '#6e541a'; g.font = fSub; g.fillText(sub, c.width / 2, yMain + fsSub * 1.5); }
+      if (sub) { g.fillStyle = '#FFB224'; g.font = fSub; g.fillText(sub, c.width / 2, yMain + fsSub * 1.5); }
       var tex = new THREE.CanvasTexture(c);
       if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
       tex.anisotropy = 4;
@@ -330,16 +330,16 @@
     var GY = -0.92; // top surface of the zone plates — everything stands on this
 
     /* One ground plane for the whole scene */
-    var groundPlane = new THREE.Mesh(new THREE.PlaneGeometry(18, 11), new THREE.MeshStandardMaterial({ color: 0xece7da, roughness: 1.0, metalness: 0 }));
+    var groundPlane = new THREE.Mesh(new THREE.PlaneGeometry(18, 11), new THREE.MeshStandardMaterial({ color: 0x10141A, roughness: 1.0, metalness: 0 }));
     groundPlane.rotation.x = -Math.PI / 2; groundPlane.position.y = -1.02; groundPlane.receiveShadow = true; SC.add(groundPlane);
-    var grid = new THREE.GridHelper(17, 26, 0xd8d0bd, 0xe2dccb); grid.position.y = -1.01; grid.material.transparent = true; grid.material.opacity = 0.22; SC.add(grid);
+    var grid = new THREE.GridHelper(17, 26, 0x2A3138, 0x1E242B); grid.position.y = -1.01; grid.material.transparent = true; grid.material.opacity = 0.35; SC.add(grid);
 
-    /* Zone plates — three clearly separated slabs with a brass rim */
+    /* Zone plates — three clearly separated slabs with an amber rim */
     function zonePlate(zx, hex) {
       var rimM = box(3.05, 0.03, 3.45, M.brass, zx, -1.005, 0, SC, 0, null); rimM.castShadow = false;
       var slab = box(2.95, 0.08, 3.35, std(hex, { rough: 0.9, metal: 0 }), zx, -0.96, 0, SC, 0, null); slab.castShadow = false;
     }
-    zonePlate(-3.35, 0xe9e2d3); zonePlate(0, 0xded6c2); zonePlate(3.35, 0xe9e2d3);
+    zonePlate(-3.35, 0x1B2027); zonePlate(0, 0x161A20); zonePlate(3.35, 0x1B2027);
 
     /* ============ ZONE 1 — AGENTIC AI STUDIO (left) ============ */
     var ZX1 = -3.35;
@@ -460,7 +460,7 @@
     });
     [[0, 1], [1, 2], [2, 3], [1, 4], [2, 4]].forEach(function (pr) {
       var a = nodes[pr[0]], b = nodes[pr[1]];
-      edge3([a.x, a.y, 0.04], [b.x, b.y, 0.04], 0x9a7b2d, 0.85, panelGroup, 0.64);
+      edge3([a.x, a.y, 0.04], [b.x, b.y, 0.04], 0xFFB224, 0.85, panelGroup, 0.64);
     });
     box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
     box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
