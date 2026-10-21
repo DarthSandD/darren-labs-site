@@ -1,6 +1,6 @@
 # Darren Labs — LinkedIn Company Page Kit
 
-Status: PREPARED LOCALLY ONLY. Updated 2026-10-20 to match the live site (commit bb81730, "Specification editorial" redesign, 3 flagships). Do NOT create the LinkedIn Company Page until Darren approves. Nothing has been created. NOT pushed.
+Status: LIVE. Pushed to DarthSandD/darren-labs-site on 2026-10-22. The LinkedIn Company Page was created by Darren on 2026-10-21: https://www.linkedin.com/company/darren-labs/ (company ID 144023338, verified live). Kit updated 2026-10-20 to match the live site (3 flagships).
 
 ## What changed since the first draft (2026-10-19 → 2026-10-20)
 
