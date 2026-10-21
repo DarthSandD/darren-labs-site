@@ -287,6 +287,70 @@ Provenance baseline for all five (copied from the research report
   node diagram board (fitted to natural 0.40 x 0.08 x 0.40 m, components
   face up as authored).
 
+### 9. Desk Lamp Arm 01 (Studio zone - on the front desk)
+- **File:** `models/desk-lamp.glb` (2,874,264 bytes)
+- **Model:** Desk Lamp Arm 01 (articulated desk lamp)
+- **Authors:** Kuutti Siitonen (modeling and texturing), Yann Kervran (rigging)
+- **License:** CC0 1.0
+- **Source:** https://polyhaven.com/a/desk_lamp_arm_01
+- **Files manifest:** https://api.polyhaven.com/files/desk_lamp_arm_01
+- **Source files (all 1k, downloaded 2026-10-21):**
+  - glTF: https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/desk_lamp_arm_01/desk_lamp_arm_01_1k.gltf (4,453 bytes, md5 `29b204485d30e66ee3f183ef45bf4bb3`)
+  - Geometry: desk_lamp_arm_01.bin (736,804 bytes, md5 `29ffa5bb6bee35b066e46073124fee1a`)
+  - Base color: desk_lamp_arm_01_diff_1k.jpg (702,522 bytes, md5 `a5c1bf5465da39ca6ca9039dd4e3fd66`)
+  - Normal (OpenGL): desk_lamp_arm_01_nor_gl_1k.jpg (651,826 bytes, md5 `5aabbfe920ea6726d5299be7d6224551`)
+  - ARM (R=AO, G=roughness, B=metalness): desk_lamp_arm_01_arm_1k.jpg (780,379 bytes, md5 `0b887af80f561216baa3da94d001d51a`)
+- **Meshes:** 1 (2 mesh objects after load, the model is rigged) - **Images (embedded):** 3
+- **Repack method:** same as the other Poly Haven models above (official 1k
+  gltf + bin + JPEG PBR maps embedded into a single GLB with
+  `pack-polyhaven.js`; geometry, materials and textures untouched).
+- **Used as:** a task lamp standing on the front workstation desk in the
+  AI Studio zone. Loads lazily with chapter 0, like the desk and laptop.
+- **Also in this pass:** the metal office desk and the classic laptop are
+  each cloned in code from their single downloads to furnish a second desk
+  row at the back of the studio plate (one extra desk instance with its
+  own laptop). No extra files were downloaded for the clones.
+- **Checked and not used:** Poly Haven has no office chair with casters;
+  its chairs (GreenChair_01, SchoolChair_01, modern_arm_chair_01 and
+  others) are dining, school or lounge chairs and none fits the
+  workstation rows, so no chair was downloaded. The shelving unit in the
+  studio is built-in geometry (see below), not the Poly Haven Shelf_01.
+
+## Added 2026-10-21: original built-in geometry (detail upgrade)
+
+The following scene detail is original procedural geometry built in code
+in `script.js` for this pass. It is NOT downloaded, and it is not
+presented anywhere as a downloaded model:
+
+- **Studio:** glowing monitor screens on the existing desks and on the
+  second desk row (two CanvasTexture variants drawn in code: dashboard
+  bars and code lines, amber and off-white on near-black, used as
+  emissive maps); keyboards and mugs on the GLB desks; a shelving unit
+  against the studio back edge (two uprights, three shelves, ten book
+  props and three box props).
+- **VoltWorks:** a busbar (three parallel copper-tone bars on three
+  posts, each post topped with a three-disc porcelain insulator stack);
+  three insulator strings of five stacked porcelain discs hanging from
+  the pylon crossarm area; a circuit breaker (tank body on four legs,
+  two bushings, operating cabinet, with its own caption); a control
+  panel near the power box with four emissive indicator lamps (amber,
+  green, red, amber) that blink in the render loop and stay steady under
+  reduced motion; safety fencing around the power plate (posts, two
+  rails and semi-transparent mesh planes per run, five runs, gap at the
+  front); ground detail (gravel-tone plate surface, painted amber safety
+  border lines, a cable trench strip with cover seams).
+- **Patterns:** the whiteboard is scaled up 1.3x and the drawing table
+  1.2x; drafting props on the table (two paper sheets, an amber pencil,
+  a steel ruler); an animated pulse (a small emissive amber sphere) that
+  travels the Brief, Generate, Verify, Fix loop ring while the scene
+  animates, with a gentle emissive swell on each station marker as it
+  passes. The pulse is hidden under reduced motion.
+- **Whole scene:** subtle fog matched to the page background (#0E1013,
+  near 12, far 28) for depth; the key light is slightly brighter (1.42);
+  per-item appear stagger inside the chapter builds is slightly wider.
+  The 2D fallback diagram now uses the brand amber #FFB224 for its node
+  fills (the old teal #0f6a5e fill is gone from the fallback).
+
 ## Loading + fallback (added 2026-10-20)
 - The 5 new models do NOT load at page load. They load once, the first time
   their chapter (or any later chapter) becomes active; the hook is in
@@ -297,3 +361,23 @@ Provenance baseline for all five (copied from the research report
 - A per-model failure hides only that model's group (via
   `built.lazyFailed` in `applyAssembly`); the scene keeps working. No
   placeholder blocks are ever shown.
+
+## Branding source (2026-10-21)
+
+Site branding is not a 3D asset, but it is recorded here so the provenance
+lives in one place. The logo, favicon and hero treatment come from the
+canonical Darren Labs brand kit
+(`~/workspace/goals/darren-labs-company-presence/files/brand-kit/`,
+`BRAND-KIT.md` and `v2/logo-final/`):
+
+- `brand/logo-symbol-dark.svg`: byte-identical copy of the kit's
+  `v2/logo-final/logo-symbol-dark.svg` (sha256
+  6722ab6bc98a6993f14724c97e6e90ff1645fbbb60171eb8ba0d6beb2065854e).
+  Used in the header and footer.
+- `brand/favicon-64.png`: byte-identical copy of the kit's
+  `v2/logo-final/favicon-64.png` (sha256
+  374c3d89106405e6001e21b9f83e03b087d53539400185b521a8b5fe6ff3d589).
+- The hero's engineering drawing-sheet artwork (fine grid, SLD linework,
+  one amber verified node, title block DWG NO DL-SLD-001) follows the
+  kit's `v2/covers-v2/linkedin-company-cover.png`. It is original inline
+  SVG drawn for this page in that language, not a copied asset.

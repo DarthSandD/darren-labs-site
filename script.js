@@ -30,6 +30,9 @@
     transformer: 'Transformer: steps voltage between the overhead line and the switchgear.',
     switchgear: 'Switchgear: breaker and protection. Green = closed, red = open.',
     bus: 'Bus line: the shared conductor everything connects to.',
+    breaker: 'Circuit breaker: trips on fault current to protect the transformer and the switchgear downstream.',
+    controlpanel: 'Control panel: indicator lamps for the power box and breaker. Amber, green and red show live state.',
+    lamp: 'Desk lamp: articulated task lamp on the studio desk (CC0, Poly Haven).',
     scale: 'Scale: figure 1.8 m, bar 1 m. 1 unit = 1 m.',
     brief: '01 Brief: Darren sets direction. Nothing is built without it.',
     generate: '02 Generate: agents build the first working version.',
@@ -81,7 +84,7 @@
           for (var d = 0; d < 3; d++) {
             var dx = x0 + zw * (0.22 + d * 0.28), dy = zb - 44;
             ctx.strokeRect(dx - 13, dy, 26, 4);
-            ctx.beginPath(); ctx.arc(dx, dy - 12, 6, 0, Math.PI * 2); ctx.fillStyle = '#0f6a5e'; ctx.fill();
+            ctx.beginPath(); ctx.arc(dx, dy - 12, 6, 0, Math.PI * 2); ctx.fillStyle = '#FFB224'; ctx.fill();
           }
         } else if (i === 1) {
           var px = x0 + zw * 0.3, py = zb - 16;
@@ -94,7 +97,7 @@
           ctx.strokeStyle = '#FFB224';
           for (var e = 0; e < 3; e++) { ctx.beginPath(); ctx.moveTo(x0 + zw * nd[e][0], zt + (zb - zt) * nd[e][1]); ctx.lineTo(x0 + zw * nd[e + 1][0], zt + (zb - zt) * nd[e + 1][1]); ctx.stroke(); }
           ctx.beginPath(); ctx.moveTo(x0 + zw * 0.5, zt + (zb - zt) * 0.5); ctx.lineTo(x0 + zw * 0.5, zt + (zb - zt) * 0.82); ctx.stroke();
-          nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#0f6a5e'; ctx.fill(); });
+          nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#FFB224'; ctx.fill(); });
         }
       });
       ctx.fillStyle = '#A8A59C'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
@@ -195,7 +198,7 @@
     }
     loadGLTF().then(function (Loader) {
       var loader = new Loader();
-      var robotPref = ['Idle', 'Wave', 'Idle'];
+      var robotPref = ['Idle', 'Yes', 'Idle'];
       built.robotGroups.forEach(function (group, i) {
         loader.load('models/robot-expressive.glb', function (gltf) {
           var obj = gltf.scene || gltf.scenes[0];
@@ -209,7 +212,7 @@
             var clip = gltf.animations.filter(function (c) { return c.name.toLowerCase().indexOf(want.toLowerCase()) !== -1; })[0]
               || gltf.animations.filter(function (c) { return /idle/i.test(c.name); })[0]
               || gltf.animations[0];
-            var action = mx.clipAction(clip); action.time = i * 0.6; action.play();
+            var action = mx.clipAction(clip); action.time = i * 0.9; action.play();
             built.mixers.push(mx);
           }
         }, undefined, function () { failRobot(i); });
@@ -229,17 +232,19 @@
   }
 
   /* Per-chapter lazy models (all CC0, Poly Haven: see ASSETS.md). The three
-     eager models above are the initial payload (about 4 MB); these five load
+     eager models above are the initial payload (about 4 MB); these load
      once, the first time their chapter (or any later chapter) activates:
-       chapter 0, Studio:    metal office desk + classic laptop
+       chapter 0, Studio:    metal office desk + classic laptop + desk lamp
        chapter 1, VoltWorks: power box + drill
        chapter 2, Patterns:  circuit board
+     The desk and laptop files each load once and are cloned in code for
+     the second desk row, so the extra row costs no extra download.
      Loading is cumulative, matching the scene rule that a built zone stays
      built. A failed load marks only that model failed; applyAssembly hides
      its group and the rest of the scene keeps working. */
   function loadChapterModels(THREE, built, ch) {
     var want = [];
-    if (ch >= 0) want.push('desk', 'laptop');
+    if (ch >= 0) want.push('desk', 'laptop', 'lamp');
     if (ch >= 1) want.push('powerbox', 'drill');
     if (ch >= 2) want.push('circuit');
     var pending = want.filter(function (k) { return !built.lazyState[k]; });
@@ -248,6 +253,7 @@
     var SPECS = {
       desk: { file: 'models/metal-office-desk.glb', group: built.deskGroup, targetH: 0.79, targetW: 2.0, itemId: 'desk' },
       laptop: { file: 'models/classic-laptop.glb', group: built.laptopGroup, targetH: 0.28, targetW: 0.40, itemId: 'laptop' },
+      lamp: { file: 'models/desk-lamp.glb', group: built.lampGroup, targetH: 0.42, targetW: 0.45, itemId: 'lamp' },
       powerbox: { file: 'models/power-box.glb', group: built.powerBoxGroup, targetH: 0.50, targetW: 0.55, itemId: 'powerbox' },
       drill: { file: 'models/drill.glb', group: built.drillGroup, targetH: 0.185, targetW: 0.19, itemId: 'drill' },
       circuit: { file: 'models/circuit-board.glb', group: built.circuitGroup, targetH: 0.08, targetW: 0.41, itemId: 'circuit' }
@@ -262,8 +268,17 @@
           if (k === 'desk') {
             var rb = new THREE.Box3().setFromObject(obj); var rs = new THREE.Vector3(); rb.getSize(rs); rawH = rs.y;
           }
+          /* Second desk row: clone the raw scene before placeModel
+             transforms it, then fit the clone into its own group. */
+          var deskClone = (k === 'desk' && built.deskGroup2) ? obj.clone(true) : null;
+          var laptopClone = (k === 'laptop' && built.laptopGroup2) ? obj.clone(true) : null;
           placeModel(THREE, spec.group, obj, spec.targetH, spec.targetW, spec.itemId, built.allMeshes);
           built.lazyState[k] = 'loaded';
+          if (deskClone) {
+            placeModel(THREE, built.deskGroup2, deskClone, spec.targetH, spec.targetW, spec.itemId, built.allMeshes);
+            if (rawH > 0) built.laptopGroup2.position.y = rawH * deskClone.scale.x;
+          }
+          if (laptopClone) placeModel(THREE, built.laptopGroup2, laptopClone, spec.targetH, spec.targetW, spec.itemId, built.allMeshes);
           /* Sit the laptop exactly on the fitted desktop, whatever scale
              placeModel chose for the desk. */
           if (k === 'desk' && rawH > 0) built.laptopGroup.position.y = rawH * obj.scale.x;
@@ -285,11 +300,14 @@
      an always-visible plate label so the work reads at a glance. */
   function buildScene(THREE) {
     var scene = new THREE.Scene(); scene.background = null;
+    /* Subtle depth fog matched to the page background. It starts past the
+       farthest zone, so zone legibility is untouched. */
+    scene.fog = new THREE.Fog(0x0E1013, 12, 28);
     var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
     camera.position.set(0, 2.0, 6.2); camera.lookAt(0, 0.05, 0);
     // Lighting: hemisphere + key (shadows) + warm fill + cool rim + IBL env (set in init via RoomEnvironment).
     scene.add(new THREE.HemisphereLight(0xfff8ec, 0x8a8a8a, 0.6));
-    var key = new THREE.DirectionalLight(0xffffff, 1.25); key.position.set(4, 7, 5);
+    var key = new THREE.DirectionalLight(0xffffff, 1.42); key.position.set(4, 7, 5);
     key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.left = -8; key.shadow.camera.right = 8; key.shadow.camera.top = 6; key.shadow.camera.bottom = -6;
     key.shadow.camera.near = 1; key.shadow.camera.far = 22;
@@ -310,9 +328,46 @@
       ceramic: std(0xfaf7f1, { rough: 0.35 }), wood: std(0x8a5a2b, { rough: 0.7 }),
       gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), brass: std(0xFFB224, { rough: 0.45, metal: 0.35 }),
       amber: std(0xFFB224, { rough: 0.4, metal: 0.2, emissive: 0x6a4500, ei: 0.45 }),
+      copper: std(0xB87333, { rough: 0.3, metal: 0.85 }), porcelain: std(0xEDE8DC, { rough: 0.35, metal: 0.05 }),
+      gravel: std(0x2E2A26, { rough: 1.0, metal: 0 }),
       skin: std(0xd9a97a, { rough: 0.65 }), paper: std(0xf2eee5, { rough: 0.8 }),
       green: std(0x2fa36b, { rough: 0.4, emissive: 0x0a3d22, ei: 0.6 }), red: std(0xc0392b, { rough: 0.4, emissive: 0x4a0f0a, ei: 0.6 })
     };
+
+    /* Glowing monitor screens: two CanvasTexture variants drawn in code
+       (dashboard bars / code lines, amber and off-white on near-black),
+       used as emissive maps so the screens visibly glow. */
+    function makeScreenTexture(variant) {
+      var c = document.createElement('canvas'); c.width = 256; c.height = 160;
+      var g = c.getContext('2d');
+      g.fillStyle = '#07090B'; g.fillRect(0, 0, 256, 160);
+      g.fillStyle = '#FFB224'; g.fillRect(0, 0, 256, 16);
+      g.fillStyle = '#0E1013'; g.fillRect(8, 5, 52, 6);
+      var rnd = [0.7, 0.4, 0.9, 0.55, 0.3, 0.8, 0.45, 0.65];
+      if (variant === 0) {
+        for (var r = 0; r < 4; r++) {
+          var y0 = 30 + r * 30;
+          g.fillStyle = '#2A2F34'; g.fillRect(10, y0, 110, 20);
+          g.fillStyle = '#FFB224'; g.fillRect(14, y0 + 12, Math.round(90 * rnd[r]), 5);
+          g.fillStyle = '#F2EFE9'; g.fillRect(134, y0 + 2, Math.round(100 * rnd[r + 4]), 5);
+          g.fillStyle = '#8A8578'; g.fillRect(134, y0 + 11, Math.round(70 * rnd[7 - r]), 4);
+        }
+      } else {
+        for (var ln2 = 0; ln2 < 8; ln2++) {
+          var ly = 28 + ln2 * 16, ind = (ln2 % 3) * 14;
+          g.fillStyle = ln2 % 3 === 0 ? '#FFB224' : '#F2EFE9'; g.fillRect(12 + ind, ly, Math.round(60 * rnd[ln2]) + 18, 5);
+          g.fillStyle = '#6B7280'; g.fillRect(96 + ind, ly, Math.round(80 * rnd[7 - ln2]) + 12, 5);
+        }
+      }
+      var tex = new THREE.CanvasTexture(c);
+      if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
+      return tex;
+    }
+    function screenMat(variant) {
+      var tex = makeScreenTexture(variant);
+      return new THREE.MeshStandardMaterial({ color: 0x181A1C, roughness: 0.35, metalness: 0.1, emissive: 0xffffff, emissiveIntensity: 1.15, emissiveMap: tex, map: tex });
+    }
+    var screenMats = [screenMat(0), screenMat(1)];
 
     var root = new THREE.Group(); scene.add(root);
     var SC = new THREE.Group(); root.add(SC);
@@ -397,22 +452,23 @@
     var robotGroups = [];
     var deskX = [-4.15, -3.3, -2.45];
     deskX.forEach(function (dx, i) {
-      var ap = 0.03 + i * 0.03;
+      var ap = 0.03 + i * 0.04;
       box(0.8, 0.05, 0.52, M.wood, dx, GY + 0.72, 0.35, SC, ap, 'agent');
       box(0.05, 0.7, 0.46, M.inkLight, dx - 0.36, GY + 0.36, 0.35, SC, ap, 'agent');
       box(0.05, 0.7, 0.46, M.inkLight, dx + 0.36, GY + 0.36, 0.35, SC, ap, 'agent');
       box(0.46, 0.32, 0.03, M.ink, dx, GY + 1.02, 0.18, SC, ap, 'agent');
-      box(0.4, 0.26, 0.012, M.paper, dx, GY + 1.02, 0.198, SC, ap, 'agent');
+      box(0.4, 0.26, 0.012, screenMats[i % 2], dx, GY + 1.02, 0.198, SC, ap, 'agent');
       cyl(0.03, 0.03, 0.14, M.steelDark, dx, GY + 0.8, 0.18, SC, ap, 'agent');
       box(0.34, 0.015, 0.24, M.paper, dx - 0.08, GY + 0.755, 0.4, SC, ap, 'agent');
       box(0.3, 0.02, 0.12, M.inkLight, dx + 0.1, GY + 0.76, 0.44, SC, ap, 'agent');
+      cyl(0.035, 0.032, 0.07, i === 1 ? M.brass : M.ceramic, dx + 0.27, GY + 0.78, 0.5, SC, ap, 'agent');
       if (i === 1) {
         cyl(0.015, 0.015, 0.3, M.steelDark, dx + 0.31, GY + 0.9, 0.2, SC, ap, 'agent');
         sph(0.05, M.amber, dx + 0.31, GY + 1.07, 0.2, SC, ap, 'agent');
       }
       var rg = new THREE.Group();
       rg.position.set(dx + 0.3, GY, -0.28);
-      rg.rotation.y = (i - 1) * 0.18;
+      rg.rotation.y = [-0.38, 0.10, 0.42][i];
       rg.userData.itemId = 'agent'; rg.userData.appear = ap; rg.userData.baseY = GY; rg.userData.baseScale = 1;
       SC.add(rg); robotGroups.push(rg);
       parts.push({ obj: rg, group: SC, appear: ap });
@@ -432,15 +488,74 @@
        desktop height when the desk GLB loads. */
     laptopGroup.position.set(0.1, 0.788, 0.05);
     deskGroup.add(laptopGroup);
+    /* Second desk row at the back of the studio plate: one more fitted
+       instance of the same metal office desk GLB, cloned from the single
+       download in loadChapterModels, with its own cloned laptop. It shares
+       the chapter 0 lazy load (lazyId desk / laptop). */
+    var deskGroup2 = new THREE.Group();
+    deskGroup2.position.set(-3.35, GY, -0.92);
+    deskGroup2.userData.itemId = 'desk'; deskGroup2.userData.appear = 0.09; deskGroup2.userData.baseY = GY; deskGroup2.userData.baseScale = 1;
+    deskGroup2.userData.lazyId = 'desk';
+    SC.add(deskGroup2);
+    parts.push({ obj: deskGroup2, group: SC, appear: 0.09 });
+    var laptopGroup2 = new THREE.Group();
+    laptopGroup2.position.set(-0.15, 0.788, 0.05);
+    deskGroup2.add(laptopGroup2);
+    /* Desk lamp (CC0, Poly Haven): articulated task lamp standing on the
+       front desk. Loads lazily with chapter 0 like the desk and laptop. */
+    var lampGroup = new THREE.Group();
+    lampGroup.position.set(-3.62, GY + 0.79, 0.92);
+    lampGroup.userData.itemId = 'lamp'; lampGroup.userData.appear = 0.07; lampGroup.userData.baseY = GY + 0.79; lampGroup.userData.baseScale = 1;
+    lampGroup.userData.lazyId = 'lamp';
+    SC.add(lampGroup);
+    parts.push({ obj: lampGroup, group: SC, appear: 0.07 });
+    /* Glowing monitors, keyboards and mugs on the two GLB desks. The fitted
+       GLB desktop sits at GY + 0.79 (see ASSETS.md). */
+    [[-3.78, -1.14], [-2.92, -1.14]].forEach(function (mp, mi) {
+      box(0.46, 0.32, 0.03, M.ink, mp[0], GY + 1.10, mp[1], SC, 0.10, 'agent');
+      box(0.4, 0.26, 0.012, screenMats[mi % 2], mp[0], GY + 1.10, mp[1] + 0.02, SC, 0.10, 'agent');
+      cyl(0.03, 0.03, 0.13, M.steelDark, mp[0], GY + 0.86, mp[1], SC, 0.10, 'agent');
+    });
+    var kb1 = box(0.32, 0.015, 0.11, M.inkLight, -3.3, GY + 0.80, -0.78, SC, 0.10, 'agent'); kb1.rotation.y = 0.08;
+    cyl(0.035, 0.032, 0.07, M.ceramic, -2.62, GY + 0.83, -1.02, SC, 0.10, 'agent');
+    var kb2 = box(0.32, 0.015, 0.11, M.inkLight, -2.88, GY + 0.80, 1.40, SC, 0.08, 'agent'); kb2.rotation.y = -0.06;
+    cyl(0.035, 0.032, 0.07, M.brass, -3.5, GY + 0.83, 1.3, SC, 0.08, 'agent');
+    /* Shelving unit against the studio back edge: two uprights, three
+       shelves, muted book and box props. Original built-in geometry. */
+    var shelfAp = 0.11;
+    box(0.05, 1.6, 0.22, M.inkLight, -4.52, GY + 0.8, -1.56, SC, shelfAp, null);
+    box(0.05, 1.6, 0.22, M.inkLight, -2.18, GY + 0.8, -1.56, SC, shelfAp, null);
+    [0.35, 0.85, 1.35].forEach(function (sy) { box(2.39, 0.04, 0.24, M.wood, -3.35, GY + sy, -1.56, SC, shelfAp, null); });
+    var bookCols = [M.ink, M.steel, M.paper, M.gold, M.steelDark, M.tealDark];
+    for (var bk = 0; bk < 6; bk++) { var bh = 0.18 + (bk % 3) * 0.04; box(0.05, bh, 0.16, bookCols[bk], -4.3 + bk * 0.075, GY + 0.37 + bh / 2, -1.56, SC, shelfAp, null); }
+    box(0.24, 0.18, 0.18, M.inkLight, -3.6, GY + 0.96, -1.56, SC, shelfAp, null);
+    box(0.2, 0.14, 0.16, M.wood, -3.28, GY + 0.94, -1.56, SC, shelfAp, null);
+    for (var bk2 = 0; bk2 < 4; bk2++) { var bh2 = 0.16 + (bk2 % 2) * 0.05; box(0.05, bh2, 0.16, bookCols[5 - bk2], -2.9 + bk2 * 0.075, GY + 1.37 + bh2 / 2, -1.56, SC, shelfAp, null); }
+    box(0.26, 0.16, 0.18, M.steelDark, -4.15, GY + 1.45, -1.56, SC, shelfAp, null);
 
     /* ============ ZONE 2 — VOLTWORKS POWER (centre) ============ */
     addLabel(SC, 'VoltWorks Power', 'POWER SYSTEMS', { h: 0.52 }, 0, 2.32, -0.6, 0.28);
+    /* Ground detail on the power plate: gravel-tone surface, painted amber
+       safety border lines, and a cable trench strip along the back. */
+    box(2.9, 0.02, 3.3, M.gravel, 0, GY + 0.005, 0, SC, 0.33, null);
+    box(2.78, 0.006, 0.05, M.brass, 0, GY + 0.018, 1.58, SC, 0.33, null);
+    box(2.78, 0.006, 0.05, M.brass, 0, GY + 0.018, -1.58, SC, 0.33, null);
+    box(0.05, 0.006, 3.11, M.brass, -1.39, GY + 0.018, 0, SC, 0.33, null);
+    box(0.05, 0.006, 3.11, M.brass, 1.39, GY + 0.018, 0, SC, 0.33, null);
+    box(2.6, 0.012, 0.2, M.ink, 0, GY + 0.016, -1.45, SC, 0.33, null);
+    for (var ts = 0; ts < 4; ts++) box(0.03, 0.014, 0.2, M.steelDark, -0.98 + ts * 0.65, GY + 0.017, -1.45, SC, 0.33, null);
     // Pylon — real downloaded GLB (lattice transmission tower, BSD-3-Clause).
     var pylonGroup = new THREE.Group();
     pylonGroup.position.set(-0.78, GY, -0.55); pylonGroup.rotation.y = 0.15;
     pylonGroup.userData.itemId = 'pylon'; pylonGroup.userData.appear = 0.30; pylonGroup.userData.baseY = GY; pylonGroup.userData.baseScale = 1;
     SC.add(pylonGroup);
     parts.push({ obj: pylonGroup, group: SC, appear: 0.30 });
+    /* Insulator strings hanging from the pylon crossarm area: a short rod
+       plus five stacked porcelain discs per string. Built-in geometry. */
+    [-1.3, -0.85, -0.4].forEach(function (sx) {
+      cyl(0.012, 0.012, 0.18, M.steelDark, sx, GY + 2.02, -0.55, SC, 0.36, 'pylon');
+      for (var sd2 = 0; sd2 < 5; sd2++) cyl(0.07, 0.07, 0.028, M.porcelain, sx, GY + 1.90 - sd2 * 0.05, -0.55, SC, 0.36, 'pylon');
+    });
     // Transformer — tank, cooling fins, bushings, conservator, nameplate
     var TX = 1.02, TZ = -0.5, TAP = 0.34;
     box(0.78, 0.95, 0.6, M.steel, TX, GY + 0.475, TZ, SC, TAP, 'transformer');
@@ -461,9 +576,9 @@
     // Generator — real downloaded GLB (Poly Haven, CC0, full PBR).
     var generatorGroup = new THREE.Group();
     generatorGroup.position.set(0.72, GY, 0.72); generatorGroup.rotation.y = -0.3;
-    generatorGroup.userData.itemId = 'generator'; generatorGroup.userData.appear = 0.37; generatorGroup.userData.baseY = GY; generatorGroup.userData.baseScale = 1;
+    generatorGroup.userData.itemId = 'generator'; generatorGroup.userData.appear = 0.38; generatorGroup.userData.baseY = GY; generatorGroup.userData.baseScale = 1;
     SC.add(generatorGroup);
-    parts.push({ obj: generatorGroup, group: SC, appear: 0.37 });
+    parts.push({ obj: generatorGroup, group: SC, appear: 0.38 });
     addLabel(SC, 'Generator', null, { h: 0.2, fs: 38 }, 0.72, 0.38, 0.72, 0.38);
     // Switchgear — 2 cubicles with doors, handles, status lamps
     [-0.92, -0.34].forEach(function (cx, ci) {
@@ -480,16 +595,70 @@
        load lazily with chapter 1 (see loadChapterModels). */
     var powerBoxGroup = new THREE.Group();
     powerBoxGroup.position.set(1.12, GY, -1.05); powerBoxGroup.rotation.y = 0.35;
-    powerBoxGroup.userData.itemId = 'powerbox'; powerBoxGroup.userData.appear = 0.40; powerBoxGroup.userData.baseY = GY; powerBoxGroup.userData.baseScale = 1;
+    powerBoxGroup.userData.itemId = 'powerbox'; powerBoxGroup.userData.appear = 0.42; powerBoxGroup.userData.baseY = GY; powerBoxGroup.userData.baseScale = 1;
     powerBoxGroup.userData.lazyId = 'powerbox';
     SC.add(powerBoxGroup);
-    parts.push({ obj: powerBoxGroup, group: SC, appear: 0.40 });
+    parts.push({ obj: powerBoxGroup, group: SC, appear: 0.42 });
     var drillGroup = new THREE.Group();
     drillGroup.position.set(-0.92, GY + 1.15, 0.85); drillGroup.rotation.y = 0.5;
-    drillGroup.userData.itemId = 'drill'; drillGroup.userData.appear = 0.41; drillGroup.userData.baseY = GY + 1.15; drillGroup.userData.baseScale = 1;
+    drillGroup.userData.itemId = 'drill'; drillGroup.userData.appear = 0.43; drillGroup.userData.baseY = GY + 1.15; drillGroup.userData.baseScale = 1;
     drillGroup.userData.lazyId = 'drill';
     SC.add(drillGroup);
-    parts.push({ obj: drillGroup, group: SC, appear: 0.41 });
+    parts.push({ obj: drillGroup, group: SC, appear: 0.43 });
+    /* Busbar: three parallel copper bars running from the transformer
+       toward the switchgear, carried on posts topped with porcelain
+       insulator stacks. Original built-in geometry. */
+    var busbarAp = 0.44;
+    [-0.02, -0.15, -0.28].forEach(function (bz) { box(1.5, 0.03, 0.05, M.copper, 0.17, GY + 0.99, bz, SC, busbarAp, 'bus'); });
+    [0.8, 0.17, -0.46].forEach(function (px) {
+      cyl(0.03, 0.035, 0.80, M.steelDark, px, GY + 0.40, -0.15, SC, busbarAp, 'bus');
+      for (var is2 = 0; is2 < 3; is2++) cyl(0.055, 0.055, 0.024, M.porcelain, px, GY + 0.83 + is2 * 0.035, -0.15, SC, busbarAp, 'bus');
+      box(0.08, 0.03, 0.4, M.steelDark, px, GY + 0.94, -0.15, SC, busbarAp, 'bus');
+    });
+    /* Circuit breaker between the transformer and the switchgear: tank
+       body on legs, two bushings, and a small operating cabinet.
+       Original built-in geometry. */
+    var brkAp = 0.45, BX = -0.05, BZ = 0.18;
+    [[-0.18, -0.14], [0.18, -0.14], [-0.18, 0.14], [0.18, 0.14]].forEach(function (lo) { box(0.05, 0.22, 0.05, M.steelDark, BX + lo[0], GY + 0.11, BZ + lo[1], SC, brkAp, 'breaker'); });
+    box(0.52, 0.55, 0.42, M.steel, BX, GY + 0.50, BZ, SC, brkAp, 'breaker');
+    box(0.56, 0.05, 0.46, M.steelDark, BX, GY + 0.80, BZ, SC, brkAp, 'breaker');
+    [-0.13, 0.13].forEach(function (bo) {
+      cyl(0.028, 0.045, 0.26, M.porcelain, BX + bo, GY + 0.95, BZ, SC, brkAp, 'breaker');
+      sph(0.04, M.gold, BX + bo, GY + 1.10, BZ, SC, brkAp, 'breaker');
+    });
+    box(0.30, 0.38, 0.10, M.inkLight, BX, GY + 0.42, BZ + 0.26, SC, brkAp, 'breaker');
+    box(0.04, 0.14, 0.04, M.gold, BX + 0.09, GY + 0.42, BZ + 0.32, SC, brkAp, 'breaker');
+    addLabel(SC, 'Breaker', null, { h: 0.2, fs: 38 }, BX, 0.62, BZ, 0.46);
+    /* Control panel near the power box: a small cabinet on a post with
+       four indicator lamps that blink in the render loop. The lamps stay
+       steady under reduced motion. Lamp colors are functional: amber,
+       green, red. */
+    var blinkLamps = [];
+    cyl(0.03, 0.035, 0.55, M.steelDark, 0.55, GY + 0.275, -1.2, SC, 0.46, 'controlpanel');
+    box(0.36, 0.46, 0.10, M.ink, 0.55, GY + 0.78, -1.2, SC, 0.46, 'controlpanel');
+    [0xFFB224, 0x2fa36b, 0xc0392b, 0xFFB224].forEach(function (lc, li2) {
+      var lm = std(lc, { rough: 0.35, emissive: lc, ei: 0.95 });
+      var lampMesh = sph(0.028, lm, 0.43 + li2 * 0.08, GY + 0.88, -1.13, SC, 0.46, 'controlpanel');
+      lampMesh.castShadow = false;
+      blinkLamps.push({ mat: lm, phase: li2 * 1.7, speed: 2.2 + li2 * 0.6 });
+    });
+    /* Safety fencing around the power plate: posts, two rails and a
+       semi-transparent mesh plane per run, with a gap at the front. */
+    var fenceAp = 0.50;
+    var fenceMat = new THREE.MeshStandardMaterial({ color: 0x9AA3AD, roughness: 0.6, metalness: 0.4, transparent: true, opacity: 0.16, side: THREE.DoubleSide, depthWrite: false });
+    function fenceRun(x0, z0, x1, z1) {
+      var dx = x1 - x0, dz = z1 - z0, len = Math.sqrt(dx * dx + dz * dz), ang = Math.atan2(-dz, dx);
+      var n = Math.max(2, Math.round(len / 0.71) + 1);
+      for (var fp = 0; fp < n; fp++) cyl(0.022, 0.022, 0.92, M.steelDark, x0 + dx * fp / (n - 1), GY + 0.46, z0 + dz * fp / (n - 1), SC, fenceAp, null, 10);
+      var rail1 = box(len, 0.04, 0.03, M.steel, (x0 + x1) / 2, GY + 0.90, (z0 + z1) / 2, SC, fenceAp, null); rail1.rotation.y = ang;
+      var rail2 = box(len, 0.03, 0.025, M.steel, (x0 + x1) / 2, GY + 0.46, (z0 + z1) / 2, SC, fenceAp, null); rail2.rotation.y = ang;
+      var fm = mesh(new THREE.PlaneGeometry(len, 0.84), fenceMat, (x0 + x1) / 2, GY + 0.46, (z0 + z1) / 2, SC, fenceAp, null); fm.rotation.y = ang; fm.castShadow = false;
+    }
+    fenceRun(-1.42, -1.60, 1.42, -1.60);
+    fenceRun(-1.42, -1.60, -1.42, 1.60);
+    fenceRun(1.42, -1.60, 1.42, 1.60);
+    fenceRun(-1.42, 1.60, -0.42, 1.60);
+    fenceRun(0.42, 1.60, 1.42, 1.60);
     // Bus line — pylon → transformer → switchgear, with flow dots
     var busPts = [[-0.78, 1.42, -0.55], [1.02, 0.28, -0.42], [-0.63, 0.33, 0.85]];
     function busSeg(a, b) {
@@ -499,30 +668,31 @@
       c.position.set((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2);
       c.castShadow = true; c.userData.itemId = 'bus'; c.userData.baseY = c.position.y;
       SC.add(c); allMeshes.push(c);
-      parts.push({ obj: c, group: SC, appear: 0.45 });
+      parts.push({ obj: c, group: SC, appear: 0.47 });
       c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(dx, dy, dz).normalize());
       return c;
     }
     busSeg(busPts[0], busPts[1]); busSeg(busPts[1], busPts[2]);
     var flowDots = [];
-    for (var di = 0; di < 5; di++) { var d = sph(0.08, std(0xffd94d, { rough: 0.3, emissive: 0x8a6a00, ei: 0.8 }), 0, 0, 0, SC, 0.45, 'bus'); d.castShadow = false; flowDots.push(d); }
+    for (var di = 0; di < 5; di++) { var d = sph(0.08, std(0xffd94d, { rough: 0.3, emissive: 0x8a6a00, ei: 0.8 }), 0, 0, 0, SC, 0.47, 'bus'); d.castShadow = false; flowDots.push(d); }
     // Scale — 1.8 m figure + 1 m bar at the front of the power plate
-    sph(0.12, M.skin, 0.05, GY + 1.68, 1.38, SC, 0.47, 'scale');
-    cyl(0.12, 0.13, 0.71, M.ink, 0.05, GY + 1.2, 1.38, SC, 0.47, 'scale');
-    cyl(0.1, 0.12, 0.85, M.inkLight, 0.05, GY + 0.42, 1.38, SC, 0.47, 'scale');
-    box(1.0, 0.05, 0.05, M.gold, 0.05, GY + 0.03, 1.38, SC, 0.47, 'scale');
+    sph(0.12, M.skin, 0.05, GY + 1.68, 1.38, SC, 0.49, 'scale');
+    cyl(0.12, 0.13, 0.71, M.ink, 0.05, GY + 1.2, 1.38, SC, 0.49, 'scale');
+    cyl(0.1, 0.12, 0.85, M.inkLight, 0.05, GY + 0.42, 1.38, SC, 0.49, 'scale');
+    box(1.0, 0.05, 0.05, M.gold, 0.05, GY + 0.03, 1.38, SC, 0.49, 'scale');
 
     /* ============ ZONE 3 — AI ARCHITECTURE PATTERNS (right) ============ */
     var ZX3 = 3.35;
     addLabel(SC, 'AI Architecture Patterns', 'SYSTEM DESIGN', { h: 0.52 }, ZX3, 1.42, -0.3, 0.55);
-    // Drawing table
-    box(2.3, 0.06, 1.6, M.wood, ZX3, GY + 0.55, -0.15, SC, 0.57, 'patterns');
-    [[-1.05, -0.65], [1.05, -0.65], [-1.05, 0.65], [1.05, 0.65]].forEach(function (off) {
+    // Drawing table (scaled up 1.2x, still inside the plate)
+    box(2.76, 0.06, 1.92, M.wood, ZX3, GY + 0.55, -0.15, SC, 0.57, 'patterns');
+    [[-1.26, -0.78], [1.26, -0.78], [-1.26, 0.78], [1.26, 0.78]].forEach(function (off) {
       cyl(0.04, 0.04, 0.55, M.inkLight, ZX3 + off[0], GY + 0.27, -0.15 + off[1], SC, 0.57, 'patterns');
     });
     // Blueprint board, tilted toward the viewer like a drawing board
     var panelGroup = new THREE.Group();
-    panelGroup.position.set(ZX3, GY + 1.15, -0.3); panelGroup.rotation.x = -0.12;
+    panelGroup.position.set(ZX3, GY + 1.22, -0.3); panelGroup.rotation.x = -0.12;
+    panelGroup.scale.setScalar(1.3); // whiteboard scaled up 1.3x, still on the plate
     SC.add(panelGroup);
     box(2.15, 1.4, 0.03, M.ink, 0, 0, -0.03, panelGroup, 0.57, 'patterns');
     box(2.05, 1.3, 0.05, M.paper, 0, 0, 0, panelGroup, 0.57, 'patterns');
@@ -531,20 +701,20 @@
       { x: -0.78, y: 0.33 }, { x: -0.26, y: 0.33 }, { x: 0.26, y: 0.33 }, { x: 0.78, y: 0.33 }, { x: 0, y: -0.36 }
     ];
     nodes.forEach(function (n, ni) {
-      var nd = cyl(0.115, 0.115, 0.05, M.teal, n.x, n.y, 0.05, panelGroup, 0.60 + ni * 0.015, 'patterns');
+      var nd = cyl(0.115, 0.115, 0.05, M.teal, n.x, n.y, 0.05, panelGroup, 0.60 + ni * 0.025, 'patterns');
       nd.rotation.x = Math.PI / 2;
-      sph(0.045, M.gold, n.x, n.y, 0.1, panelGroup, 0.60 + ni * 0.015, 'patterns');
+      sph(0.045, M.gold, n.x, n.y, 0.1, panelGroup, 0.60 + ni * 0.025, 'patterns');
     });
     [[0, 1], [1, 2], [2, 3], [1, 4], [2, 4]].forEach(function (pr) {
       var a = nodes[pr[0]], b = nodes[pr[1]];
       /* Solid amber tubes instead of 1px lines: lines wash out at the
          default camera distance, tubes keep the diagram legible. */
       var len = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
-      var ln = cyl(0.016, 0.016, len, M.amber, (a.x + b.x) / 2, (a.y + b.y) / 2, 0.045, panelGroup, 0.64, 'patterns');
+      var ln = cyl(0.016, 0.016, len, M.amber, (a.x + b.x) / 2, (a.y + b.y) / 2, 0.045, panelGroup, 0.72, 'patterns');
       ln.rotation.z = Math.atan2(b.y - a.y, b.x - a.x) - Math.PI / 2;
     });
-    box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
-    box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.62, 'patterns');
+    box(0.16, 0.1, 0.04, M.inkLight, -0.78, -0.02, 0.04, panelGroup, 0.68, 'patterns');
+    box(0.16, 0.1, 0.04, M.inkLight, 0.78, -0.02, 0.04, panelGroup, 0.68, 'patterns');
     /* Circuit board (CC0, Poly Haven): a physical PCB sample lying on the
        drawing table beside the diagram board. Loads lazily with chapter 2
        (see loadChapterModels). */
@@ -554,6 +724,13 @@
     circuitGroup.userData.lazyId = 'circuit';
     SC.add(circuitGroup);
     parts.push({ obj: circuitGroup, group: SC, appear: 0.58 });
+    /* Drafting props on the drawing table: two paper sheets with slight
+       rotations, an amber pencil and a steel ruler. The table top surface
+       is at GY + 0.58. Original built-in geometry. */
+    var paper1 = box(0.42, 0.008, 0.30, M.paper, 3.88, GY + 0.585, -0.52, SC, 0.60, 'patterns'); paper1.rotation.y = 0.18;
+    var paper2 = box(0.42, 0.008, 0.30, M.paper, 3.52, GY + 0.585, 0.52, SC, 0.61, 'patterns'); paper2.rotation.y = -0.14;
+    var pencil = cyl(0.012, 0.012, 0.16, M.brass, 3.62, GY + 0.59, -0.05, SC, 0.61, 'patterns'); pencil.rotation.z = Math.PI / 2; pencil.rotation.y = 0.4;
+    box(0.30, 0.008, 0.045, M.steel, 3.05, GY + 0.585, -0.72, SC, 0.61, 'patterns');
 
     /* ============ VERIFY LOOP — a ring around all three zones ============ */
     var ring = torus(5.2, 0.04, M.amber, 0, -0.95, 0, SC, 0.78, null); ring.rotation.x = Math.PI / 2;
@@ -562,6 +739,7 @@
       var cn = cone(0.11, 0.3, M.amber, Math.cos(ang) * 5.2, -0.9, Math.sin(ang) * 5.2, SC, 0.80, null);
       cn.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(-Math.sin(ang), 0, Math.cos(ang)));
     }
+    var pulseStations = [];
     var stations = [
       { id: 'brief', name: 'BRIEF', x: -3.68, z: 3.68, ap: 0.82 },
       { id: 'generate', name: 'GENERATE', x: 3.68, z: 3.68, ap: 0.85 },
@@ -570,6 +748,9 @@
     ];
     stations.forEach(function (st) {
       cyl(0.5, 0.54, 0.08, M.paper, st.x, -0.96, st.z, SC, st.ap, st.id, 28);
+      var markMat = std(0xFFB224, { rough: 0.4, emissive: 0xFFB224, ei: 0.25 });
+      cyl(0.58, 0.62, 0.03, markMat, st.x, -0.905, st.z, SC, st.ap, st.id, 28);
+      pulseStations.push({ mat: markMat, angle: Math.atan2(st.z, st.x) });
       if (st.id === 'brief') {
         box(0.44, 0.58, 0.05, M.ink, st.x, -0.55, st.z, SC, st.ap, st.id);
         box(0.2, 0.07, 0.07, M.gold, st.x, -0.22, st.z, SC, st.ap, st.id);
@@ -588,6 +769,13 @@
       }
       addLabel(SC, st.name, null, { h: 0.2, fs: 40 }, st.x, 0.32, st.z, st.ap);
     });
+    /* Animated pulse: a small emissive amber sphere that travels the loop
+       ring in Brief, Generate, Verify, Fix order. The frame loop moves it
+       and swells each station marker as it passes. It is hidden under
+       reduced motion and the stations stay static then. */
+    var pulseMat = std(0xFFB224, { rough: 0.3, emissive: 0xFFB224, ei: 1.6 });
+    var pulse = sph(0.11, pulseMat, 5.2, 0.55, 0, SC, 0.95, null);
+    pulse.castShadow = false;
 
     return {
       scene: scene, camera: camera, root: root, parts: parts, allMeshes: allMeshes, labels: labels,
@@ -595,6 +783,8 @@
       robotGroups: robotGroups, robotFailed: [false, false, false],
       generatorGroup: generatorGroup, pylonGroup: pylonGroup,
       deskGroup: deskGroup, laptopGroup: laptopGroup,
+      deskGroup2: deskGroup2, laptopGroup2: laptopGroup2, lampGroup: lampGroup,
+      pulse: pulse, pulseStations: pulseStations, blinkLamps: blinkLamps,
       powerBoxGroup: powerBoxGroup, drillGroup: drillGroup, circuitGroup: circuitGroup,
       lazyState: {}, lazyFailed: {},
       mixers: [], generatorFailed: false, pylonFailed: false
@@ -745,6 +935,28 @@
               var a = built.busPts[seg], b = built.busPts[seg + 1];
               if (a && b) dot.position.set(a[0] + (b[0] - a[0]) * lt, a[1] + (b[1] - a[1]) * lt, a[2] + (b[2] - a[2]) * lt);
             });
+          }
+          // Control panel lamps blink while the scene animates. Under
+          // reduced motion this block is skipped and they stay steady.
+          if (built.blinkLamps && built.blinkLamps.length && !REDUCED) {
+            var bt2 = (now - start) / 1000;
+            built.blinkLamps.forEach(function (lamp) { lamp.mat.emissiveIntensity = Math.sin(bt2 * lamp.speed + lamp.phase) > 0.2 ? 1.9 : 0.12; });
+          }
+          // Verify loop pulse: travel the ring in station order and swell
+          // each station marker as it passes. Hidden if reduced motion.
+          if (built.pulse) {
+            if (REDUCED) { built.pulse.visible = false; }
+            else {
+              var el2 = (now - start) / 1000;
+              var th2 = Math.PI * 0.75 - el2 * (Math.PI * 2 / 9);
+              built.pulse.visible = state.cur > 0.72;
+              built.pulse.position.set(Math.cos(th2) * 5.2, 0.55, Math.sin(th2) * 5.2);
+              built.pulseStations.forEach(function (ps) {
+                var dd = Math.abs(Math.atan2(Math.sin(th2 - ps.angle), Math.cos(th2 - ps.angle)));
+                var swell = Math.max(0, 1 - dd / 0.7);
+                ps.mat.emissiveIntensity = 0.25 + swell * 1.7;
+              });
+            }
           }
           renderer.render(built.scene, built.camera);
         }
