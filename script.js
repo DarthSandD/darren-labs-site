@@ -323,7 +323,7 @@
     }
     var M = {
       ink: std(0x1a1e23, { rough: 0.6 }), inkLight: std(0x2a2f34, { rough: 0.55 }),
-      teal: std(0x0f6a5e, { rough: 0.42, metal: 0.25 }), tealDark: std(0x0b4f47, { rough: 0.45, metal: 0.25 }),
+      teal: std(0xFFB224, { rough: 0.42, metal: 0.25 }), tealDark: std(0x2a2f34, { rough: 0.45, metal: 0.25 }),
       steel: std(0x6b7280, { rough: 0.35, metal: 0.65 }), steelDark: std(0x374151, { rough: 0.4, metal: 0.6 }),
       ceramic: std(0xfaf7f1, { rough: 0.35 }), wood: std(0x8a5a2b, { rough: 0.7 }),
       gold: std(0xc98a2b, { rough: 0.45, metal: 0.3 }), brass: std(0xFFB224, { rough: 0.45, metal: 0.35 }),
@@ -446,7 +446,7 @@
     cyl(0.3, 0.34, 0.06, M.ink, -4.35, GY + 0.03, 1.05, SC, 0.02, 'darren', 24);
     cyl(0.16, 0.21, 0.8, M.ink, -4.35, GY + 0.46, 1.05, SC, 0.02, 'darren');
     sph(0.21, M.skin, -4.35, GY + 1.05, 1.05, SC, 0.02, 'darren');
-    cyl(0.19, 0.2, 0.08, M.teal, -4.35, GY + 1.22, 1.05, SC, 0.02, 'darren');
+    cyl(0.19, 0.2, 0.08, M.steelDark, -4.35, GY + 1.22, 1.05, SC, 0.02, 'darren');
     // Three workstations: desk + monitor + papers, robot agent behind each desk.
     // The robots are real GLBs (RobotExpressive, CC0) loaded async into these groups.
     var robotGroups = [];
