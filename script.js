@@ -467,8 +467,8 @@
         sph(0.05, M.amber, dx + 0.31, GY + 1.07, 0.2, SC, ap, 'agent');
       }
       var rg = new THREE.Group();
-      rg.position.set(dx + 0.3, GY, -0.28);
-      rg.rotation.y = [-0.38, 0.10, 0.42][i];
+      rg.position.set(dx + 0.15, GY, -0.28);
+      rg.rotation.y = [-0.38, 0.10, 0.20][i];
       rg.userData.itemId = 'agent'; rg.userData.appear = ap; rg.userData.baseY = GY; rg.userData.baseScale = 1;
       SC.add(rg); robotGroups.push(rg);
       parts.push({ obj: rg, group: SC, appear: ap });
@@ -675,11 +675,14 @@
     busSeg(busPts[0], busPts[1]); busSeg(busPts[1], busPts[2]);
     var flowDots = [];
     for (var di = 0; di < 5; di++) { var d = sph(0.08, std(0xffd94d, { rough: 0.3, emissive: 0x8a6a00, ei: 0.8 }), 0, 0, 0, SC, 0.47, 'bus'); d.castShadow = false; flowDots.push(d); }
-    // Scale — 1.8 m figure + 1 m bar at the front of the power plate
-    sph(0.12, M.skin, 0.05, GY + 1.68, 1.38, SC, 0.49, 'scale');
-    cyl(0.12, 0.13, 0.71, M.ink, 0.05, GY + 1.2, 1.38, SC, 0.49, 'scale');
-    cyl(0.1, 0.12, 0.85, M.inkLight, 0.05, GY + 0.42, 1.38, SC, 0.49, 'scale');
-    box(1.0, 0.05, 0.05, M.gold, 0.05, GY + 0.03, 1.38, SC, 0.49, 'scale');
+    // Scale: 1.8 m figure + 1 m bar, moved to the yard edge in front of
+    // the plates (ground level, 0.10 below plate top) so the figure no
+    // longer stands in front of the switchgear and generator.
+    var scY = GY - 0.10;
+    sph(0.12, M.skin, -1.68, scY + 1.68, 2.15, SC, 0.49, 'scale');
+    cyl(0.12, 0.13, 0.71, M.ink, -1.68, scY + 1.2, 2.15, SC, 0.49, 'scale');
+    cyl(0.1, 0.12, 0.85, M.inkLight, -1.68, scY + 0.42, 2.15, SC, 0.49, 'scale');
+    box(1.0, 0.05, 0.05, M.gold, -1.68, scY + 0.03, 2.15, SC, 0.49, 'scale');
 
     /* ============ ZONE 3 — AI ARCHITECTURE PATTERNS (right) ============ */
     var ZX3 = 3.35;
@@ -773,8 +776,8 @@
        ring in Brief, Generate, Verify, Fix order. The frame loop moves it
        and swells each station marker as it passes. It is hidden under
        reduced motion and the stations stay static then. */
-    var pulseMat = std(0xFFB224, { rough: 0.3, emissive: 0xFFB224, ei: 1.6 });
-    var pulse = sph(0.11, pulseMat, 5.2, 0.55, 0, SC, 0.95, null);
+    var pulseMat = std(0xFFB224, { rough: 0.3, emissive: 0xFFB224, ei: 2.4 });
+    var pulse = sph(0.16, pulseMat, 5.2, 0.55, 0, SC, 0.95, null);
     pulse.castShadow = false;
 
     return {
@@ -825,8 +828,12 @@
         var state = { rotX: 0.08, rotY: 0, dragging: false, lastX: 0, lastY: 0, moved: 0, dist: 5.8, targetDist: 5.8, camX: 0, targetCamX: 0, cur: 0, target: 0, active: 0, local: 0 };
         var start = performance.now();
         var lastT = start;
-        var CAMDIST = [5.4, 6.3, 6.3, 7.5];
-        var CAMX = [-1.1, 0.1, 1.1, 0]; // chapter focus drifts across the three zones
+        /* Chapter camera distances and drifts, measured against the real
+           scene geometry and label text widths: every zone label and the
+           full Patterns whiteboard stay inside the canvas from a 390 px
+           canvas (aspect 1.34) to wide desktop (aspect 2.40). */
+        var CAMDIST = [6.6, 7.6, 7.8, 9.2];
+        var CAMX = [-2.0, -0.2, 2.1, 0.6]; // chapter focus drifts across the three zones
 
         function setActive(ch) {
           state.active = ch;
@@ -899,7 +906,7 @@
           else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (caption) caption.textContent = INFO.darren; }
         });
 
-        if (REDUCED) { state.cur = 1; state.target = 1; state.active = 3; state.local = 1; setActive(3); state.targetDist = CAMDIST[3]; state.dist = CAMDIST[3]; state.camX = 0; state.targetCamX = 0; applyAssembly(); }
+        if (REDUCED) { state.cur = 1; state.target = 1; state.active = 3; state.local = 1; setActive(3); state.targetDist = CAMDIST[3]; state.dist = CAMDIST[3]; state.camX = CAMX[3]; state.targetCamX = CAMX[3]; applyAssembly(); }
         else { onScroll(); setTimeout(onScroll, 120); }
 
         var tmpPQ = new THREE.Quaternion();
