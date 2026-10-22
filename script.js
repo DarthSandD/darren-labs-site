@@ -14,6 +14,41 @@
     });
   }
 
+  /* Projects dropdown: click toggles, hover opens on desktop (CSS),
+     Escape closes, arrow keys move through the menu links. */
+  var dd = document.querySelector('.nav-dropdown');
+  if (dd) {
+    var ddBtn = dd.querySelector('.nav-drop-btn');
+    var ddLinks = Array.prototype.slice.call(dd.querySelectorAll('.nav-menu a'));
+    var setDd = function (open) {
+      dd.classList.toggle('open', open);
+      ddBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    ddBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setDd(!dd.classList.contains('open'));
+    });
+    document.addEventListener('click', function (e) {
+      if (!dd.contains(e.target)) setDd(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && dd.classList.contains('open')) { setDd(false); ddBtn.focus(); }
+    });
+    ddBtn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        setDd(true);
+        if (ddLinks.length) ddLinks[0].focus();
+      }
+    });
+    ddLinks.forEach(function (l, i) {
+      l.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown') { e.preventDefault(); var n = ddLinks[i + 1] || ddLinks[0]; n.focus(); }
+        if (e.key === 'ArrowUp') { e.preventDefault(); var p = ddLinks[i - 1] || ddBtn; p.focus(); }
+      });
+    });
+  }
+
   var REDUCED = false;
   try { REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { REDUCED = false; }
   var canvas = document.getElementById('story3d');
