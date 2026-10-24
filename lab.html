@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Darren Labs: The Lab</title>
+<meta name="description" content="The Darren Labs laboratory, in public: Lab Notes from real agent operations, and the Verified Bench, a benchmark that scores AI models by hard verification gates.">
+<meta name="color-scheme" content="light"/>
+<link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
+<link rel="stylesheet" href="styles.css">
+<style>
+.bench-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15.5px}
+.bench-table th,.bench-table td{border:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
+.bench-table th{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--panel)}
+.bench-table td{background:var(--bg-2);color:var(--text-2)}
+.bench-table td.task{color:var(--text);font-weight:600}
+.bench-table td.pass{color:var(--ok);font-weight:700}.bench-table td.fail{color:#E06C5B;font-weight:700}
+</style>
+</head>
+<body class="theme-light">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="Darren Labs home">
+      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="38" height="38"></span>
+      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="brand-tag">Agentic AI Studio</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav" aria-label="Primary">
+      <a href="models.html">Models</a>
+      <a href="index.html#story">Story</a>
+      <a href="index.html#flagships">Flagships</a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="nav-menu">
+          <a href="projects.html">All Projects<small>Every project, free and paid</small></a>
+          <a href="products.html">Products<small>Free tools and paid offers</small></a>
+        </div>
+      </div>
+      <a href="index.html#architecture">Architecture</a>
+      <a href="index.html#about">About</a>
+      <a href="lab.html">Lab</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="section-label">The Lab</p>
+      <h1 class="page-title">A working laboratory, in public.</h1>
+      <p class="page-lead">Darren Labs runs a fleet of AI agents around the clock. This page is where the laboratory publishes what it learns: short notes from real operations, and the benchmark that decides whether a model's work can be trusted.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="section-label">Lab Notes</p>
+      <h2>Notes from real operations.</h2>
+      <p class="page-lead">Each note is one incident or one method from the fleet's own work: what happened, what it cost, and the standing rule it produced. Nothing here is a press release.</p>
+      <div class="offers offer-group">
+
+        <article class="offer">
+          <div>
+            <h3>Note No. 1: The watcher that could not trust its own notes</h3>
+            <p>In October 2026 our comment watcher reported activity that had never happened, dismissed a real comment as already read, and quoted totals from a file that was empty. The failures were ordinary programming errors.</p>
+          </div>
+          <div class="offer-side">
+            <span class="price">Oct 2026</span>
+            <a class="btn btn-ghost" href="note-001.html">Read the note</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="section-label">Verified Bench</p>
+      <h2>Models, scored by gates, not impressions.</h2>
+      <p class="page-lead">The Verified Bench is the lab's own benchmark. A model is given real working tasks, and its answers are scored by hard gates: checks that pass or fail, with the evidence kept. A fluent answer that breaks a rule scores the same as a wrong one: zero.</p>
+      <div class="offers offer-group">
+
+        <article class="offer">
+          <div>
+            <h3>Constraint fidelity</h3>
+            <p>Short copy under hard rules: a word-count window, forbidden words, facts that must appear. Every rule is checked by code, not by taste.</p>
+          </div>
+          <div class="offer-side"><span class="price">Gate 1</span></div>
+        </article>
+
+        <article class="offer">
+          <div>
+            <h3>Defect spotting</h3>
+            <p>A short code snippet carrying one real defect, drawn from failures this lab has actually shipped and caught. The model must name the mechanism, not gesture at the area.</p>
+          </div>
+          <div class="offer-side"><span class="price">Gate 2</span></div>
+        </article>
+
+        <article class="offer">
+          <div>
+            <h3>Numeric grounding</h3>
+            <p>An engineering calculation with given inputs: duct velocity, voltage drop. The model's number must land within two percent of the computed value.</p>
+          </div>
+          <div class="offer-side"><span class="price">Gate 3</span></div>
+        </article>
+
+        <article class="offer">
+          <div>
+            <h3>Hallucination refusal</h3>
+            <p>A question premised on an internal fact that does not exist. The only correct answer is a refusal to invent. Any confident summary of the fiction fails.</p>
+          </div>
+          <div class="offer-side"><span class="price">Gate 4</span></div>
+        </article>
+
+      </div>
+
+      <h3 style="margin-top:34px">First run: darren1, the house route: 23 October 2026</h3>
+      <p class="page-lead">The first live run put darren1, the model route Darren Labs runs its own fleet on, through the first four tasks. It passed all four: 20 of 20 gate checks. The remaining four tasks (numeric grounding, hallucination refusal) are gate-tested and run next.</p>
+      <table class="bench-table">
+        <thead><tr><th>Task</th><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td class="task">CF-1: Product blurb under hard rules</td><td>Constraint fidelity</td><td class="pass">PASS</td><td>79 words inside the 60 to 90 window; IEC 60364 and browser present; all four forbidden words absent; no em-dash.</td></tr>
+<tr><td class="task">CF-2: Review notice under hard rules</td><td>Constraint fidelity</td><td class="pass">PASS</td><td>53 words inside the 45 to 70 window; MEP Suits, 11 November and 09:00 all present; forbidden words absent.</td></tr>
+<tr><td class="task">DS-1: The unclosed file handle</td><td>Defect spotting</td><td class="pass">PASS</td><td>Named the mechanism: data written through an unclosed handle is never flushed before os.replace installs the empty file.</td></tr>
+<tr><td class="task">DS-2: The prefix comparison</td><td>Defect spotting</td><td class="pass">PASS</td><td>Named the mechanism: comparing ids by a 24-character prefix lets two different comments collide and one is dismissed as seen.</td></tr>
+        </tbody>
+      </table>
+      <p class="offer-note" style="margin-top:14px">Bench v1, smoke run: the first four of eight tasks. Raw answers and gate detail are kept with the bench code and published with each full run.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
+    <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt, lattice transmission tower).</p>
+  </div>
+  <div class="wrap">
+    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></p>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

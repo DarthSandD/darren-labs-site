@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Darren Labs: Lab Note No. 1, The watcher that could not trust its own notes</title>
+<meta name="description" content="Lab Note No. 1 from Darren Labs: how our comment watcher reported activity that never happened, and the standing rules the incident produced.">
+<meta name="color-scheme" content="light"/>
+<link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
+<link rel="stylesheet" href="styles.css">
+<style>
+.note-body p{margin:0 0 16px;line-height:1.65;color:var(--text-2);max-width:72ch}
+.note-body h2{margin:30px 0 12px}
+.note-body ol{margin:0 0 16px 20px;color:var(--text-2);line-height:1.65;max-width:72ch}
+.note-body code{font-family:ui-monospace,Menlo,monospace;font-size:.92em;color:var(--text);background:var(--panel);padding:1px 5px;border:1px solid var(--line);border-radius:3px}
+</style>
+</head>
+<body class="theme-light">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="Darren Labs home">
+      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="38" height="38"></span>
+      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="brand-tag">Agentic AI Studio</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" class="nav" aria-label="Primary">
+      <a href="models.html">Models</a>
+      <a href="index.html#story">Story</a>
+      <a href="index.html#flagships">Flagships</a>
+      <div class="nav-dropdown">
+        <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="nav-menu">
+          <a href="projects.html">All Projects<small>Every project, free and paid</small></a>
+          <a href="products.html">Products<small>Free tools and paid offers</small></a>
+        </div>
+      </div>
+      <a href="index.html#architecture">Architecture</a>
+      <a href="index.html#about">About</a>
+      <a href="lab.html">Lab</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+  <section class="page-head">
+    <div class="wrap">
+      <p class="section-label">Lab Note No. 1 &middot; October 2026</p>
+      <h1 class="page-title">The watcher that could not trust its own notes</h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap note-body">
+      <p class="page-lead">In October 2026 our comment watcher reported activity that had never happened, dismissed a real comment as already read, and quoted totals from a file that was empty. The failures were ordinary programming errors.</p>
+      <h2>What we run, and why</h2>
+      <p>Darren Labs tracks its work on a Multica board. Progress comments and status changes go to the board in the same turn they happen, so the board, and not any chat, holds the current state of the work. A watcher checks the board for new comments. It runs every minute, compares what it finds against a baseline file of comment ids already seen, and surfaces anything new. The helper it calls is a Python script, <code>multica.py</code>, which returns issue and comment data as JSON.</p>
+      <p>The watcher exists so that work does not wait on a human noticing a comment. It is unattended by design. Every failure below was found by checking the watcher against the board itself, not by reading its reports.</p>
+      <h2>What actually happened</h2>
+      <p>The first failure was in the mapping between issue identifiers and issue ids. A run hand-copied ids from the issue-list output instead of parsing them from the JSON, and the hand-built list scrambled the pairs: DARR-3 with DARR-4, DARR-5 with DARR-10, DARR-7 with DARR-8, DARR-8 with DARR-9. The watcher then reported new comments on several closed issues. Every one was an already-seen note from DARR-4, arriving under the wrong issue.</p>
+      <p>The second failure was a field name. The comment-list command returns comment text under the field <code>content</code>. A script reading <code>body</code> received empty strings instead, and empty agent notes were classified as new user comments.</p>
+      <p>The third failure destroyed the baseline itself. The baseline was written with <code>json.dump</code> into a file object that was never closed, followed by <code>os.replace</code>. The unflushed data never reached disk, and the replace installed a zero-byte file. This happened four times before it was caught. During that period the watcher printed run totals from memory, and every total described a file that did not contain it. Separately, a parallel-fetch script wrote its result JSON to a file while shell output was redirected to the same file, overwriting the first 19 bytes of the JSON.</p>
+      <p>The fourth failure ran in the opposite direction. Comment ids were compared by prefix. Two different comments can share a 24-character prefix, and on 2026-10-21 one did: a real new comment matched the prefix of one already in the baseline and was dismissed as seen.</p>
+      <p>Workers added a fifth failure. When watcher runs timed out, the workers responsible reported baseline writes that had never taken place. The reports read as completed work. Only a direct comparison of the live board against the baseline file showed that the writes were absent. Smaller facts of the environment tripped it in the same period: the helper lacks the executable bit and must be invoked through <code>python3</code>, and our machine storage intermittently refuses Python writes with EPERM while shell writes succeed.</p>
+      <h2>What it cost</h2>
+      <p>No wrong action was taken on a phantom comment, because the coordinator re-verified the mapping before acting. The cost was time and certainty. Runs were repeated. Reported totals had to be withdrawn in effect, since the file behind them was empty. A real comment sat unread until a manual comparison found it. For two days, a system built to tell us the state of the board could not be believed without a second check, which removed most of the reason for running it.</p>
+      <h2>The rules it produced</h2>
+      <p>These rules are now standing practice at Darren Labs:</p>
+      <ol>
+      <li>Parse the identifier-to-id mapping from the JSON on every run. Never hand-copy an id.</li>
+      <li>Compare full comment id strings, never a prefix.</li>
+      <li>Write files with an explicitly closed handle, and read the file back to verify what landed before reporting any total drawn from it.</li>
+      <li>One writer owns the baseline file: the parent agent. Workers and scheduled runs read it only.</li>
+      <li>Re-verify live state against the baseline directly. A report that a write happened is not evidence that it happened.</li>
+      </ol>
+      <p>Two supporting habits came from the same days: print status to a separate stream rather than the file being written, and treat new comments appearing on several closed issues at once as a symptom to investigate before classifying any of it.</p>
+      <h2>What it means for anyone running agents unattended</h2>
+      <p>An unattended agent keeps its memory in files, and those files become the ground it reasons from. When the ground is wrong, the agent does not become cautious. It becomes confidently wrong in both directions at once: it raised alarms over comments that did not exist and passed over one that did. The model was not the weak point in any of these incidents. The weak points were a copied id, a guessed field name, an unclosed file, a shortened comparison: ordinary code that no one re-checked because the reports coming back looked finished.</p>
+      <p>Our conclusion is narrow: any state an agent will trust tomorrow has to be written by one writer, written completely, and read back before it is believed. Verification is not a step after the work. For a system that runs while nobody is watching, verification is the work.</p>
+      <p class="page-lead">Darren Labs, Lab Note No. 1. Sources: our operating record for 2026-10-20 and 2026-10-21 (AGENTS.md; MEMORY.md).</p>
+      <p style="margin-top:26px"><a class="btn btn-ghost" href="lab.html">Back to the Lab</a></p>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
+    <p>Built with agents, checked by humans.</p>
+  </div>
+  <div class="wrap">
+    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></p>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
