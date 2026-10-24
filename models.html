@@ -45,8 +45,8 @@
       <p class="eyebrow">Darren Labs AI Lab &middot; First models &middot; 24 October 2026</p>
       <h1 class="model-title">Our first<br>models.</h1>
       <div class="rule-accent" aria-hidden="true"></div>
-      <p class="tagline">A lab should show its work, not just its headline.</p>
-      <p class="hero-sub">Darren Labs started as a studio that makes software do real work. A lab without a model of its own is just a name on a door, so we put two models on our own machine, ran them, timed them, and wrote down exactly what happened. No training-from-scratch story, because that is not what happened here.</p>
+      <p class="tagline">Our first models, tested in public.</p>
+      <p class="hero-sub">Our first models. Tested in public, free to run.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="#run">Run them free</a> <a class="btn btn-ghost" href="#models">See the models</a></p>
       <dl class="spec-strip">
         <div><dt>First flagship</dt><dd>DarrenLabs AI Models</dd></div>
@@ -60,8 +60,8 @@
   <section class="section model-honest" id="honest">
     <div class="wrap narrow">
       <p class="section-label">Honest first</p>
-      <h2>Here is the plain version.</h2>
-      <p>We did not train these from scratch. The brains inside them come from Alibaba Qwen, and we say so on every page, because hiding the base would be the easiest way to lose trust. What we did do is real work: we put them on our own Oracle VM in Batam, gave them a DarrenLabs name and house rules, asked them a question, and timed the answer. Then we published the recipe so you can do the same on your own machine.</p>
+      <h2>Based on Qwen. Stated plainly.</h2>
+      <p>Not trained from scratch. Based on Alibaba Qwen, Apache 2.0.</p>
       <p class="model-bases"><span>DarrenLabs-7B &middot; Qwen2.5-7B-Instruct</span><span>DarrenLabs-32B &middot; Qwen3-32B</span><span>Both &middot; Apache 2.0</span></p>
     </div>
   </section>
@@ -69,13 +69,13 @@
   <section class="section" id="models">
     <div class="wrap">
       <p class="section-label">The models</p>
-      <h2>Two models. Two sizes. One rule: measured.</h2>
+      <h2>Two models, measured on the same terms.</h2>
       <div class="model-grid">
         <article class="model-card">
           <p class="model-size">7B</p>
           <p class="chapter-num">DarrenLabs-7B &middot; Live</p>
-          <h3>The one you will actually use day to day.</h3>
-          <p>Based on Qwen2.5-7B-Instruct. Small, quick, and honest about what it is: a helper for the boring first draft, not a replacement for an engineer.</p>
+          <h3>Our fastest small model.</h3>
+          <p>Built for everyday work: notes, checklists, and first drafts. Based on Qwen2.5-7B-Instruct.</p>
           <dl class="model-stats">
             <div><dt>Size</dt><dd>4.7 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>169 tokens / sec</dd></div>
@@ -83,13 +83,13 @@
             <div><dt>Tokens</dt><dd>54</dd></div>
           </dl>
           <blockquote class="model-quote">&ldquo;I am DarrenLabs-7B, an assistant running on the DarrenLabs AI Lab VM. I am based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.&rdquo;</blockquote>
-          <p class="model-good">Use it like this: turn a messy site note into a tidy checklist, or draft the first pass of a drawing QA note, then check it yourself. On 32GB VRAM, that 54-token test answer generates in about 0.3 seconds on average. On our CPU VM it took 16.0 seconds in total.</p>
+          <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average. On CPU, the test took 16.0 seconds in total.</p>
         </article>
         <article class="model-card model-card-large">
           <p class="model-size">32B</p>
           <p class="chapter-num">DarrenLabs-32B &middot; Live, slow on CPU</p>
-          <h3>The big one. Powerful, and slow on our machine.</h3>
-          <p>Based on Qwen3-32B. It thinks harder, and on a CPU-only VM that thinking costs time. It works. It just will not chat with you in real time yet, and we are not going to pretend otherwise.</p>
+          <h3>Our most capable model.</h3>
+          <p>Built for deeper work. Based on Qwen3-32B. Fast on a 32GB GPU. Slow on CPU, and we say so.</p>
           <dl class="model-stats">
             <div><dt>Size</dt><dd>20 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>54 tokens / sec</dd></div>
@@ -97,7 +97,7 @@
             <div><dt>Tokens</dt><dd>292, incl. thinking</dd></div>
           </dl>
           <blockquote class="model-quote">&ldquo;I am DarrenLabs-32B, an AI assistant deployed on the DarrenLabs AI Lab VM (Oracle Cloud). I am based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.&rdquo;</blockquote>
-          <p class="model-good">Use it like this: on a 32GB VRAM GPU, that 292-token test answer generates in about 5.4 seconds on average, so it can chat in real time. On our CPU VM the same answer took 413.9 seconds in total, about 7 minutes. That CPU number is measured. The GPU number is an average from published benchmarks, not a run on our machine yet.</p>
+          <p class="model-good">Use it for deeper work. On 32GB VRAM, the 292-token test answer generates in about 5.4 seconds on average. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
         </article>
       </div>
     </div>
@@ -105,25 +105,18 @@
 
   <section class="section" id="speed">
     <div class="wrap narrow">
-      <p class="section-label">Speed, on 32GB VRAM</p>
-      <h2>What changes when it gets a GPU.</h2>
-      <p>Our VM has no GPU, so our own measured numbers are CPU numbers: 8.8 tokens per second for 7B, 1.89 for 32B. Those are slow, and they are ours. The numbers below are different: they are the average of published benchmarks for a 32GB VRAM card, the RTX 5090 class, running the same size of model. A 32B Q4 model is about 20GB, so it fits in 32GB with room left for context. We show the average, and we show how we got it, so you can check it.</p>
-      <dl class="model-stats">
-        <div><dt>DarrenLabs-7B, 32GB VRAM avg</dt><dd>169 tokens / sec</dd></div>
-        <div><dt>DarrenLabs-32B, 32GB VRAM avg</dt><dd>54 tokens / sec</dd></div>
-        <div><dt>7B, our CPU VM measured</dt><dd>8.8 tokens / sec</dd></div>
-        <div><dt>32B, our CPU VM measured</dt><dd>1.89 tokens / sec</dd></div>
-      </dl>
-      <p>How the average is made: 7B, (150 Ollama 8B + 185.9 llama.cpp 4K + 169.8 llama.cpp 8K) / 3 = 168.6, shown as 169. 32B, (45.1 Ollama 32B + 61.4 llama.cpp 4K + 55.5 llama.cpp 8K) / 3 = 54.0, shown as 54. Sources: Hardware Corner RTX 5090 llama.cpp benchmarks, and Databasemart RTX 5090 Ollama benchmarks. Context, quantisation, and engine change the number, so treat 169 and 54 as averages, not promises. When we run on a 32GB GPU ourselves, these averages will be replaced by our own measured numbers.</p>
-      <p>What that means in plain time: the same 292-token 32B test answer, 5.4 seconds of generation at 54 tokens per second, against 154.5 seconds of generation at 1.89 on CPU. That is about 29 times faster, and it is why the big model goes from offline-only on CPU to real chat on a GPU.</p>
+      <p class="section-label">Speed</p>
+      <h2>On 32GB VRAM.</h2>
+      <p>7B: 169 tokens per second on average. 32B: 54. On CPU, measured: 8.8 and 1.89.</p>
+      <p>Average: 7B (150 + 185.9 + 169.8) / 3. 32B (45.1 + 61.4 + 55.5) / 3. Published RTX 5090 benchmarks. Our GPU run is still to come.</p>
     </div>
   </section>
 
   <section class="section" id="how-it-runs">
     <div class="wrap narrow">
       <p class="section-label">How it runs</p>
-      <h2>This is what is actually happening.</h2>
-      <p>No chat box on this page, because the big model is not fast enough for one yet. This is the real setup, on our own VM, and the same setup you can run at home.</p>
+      <h2>How it runs.</h2>
+      <p>No chat interface yet. Not fast enough on CPU.</p>
       <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on the DarrenLabs AI Lab VM, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
         <rect x="10" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#A9C2E0" stroke-width="1.5"/>
         <text x="95" y="135" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="15" font-weight="600" fill="#0B2545">You, at home</text>
@@ -147,15 +140,15 @@
         <line x1="450" y1="150" x2="540" y2="150" stroke="#2563EB" stroke-width="2"/>
         <polygon points="540,150 528,144 528,156" fill="#2563EB"/>
       </svg>
-      <p class="model-diagram-note">The 7B box is the quick one. The 32B box is the bigger one. Speeds here are 32GB VRAM averages from published benchmarks. Our own CPU measurements were 8.8 and 1.89 tokens per second, and those are still on this page, not hidden.</p>
+      <p class="model-diagram-note">Speeds: 32GB VRAM averages. CPU: 8.8 and 1.89, measured.</p>
     </div>
   </section>
 
   <section class="section" id="run">
     <div class="wrap narrow">
       <p class="section-label">Run them free, anywhere</p>
-      <h2>Take them home. You do not need us.</h2>
-      <p>You need Ollama and the same recipe we used. No account, no endpoint, no fee, no waiting on our machine. Run it on yours, at your speed, and keep your notes to yourself.</p>
+      <h2>Run them.</h2>
+      <p>Ollama. No account. No fee.</p>
       <pre class="model-code"><code># 7B
 ollama pull qwen2.5:7b
 ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
@@ -163,29 +156,29 @@ ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
 # 32B, give it time on CPU, use the Ollama API for first tests
 ollama pull qwen3:32b
 ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
-      <p>Modelfiles and model cards will be published free, with no restriction beyond the base licence and attribution. Free and open here means the recipe, not a public chat box on our VM. A public box would get abused in a day, and on our CPU VM the big model still takes about 7 minutes per short answer. On a 32GB VRAM GPU, that same answer averages about 5.4 seconds of generation.</p>
+      <p>Free: the method, not a public chat interface on our machine.</p>
     </div>
   </section>
 
   <section class="section" id="use">
     <div class="wrap">
       <p class="section-label">Use, and limits</p>
-      <h2>Helpful, if you stay in charge.</h2>
+      <h2>Use them. Check them.</h2>
       <div class="model-grid model-grid-two">
         <div class="model-panel">
           <h3>Use them for</h3>
           <ul class="points">
-            <li>Turning a rough CAD, MEP, or power-engineering note into something tidy</li>
-            <li>Checklists, and a first pass at a drawing QA note</li>
-            <li>A first draft you will read, fix, and sign off yourself</li>
+            <li>Converting a rough CAD, MEP, or power-engineering note into a clear document</li>
+            <li>Checklists, and a first draft of a drawing quality note</li>
+            <li>A first draft for your review, correction, and approval</li>
           </ul>
         </div>
         <div class="model-panel">
           <h3>Do not use them for, unchecked</h3>
           <ul class="points">
-            <li>A design decision on its own</li>
-            <li>A calculation nobody checked</li>
-            <li>Anything that goes onto a drawing or to a client without a human reading it first</li>
+            <li>A design decision, without human judgement</li>
+            <li>A calculation that has not been checked</li>
+            <li>Anything submitted on a drawing, or to a client, without human review</li>
           </ul>
         </div>
       </div>
@@ -195,11 +188,11 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
   <section class="section" id="next">
     <div class="wrap narrow">
       <p class="section-label">What is next</p>
-      <h2>What happens next, in plain words.</h2>
+      <h2>Next.</h2>
       <ol class="model-next">
-        <li><strong>A smaller student, taught by the teacher.</strong> Trained on DarrenLabs-domain tasks, with a before and after table so you can see if it actually got better. The teacher dataset is 50 prompts today, and that is a start, not a finished dataset.</li>
-        <li><strong>Speed for the big model.</strong> Turning its thinking off, trying the 30B MoE version, or a more powerful VM, once the Oracle limit decision is made.</li>
-        <li><strong>More models, only on the same deal.</strong> Name, base, licence, real numbers, real limits, no hype. If a model is not tested that way, it does not go on this page.</li>
+        <li><strong>Smaller student model.</strong> Teacher dataset: 50 prompts.</li>
+        <li><strong>Faster 32B.</strong> Thinking off, 30B MoE, or a stronger machine.</li>
+        <li><strong>More models.</strong> Only if tested the same way.</li>
       </ol>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="index.html">Back home</a></p>
     </div>
