@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Darren Labs - Monogram D, final, light">
+  <!--
+    Refined 3a: The Monogram, amber tuned.
+    Same gesture as Aesthetic 3, polished: the D grows 2 units of optical
+    overshoot (41 to 199), the negative-space L is slightly taller (66 to 174)
+    and its foot deepens from 24 to 28 so the L holds at small sizes, and the
+    amber point shrinks from r7 to r6 and moves to cx167, the optical centre
+    of the bowl mass that remains right of the counter. One moment of amber.
+    Dark variant (website): swap #0B2545 to #0B2545. Amber #2563EB unchanged.
+    Light variant (LinkedIn): as drawn, ink on white or transparent.
+  -->
+  <path fill-rule="evenodd" fill="#0B2545" d="M62 41 H117 C166 41 195 75.5 195 120 C195 164.5 166 199 117 199 H62 Z M91 66 V174 H152 V146 H117 V66 Z"/>
+  <circle cx="167" cy="120" r="6" fill="#2563EB"/>
+</svg>

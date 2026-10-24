@@ -269,3 +269,61 @@ h2{margin:0 0 16px;font-family:var(--font-display);font-weight:700;font-size:cla
   .cards{grid-template-columns:1fr}
   .page-head{padding:52px 0 0}
 }
+
+/* Models flagship: big-lab layout, Darren tokens only. Dark ink, warm
+   off-white, ONE signal amber, hairlines. No gradients, no new colours.
+   Amber is used only as a signal: first flagship, live status, key numbers. */
+.model-hero{position:relative;overflow:hidden;padding:104px 0 80px;border-bottom:1px solid var(--line)}
+.model-title{margin:0 0 20px;font-family:var(--font-display);font-weight:700;font-size:clamp(64px,9vw,124px);line-height:.92;letter-spacing:-.03em}
+.model-honest{background:var(--bg-2)}
+.model-bases{display:flex;flex-wrap:wrap;gap:12px 24px;margin:28px 0 0;padding-top:20px;border-top:1px solid var(--line)}
+.model-bases span{font-family:var(--font-mono);font-size:13px;letter-spacing:.04em;color:var(--text-2)}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+.model-card{background:var(--surface);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:var(--radius-card);padding:36px;display:flex;flex-direction:column;gap:12px}
+.model-card-large{background:var(--bg-2)}
+.model-size{margin:0;font-family:var(--font-display);font-weight:700;font-size:clamp(56px,6vw,88px);line-height:1;letter-spacing:-.03em;color:var(--text)}
+.model-card h3{margin:0;font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3vw,36px);line-height:1.15;letter-spacing:-.02em}
+.model-card p{margin:0;color:var(--muted);font-size:16.5px;line-height:1.7}
+.model-stats{margin:20px 0 0;padding-top:20px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.model-stats dt{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin:0 0 4px}
+.model-stats dd{margin:0;font-family:var(--font-mono);font-size:15px;color:var(--accent);font-weight:700}
+.model-quote{margin:20px 0 0;padding:20px;border-left:2px solid var(--accent);background:var(--panel);color:var(--text-2)!important;font-size:15.5px!important;line-height:1.7!important;font-style:normal}
+.model-good{margin-top:auto!important;color:var(--text-2)!important}
+.model-code{background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius-card);padding:24px;overflow:auto;font-family:var(--font-mono);font-size:14px;line-height:1.7;color:var(--text-2);margin:32px 0}
+.model-code code{font:inherit}
+.model-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:28px}
+.model-panel h3{margin:0 0 16px;font-family:var(--font-display);font-weight:600;font-size:24px}
+.model-next{margin:24px 0 0;padding:0;list-style:none;display:grid;gap:20px}
+.model-next li{padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:16.5px;line-height:1.7}
+.model-next strong{color:var(--text)}
+.flag-card-first{border-top:2px solid var(--accent);background:var(--bg-2)}
+@media (max-width:900px){
+  .model-grid{grid-template-columns:1fr}
+  .model-hero{padding:64px 0 56px}
+}
+
+/* Light and blue theme, Darren's correction 2026-10-24. Light background,
+   deep blue ink, ONE blue accent. No dark charcoal, no amber. */
+body.theme-light{
+  --bg:#F6F9FF; --bg-2:#FFFFFF; --surface:#FFFFFF; --panel:#EAF1FB;
+  --text:#0B2545; --text-2:#1E3A5F; --muted:#4A657F; --faint:#7A8FA6;
+  --line:#D5E1F0; --line-strong:#A9C2E0;
+  --accent:#2563EB; --accent-soft:rgba(37,99,235,.08); --accent-ink:#FFFFFF;
+  --ok:#15803D;
+  color-scheme:light;
+}
+body.theme-light .site-header{background:rgba(246,249,255,.92)}
+body.theme-light .site-footer{background:#FFFFFF;color:var(--muted);border-top:1px solid var(--accent)}
+body.theme-light .site-footer a{color:var(--accent)}
+body.theme-light .btn-solid:hover{background:#1D4ED8;border-color:#1D4ED8;color:#FFFFFF}
+body.theme-light #hero-grid path{stroke:#D5E1F0}
+body.theme-light .hero-sld{stroke:#8AA8CC}
+body.theme-light .hero-sld line[stroke="#D9D6CE"], body.theme-light .hero-sld circle[stroke="#D9D6CE"], body.theme-light .hero-sld rect[stroke="#D9D6CE"]{stroke:#2563EB}
+body.theme-light .hero-sld rect[fill="#0E1013"]{fill:#FFFFFF}
+body.theme-light .hero-sld circle[fill="#FFB224"]{fill:#2563EB}
+body.theme-light .hero-titleblock{color:var(--muted)}
+body.theme-light .model-hero{background:linear-gradient(180deg,#EAF1FB 0%,#F6F9FF 100%)}
+body.theme-light .model-card-large{background:#EAF1FB}
+body.theme-light .flag-card-first{background:#EAF1FB}
+.model-diagram{width:100%;height:auto;margin:32px 0 8px;background:#FFFFFF;border:1px solid var(--line);border-radius:var(--radius-card);padding:12px}
+.model-diagram-note{color:var(--muted);font-size:15.5px;line-height:1.7}

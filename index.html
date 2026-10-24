@@ -4,25 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: Agentic AI Studio</title>
-<meta name="description" content="Darren Labs is an agentic AI studio. We design and ship agentic AI systems that build real software. Flagships: VoltWorks Power, MEP Suits, and AI Architecture Patterns.">
-<meta name="color-scheme" content="dark"/>
+<meta name="description" content="Darren Labs is an agentic AI studio. First flagship: DarrenLabs AI Models, 7B and 32B, free and open. Other projects are separated, each on its own page.">
+<meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="theme-light">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
+      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="38" height="38"></span>
       <span class="brand-text">Darren <span>Labs</span></span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
+      <a href="models.html">Models</a>
       <a href="#story">Story</a>
       <a href="#flagships">Flagships</a>
       <div class="nav-dropdown">
@@ -69,16 +70,16 @@
       </g>
     </svg>
     <div class="wrap hero-single">
-      <p class="eyebrow">Agentic AI Studio</p>
+      <p class="eyebrow">Agentic AI Studio &middot; First flagship: AI Models</p>
       <h1>Darren Labs</h1>
       <div class="rule-accent" aria-hidden="true"></div>
-      <p class="tagline">We design and ship agentic AI systems that build real software.</p>
+      <p class="tagline">We design and ship agentic AI systems that build real software. Our first flagship is our own AI models.</p>
       <p class="hero-sub">One person sets the direction. Agents build. A human verifies the result.</p>
-      <p class="hero-cta"><a class="btn btn-solid" href="#story">See the story</a> <a class="btn btn-ghost" href="#flagships">View the flagships</a></p>
+      <p class="hero-cta"><a class="btn btn-solid" href="models.html">See the first flagship: AI Models</a> <a class="btn btn-ghost" href="#story">See the story</a></p>
       <p class="hero-note">Founded by Tri Adi S, professionally known as Darren Lieu.</p>
       <dl class="spec-strip">
         <div><dt>Focus</dt><dd>Agentic AI systems that build real software</dd></div>
-        <div><dt>Flagships</dt><dd>Three shipped systems</dd></div>
+        <div><dt>First flagship</dt><dd>DarrenLabs AI Models, 7B and 32B</dd></div>
         <div><dt>Method</dt><dd>Brief &rarr; Generate &rarr; Verify &rarr; Fix &rarr; Re-verify</dd></div>
       </dl>
     </div>
@@ -143,11 +144,21 @@
 
   <section class="section" id="flagships">
     <div class="wrap">
-      <p class="section-label">Flagships</p>
-      <h2>What the studio ships.</h2>
+      <p class="section-label">First flagship</p>
+      <h2>The models come first. Other projects stay separate.</h2>
+      <p class="section-lead">The point of this site is DarrenLabs AI Models. Every other project has its own page, so the site stays neat and a new project simply gets a new page.</p>
       <div class="flagships">
-        <article class="flag-card flag-card-large">
+        <article class="flag-card flag-card-first">
           <p class="flag-index">01</p>
+          <div>
+          <p class="chapter-num">First flagship &middot; AI Models &middot; Live &middot; Free</p>
+          <h3>DarrenLabs AI Models</h3>
+          <p>We took two open Qwen models, gave them a DarrenLabs name and house rules, ran them on our own Oracle VM in Batam, and timed them. On a 32GB VRAM GPU the small one averages 169 tokens per second and the big one 54, so the big one can chat in real time. On our CPU VM the big one takes about seven minutes, and we are not hiding that. You can run both free, on your own machine.</p>
+          <p><a class="card-link" href="models.html">Open the models page</a></p>
+          </div>
+        </article>
+        <article class="flag-card flag-card-large">
+          <p class="flag-index">02</p>
           <div>
           <p class="chapter-num">Flagship &middot; Power</p>
           <h3>VoltWorks Power</h3>
@@ -156,7 +167,7 @@
           </div>
         </article>
         <article class="flag-card flag-card-large">
-          <p class="flag-index">02</p>
+          <p class="flag-index">03</p>
           <div>
           <p class="chapter-num">Flagship &middot; Building Services</p>
           <h3>MEP Suits</h3>
@@ -165,7 +176,7 @@
           </div>
         </article>
         <article class="flag-card flag-card-compact">
-          <p class="flag-index">03</p>
+          <p class="flag-index">04</p>
           <div>
           <p class="chapter-num">Flagship &middot; Architecture</p>
           <h3>AI Architecture Patterns</h3>
@@ -180,7 +191,7 @@
     <div class="wrap narrow">
       <p class="section-label">Projects and products</p>
       <h2>Every project, one list.</h2>
-      <p>The flagships are the headline. The Projects page is the complete list: every tool, guide, and product the studio has shipped or is building, each one marked free or paid, live or in development. The Products page is the catalogue of what you can use or buy.</p>
+      <p>The models are the headline. Other projects are separated, each on its own page, and the Projects page is the neat index to all of them, each one marked free or paid, live or in development. The Products page is the catalogue of what you can use or buy.</p>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="products.html">See products</a></p>
     </div>
   </section>
@@ -188,7 +199,7 @@
   <section class="section" id="architecture">
     <div class="wrap narrow">
       <p class="section-label">Architecture</p>
-      <h2>What the three flagships prove.</h2>
+      <h2>What the other flagships prove.</h2>
       <p>VoltWorks and MEP Suits are complete systems. Each was built through orchestration and checked through verification loops, with calculators, 3D models, and diagrams held in one coherent design. Patterns is the other half: the judgment for choosing the right system in the first place.</p>
     </div>
   </section>
@@ -235,7 +246,7 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
     <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt, lattice transmission tower).</p>
   </div>

@@ -5,24 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: Projects</title>
 <meta name="description" content="Every Darren Labs project in one list: free tools and paid products, each marked with its real status. Flagships VoltWorks Power and MEP Suits, plus Omni Eyes, AI Architecture Patterns, FlutterKit, and more.">
-<meta name="color-scheme" content="dark"/>
+<meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="theme-light">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
+      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="38" height="38"></span>
       <span class="brand-text">Darren <span>Labs</span></span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
+      <a href="models.html">Models</a>
       <a href="index.html#story">Story</a>
       <a href="index.html#flagships">Flagships</a>
       <div class="nav-dropdown">
@@ -44,13 +45,19 @@
     <div class="wrap">
       <p class="section-label">Projects</p>
       <h1 class="page-title">All projects.</h1>
-      <p class="page-lead">Everything the studio has shipped or is building, in one list. Free means free to open and use. Paid means a product you buy. The status on each card is the real one.</p>
+      <p class="page-lead">First, the AI models. Then every other project, separated, each on its own page. Free means free to open and use. Paid means a product you buy. The status on each card is the real one.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <div class="cards">
+        <article class="pcard" id="darrenlabs-models">
+          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
+          <h3>DarrenLabs AI Models</h3>
+          <p>First flagship. Two Qwen-based models we ran and timed on our own VM: the 7B in 16 seconds on CPU, the 32B in about seven minutes on CPU, and 54 tokens per second on average on 32GB VRAM. Free to run on your own machine.</p>
+          <a class="card-link" href="models.html">Open the models page</a>
+        </article>
 
         <article class="pcard" id="voltworks-power">
           <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
@@ -129,7 +136,7 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
     <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt, lattice transmission tower).</p>
   </div>

@@ -97,8 +97,8 @@
       var s = fitCanvas(), dpr = s.dpr, W = s.w, H = s.h;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      ctx.fillStyle = '#0B0D10'; ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#15181C'; ctx.fillRect(0, H - 34, W, 34);
+      ctx.fillStyle = '#EAF1FB'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#D5E1F0'; ctx.fillRect(0, H - 34, W, 34);
       var zones = [
         { name: 'AI Studio', sub: 'AGENTS AT WORK' },
         { name: 'VoltWorks Power', sub: 'POWER SYSTEMS' },
@@ -108,34 +108,34 @@
       zones.forEach(function (z, i) {
         var x0 = pad + i * (zw + gap), cx = x0 + zw / 2;
         var active = (ch === 3) || (ch === i);
-        ctx.strokeStyle = active ? '#FFB224' : '#39414B'; ctx.lineWidth = active ? 2 : 1;
+        ctx.strokeStyle = active ? '#2563EB' : '#A9C2E0'; ctx.lineWidth = active ? 2 : 1;
         ctx.strokeRect(x0, zt, zw, zb - zt);
-        ctx.fillStyle = '#F2EFE9'; ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; ctx.textAlign = 'center';
+        ctx.fillStyle = '#0B2545'; ctx.font = '600 13px "Space Grotesk", system-ui, sans-serif'; ctx.textAlign = 'center';
         ctx.fillText(z.name, cx, zt + 22, zw - 8);
-        ctx.fillStyle = '#FFB224'; ctx.font = '700 8.5px ui-monospace, Menlo, monospace';
+        ctx.fillStyle = '#2563EB'; ctx.font = '700 8.5px ui-monospace, Menlo, monospace';
         ctx.fillText(z.sub, cx, zt + 38, zw - 8);
-        ctx.strokeStyle = '#F2EFE9'; ctx.fillStyle = '#F2EFE9'; ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#0B2545'; ctx.fillStyle = '#0B2545'; ctx.lineWidth = 1.5;
         if (i === 0) {
           for (var d = 0; d < 3; d++) {
             var dx = x0 + zw * (0.22 + d * 0.28), dy = zb - 44;
             ctx.strokeRect(dx - 13, dy, 26, 4);
-            ctx.beginPath(); ctx.arc(dx, dy - 12, 6, 0, Math.PI * 2); ctx.fillStyle = '#FFB224'; ctx.fill();
+            ctx.beginPath(); ctx.arc(dx, dy - 12, 6, 0, Math.PI * 2); ctx.fillStyle = '#2563EB'; ctx.fill();
           }
         } else if (i === 1) {
           var px = x0 + zw * 0.3, py = zb - 16;
           ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + 10, py - 58); ctx.lineTo(px + 20, py); ctx.stroke();
           ctx.beginPath(); ctx.moveTo(px - 4, py - 40); ctx.lineTo(px + 24, py - 40); ctx.stroke();
-          ctx.fillStyle = '#FFB224'; ctx.fillRect(x0 + zw * 0.55, zb - 34, zw * 0.32, 18);
-          ctx.fillStyle = '#0B0D10'; ctx.font = '9px system-ui, sans-serif'; ctx.fillText('Generator', x0 + zw * 0.71, zb - 40);
+          ctx.fillStyle = '#2563EB'; ctx.fillRect(x0 + zw * 0.55, zb - 34, zw * 0.32, 18);
+          ctx.fillStyle = '#EAF1FB'; ctx.font = '9px system-ui, sans-serif'; ctx.fillText('Generator', x0 + zw * 0.71, zb - 40);
         } else {
           var nd = [[0.22, 0.62], [0.5, 0.5], [0.78, 0.62], [0.5, 0.82]];
-          ctx.strokeStyle = '#FFB224';
+          ctx.strokeStyle = '#2563EB';
           for (var e = 0; e < 3; e++) { ctx.beginPath(); ctx.moveTo(x0 + zw * nd[e][0], zt + (zb - zt) * nd[e][1]); ctx.lineTo(x0 + zw * nd[e + 1][0], zt + (zb - zt) * nd[e + 1][1]); ctx.stroke(); }
           ctx.beginPath(); ctx.moveTo(x0 + zw * 0.5, zt + (zb - zt) * 0.5); ctx.lineTo(x0 + zw * 0.5, zt + (zb - zt) * 0.82); ctx.stroke();
-          nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#FFB224'; ctx.fill(); });
+          nd.forEach(function (n) { ctx.beginPath(); ctx.arc(x0 + zw * n[0], zt + (zb - zt) * n[1], 6, 0, Math.PI * 2); ctx.fillStyle = '#2563EB'; ctx.fill(); });
         }
       });
-      ctx.fillStyle = '#A8A59C'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = '#4A657F'; ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'center';
       ctx.fillText(ch === 3 ? 'Verify loop: brief, generate, verify, fix.' : 'Static diagram: the three zones of the studio.', W / 2, H - 14);
       if (caption) caption.textContent = 'Static diagram shown.';
     } catch (e) { /* fallback must never break site */ }
