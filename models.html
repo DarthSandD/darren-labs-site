@@ -45,8 +45,8 @@
       <p class="eyebrow">Darren Labs AI Lab &middot; First models &middot; 24 October 2026</p>
       <h1 class="model-title">Our first<br>models.</h1>
       <div class="rule-accent" aria-hidden="true"></div>
-      <p class="tagline">Our first models, tested in public.</p>
-      <p class="hero-sub">Our first models. Tested in public, free to run.</p>
+      <p class="tagline">Ran on our own VM in Batam, timed in public, slow results included.</p>
+      <p class="hero-sub">7B answered in 16 seconds on CPU. 32B took about seven minutes on CPU. Both are free to run with Ollama.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="#run">Run them free</a> <a class="btn btn-ghost" href="#models">See the models</a></p>
       <dl class="spec-strip">
         <div><dt>First flagship</dt><dd>DarrenLabs AI Models</dd></div>
@@ -60,13 +60,13 @@
   <section class="section" id="models">
     <div class="wrap">
       <p class="section-label">The models</p>
-      <h2>Two models, measured on the same terms.</h2>
+      <h2>Two models, same CPU machine, both timings shown.</h2>
       <div class="model-grid">
         <article class="model-card">
           <p class="model-size">7B</p>
           <p class="chapter-num">DarrenLabs-7B &middot; Live</p>
-          <h3>Our fastest small model.</h3>
-          <p>Built for everyday work: notes, checklists, and first drafts. Based on Qwen2.5-7B-Instruct.</p>
+          <h3>The small one, for notes and first drafts.</h3>
+          <p>Turn a rough site note into a readable checklist, or a messy drawing note into a first draft you can edit. Based on Qwen2.5-7B-Instruct.</p>
           <dl class="model-stats">
             <div><dt>Size</dt><dd>4.7 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>169 tokens / sec</dd></div>
@@ -74,13 +74,13 @@
             <div><dt>Tokens</dt><dd>54</dd></div>
           </dl>
           <blockquote class="model-quote">&ldquo;I am DarrenLabs-7B, an assistant running on the DarrenLabs AI Lab VM. I am based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.&rdquo;</blockquote>
-          <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average. On CPU, the test took 16.0 seconds in total.</p>
+          <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average, about 19 times faster than our CPU. On CPU, the test took 16.0 seconds in total.</p>
         </article>
         <article class="model-card model-card-large">
           <p class="model-size">32B</p>
           <p class="chapter-num">DarrenLabs-32B &middot; Live, slow on CPU</p>
-          <h3>Our most capable model.</h3>
-          <p>Built for deeper work. Based on Qwen3-32B. Fast on a 32GB GPU. Slow on CPU, and we say so.</p>
+          <h3>The bigger one, for longer documents.</h3>
+          <p>For a full drawing quality note, a checklist with reasons, or a second pass over a long document. Based on Qwen3-32B. Fast on a 32GB GPU, slow on CPU, and the slow time is on this page.</p>
           <dl class="model-stats">
             <div><dt>Size</dt><dd>20 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>54 tokens / sec</dd></div>
@@ -88,7 +88,7 @@
             <div><dt>Tokens</dt><dd>292, incl. thinking</dd></div>
           </dl>
           <blockquote class="model-quote">&ldquo;I am DarrenLabs-32B, an AI assistant deployed on the DarrenLabs AI Lab VM (Oracle Cloud). I am based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.&rdquo;</blockquote>
-          <p class="model-good">Use it for deeper work. On 32GB VRAM, the 292-token test answer generates in about 5.4 seconds on average. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
+          <p class="model-good">Use it for longer work, then review it. On 32GB VRAM, the 292-token test answer generates in about 5.4 seconds on average, about 29 times faster than our CPU. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
         </article>
       </div>
     </div>
@@ -106,8 +106,8 @@
   <section class="section" id="how-it-runs">
     <div class="wrap narrow">
       <p class="section-label">How it runs</p>
-      <h2>How it runs.</h2>
-      <p>No chat interface yet. Not fast enough on CPU.</p>
+      <h2>How to run them.</h2>
+      <p>No website chat. You pull the base model, create the DarrenLabs version, and run it on your own machine. That is why it is free, and why the 32B version is slow on a CPU-only machine.</p>
       <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on the DarrenLabs AI Lab VM, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
         <rect x="10" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#A9C2E0" stroke-width="1.5"/>
         <text x="95" y="135" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="15" font-weight="600" fill="#0B2545">You, at home</text>
@@ -139,7 +139,7 @@
     <div class="wrap narrow">
       <p class="section-label">Run them free, anywhere</p>
       <h2>Run them.</h2>
-      <p>Ollama. No account. No fee.</p>
+      <p>Ollama on your own machine. No account, no fee, no data sent to us.</p>
       <pre class="model-code"><code># 7B
 ollama pull qwen2.5:7b
 ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
@@ -147,7 +147,7 @@ ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
 # 32B, give it time on CPU, use the Ollama API for first tests
 ollama pull qwen3:32b
 ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
-      <p>Free: the method, not a public chat interface on our machine.</p>
+      <p>Free means the method and the model files, not a public chat on our machine. Our VM is not open to the internet for chat.</p>
     </div>
   </section>
 
@@ -159,17 +159,17 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
         <div class="model-panel">
           <h3>Use them for</h3>
           <ul class="points">
-            <li>Converting a rough CAD, MEP, or power-engineering note into a clear document</li>
-            <li>Checklists, and a first draft of a drawing quality note</li>
+            <li>Turning a rough note about a duct joint, a valve, or a cable tray into a clear checklist with items to check</li>
+            <li>A first draft of a drawing quality note, for an engineer to correct and approve</li>
             <li>A first draft for your review, correction, and approval</li>
           </ul>
         </div>
         <div class="model-panel">
           <h3>Do not use them for, unchecked</h3>
           <ul class="points">
-            <li>A design decision, without human judgement</li>
-            <li>A calculation that has not been checked</li>
-            <li>Anything submitted on a drawing, or to a client, without human review</li>
+            <li>Putting an unchecked number on a drawing</li>
+            <li>Sending an unchecked answer to a client</li>
+            <li>Any decision a licensed engineer has not reviewed</li>
           </ul>
         </div>
       </div>
@@ -181,9 +181,9 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
       <p class="section-label">What is next</p>
       <h2>Next.</h2>
       <ol class="model-next">
-        <li><strong>Smaller student model.</strong> Teacher dataset: 50 prompts.</li>
-        <li><strong>Faster 32B.</strong> Thinking off, 30B MoE, or a stronger machine.</li>
-        <li><strong>More models.</strong> Only if tested the same way.</li>
+        <li><strong>Smaller student model.</strong> Trained on 50 teacher examples we generated on our own VM, then scored against a held-out set.</li>
+        <li><strong>Faster 32B.</strong> Thinking off first, then a 30B MoE model, or a stronger machine, whichever the timing proves fastest.</li>
+        <li><strong>More models.</strong> Only after the same public test: identity answer, timing, and limits, on this page.</li>
       </ol>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="index.html">Back home</a></p>
     </div>
