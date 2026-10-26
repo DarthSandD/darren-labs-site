@@ -6,7 +6,7 @@
 
 **Darren Labs** is an agentic AI studio. We design and ship agentic AI systems that build real software.
 
-Live site: **https://darthsandd.github.io/darren-labs-site/**
+Live site: **https://darrenlabs.pages.dev/**
 
 ## What this repo is
 
