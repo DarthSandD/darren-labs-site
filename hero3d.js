@@ -1,143 +1,219 @@
-/* Darren Labs hero simulation, original code, 2026-11-04.
-   An agent mesh: nodes drift, near nodes link, one amber core holds
-   the centre. Drag to orbit, scroll shifts the camera. No metrics,
-   no invented data: this is a visual, not a claim about any system. */
+// Darren Labs hero 3D, v2. Original scene, built on Three.js 0.170.0.
+// One signature object: a chrome agent core (torus knot) with an amber
+// glowing heart, agent nodes orbiting it on fixed rings, a dust field,
+// and a bloom pass so the amber reads as light, not flat color.
+// Drag orbits with a spring (velocity + damping, not linear lerp).
+// Scroll dollies the camera back. Reduced motion renders one static frame.
 import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
-(function () {
-  var canvas = document.getElementById('hero3d');
-  if (!canvas) return;
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var small = window.innerWidth < 640;
-  var COUNT = small ? 55 : 95;
-  var LINK = 3.4;
+const canvas = document.getElementById('hero3d');
+if (!canvas) throw new Error('hero3d canvas missing');
+const hero = canvas.closest('.hero') || document.body;
+const small = window.innerWidth < 640;
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var renderer;
-  try {
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
-  } catch (e) {
-    canvas.style.display = 'none';
-    return;
-  }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  var scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0c0e11, 0.028);
-  var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
-  camera.position.set(0, 0, 15);
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+} catch (e) {
+  canvas.style.display = 'none';
+  throw e;
+}
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.15;
 
-  var group = new THREE.Group();
-  scene.add(group);
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0c0e11, 0.045);
 
-  var coreGeo = new THREE.IcosahedronGeometry(1.1, 1);
-  var coreMat = new THREE.MeshStandardMaterial({ color: 0xffb224, emissive: 0xffb224, emissiveIntensity: 0.55, roughness: 0.35, metalness: 0.4 });
-  var core = new THREE.Mesh(coreGeo, coreMat);
-  group.add(core);
-  var coreWire = new THREE.LineSegments(
-    new THREE.WireframeGeometry(coreGeo),
-    new THREE.LineBasicMaterial({ color: 0xffb224, transparent: true, opacity: 0.35 })
+const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+camera.position.set(0, 0.4, 9);
+
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+const key = new THREE.DirectionalLight(0xffffff, 2.2);
+key.position.set(5, 8, 6);
+scene.add(key);
+const amberPoint = new THREE.PointLight(0xffb224, 30, 14, 2);
+scene.add(amberPoint);
+
+// --- The core: chrome torus knot, amber heart, orbit rings ----------------
+const coreGroup = new THREE.Group();
+scene.add(coreGroup);
+
+const knot = new THREE.Mesh(
+  new THREE.TorusKnotGeometry(1.35, 0.42, 260, 36),
+  new THREE.MeshPhysicalMaterial({
+    color: 0x1a1d22, metalness: 1.0, roughness: 0.18,
+    clearcoat: 1.0, clearcoatRoughness: 0.15, envMapIntensity: 1.25,
+  })
+);
+coreGroup.add(knot);
+
+const heart = new THREE.Mesh(
+  new THREE.SphereGeometry(0.55, 32, 32),
+  new THREE.MeshBasicMaterial({ color: 0xffb224 })
+);
+coreGroup.add(heart);
+
+function ring(radius, tiltX, tiltZ, color, opacity) {
+  const m = new THREE.Mesh(
+    new THREE.TorusGeometry(radius, 0.012, 8, 128),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity })
   );
-  coreWire.scale.setScalar(1.35);
-  group.add(coreWire);
-  var light = new THREE.PointLight(0xffb224, 60, 40);
-  light.position.set(0, 0, 4);
-  scene.add(light);
-  scene.add(new THREE.AmbientLight(0xd9d6ce, 0.7));
+  m.rotation.x = tiltX;
+  m.rotation.z = tiltZ;
+  coreGroup.add(m);
+  return m;
+}
+const ringA = ring(2.4, Math.PI / 2.4, 0.3, 0xffb224, 0.55);
+const ringB = ring(3.1, Math.PI / 1.8, -0.5, 0x6b7280, 0.35);
 
-  var nodeGeo = new THREE.SphereGeometry(0.09, 12, 12);
-  var nodeMat = new THREE.MeshStandardMaterial({ color: 0xd9d6ce, roughness: 0.5, metalness: 0.2 });
-  var nodes = [];
-  var pos = new Float32Array(COUNT * 3);
-  var vel = [];
-  for (var i = 0; i < COUNT; i++) {
-    var a = Math.random() * Math.PI * 2;
-    var r = 3.5 + Math.random() * 6.5;
-    var x = Math.cos(a) * r;
-    var y = Math.sin(a) * r * 0.62;
-    var z = (Math.random() - 0.5) * 5;
-    pos[i * 3] = x; pos[i * 3 + 1] = y; pos[i * 3 + 2] = z;
-    vel.push([(Math.random() - 0.5) * 0.008, (Math.random() - 0.5) * 0.008, (Math.random() - 0.5) * 0.004]);
-    var m = new THREE.Mesh(nodeGeo, nodeMat);
-    m.position.set(x, y, z);
-    group.add(m);
-    nodes.push(m);
-  }
-  var edgeGeo = new THREE.BufferGeometry();
-  var edgePos = new Float32Array(COUNT * COUNT * 3);
-  edgeGeo.setAttribute('position', new THREE.BufferAttribute(edgePos, 3));
-  var edges = new THREE.LineSegments(edgeGeo, new THREE.LineBasicMaterial({ color: 0x8a877e, transparent: true, opacity: 0.28 }));
-  group.add(edges);
+// --- Agent nodes: 18 spheres on fixed orbits, not random drift ------------
+const agents = [];
+const agentGeo = new THREE.SphereGeometry(0.06, 16, 16);
+const agentMatAmber = new THREE.MeshBasicMaterial({ color: 0xffb224 });
+const agentMatWhite = new THREE.MeshBasicMaterial({ color: 0xe8e6e1 });
+for (let i = 0; i < 18; i++) {
+  const m = new THREE.Mesh(agentGeo, i % 3 === 0 ? agentMatWhite : agentMatAmber);
+  const radius = 2.5 + (i % 3) * 0.45;
+  const tilt = new THREE.Euler(
+    (i % 5) * 0.35 - 0.7, (i % 4) * 0.4 - 0.6, (i % 3) * 0.5 - 0.5
+  );
+  agents.push({ m, radius, speed: 0.25 + (i % 5) * 0.07, phase: (i / 18) * Math.PI * 2, tilt });
+  coreGroup.add(m);
+}
 
-  var targetRX = 0.15, targetRY = 0;
-  var curRX = 0.15, curRY = 0;
-  var dragging = false, lastX = 0, lastY = 0;
-  canvas.addEventListener('pointerdown', function (e) { dragging = true; lastX = e.clientX; lastY = e.clientY; canvas.setPointerCapture(e.pointerId); });
-  canvas.addEventListener('pointermove', function (e) {
-    if (dragging) {
-      targetRY += (e.clientX - lastX) * 0.005;
-      targetRX += (e.clientY - lastY) * 0.003;
-      targetRX = Math.max(-0.9, Math.min(0.9, targetRX));
-      lastX = e.clientX; lastY = e.clientY;
-    }
-  });
-  function endDrag() { dragging = false; }
-  canvas.addEventListener('pointerup', endDrag);
-  canvas.addEventListener('pointercancel', endDrag);
+// --- Dust field ------------------------------------------------------------
+const dustCount = small ? 450 : 900;
+const dustPos = new Float32Array(dustCount * 3);
+for (let i = 0; i < dustCount; i++) {
+  const r = 5 + Math.random() * 7;
+  const t = Math.random() * Math.PI * 2;
+  const p = Math.acos(2 * Math.random() - 1);
+  dustPos[i * 3] = r * Math.sin(p) * Math.cos(t);
+  dustPos[i * 3 + 1] = r * Math.cos(p) * 0.7;
+  dustPos[i * 3 + 2] = r * Math.sin(p) * Math.sin(t) - 2;
+}
+const dustGeo = new THREE.BufferGeometry();
+dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+const dust = new THREE.Points(dustGeo, new THREE.PointsMaterial({
+  color: 0x8a8f98, size: 0.045, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false,
+}));
+scene.add(dust);
 
-  function resize() {
-    var w = canvas.clientWidth || window.innerWidth;
-    var h = canvas.clientHeight || window.innerHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  window.addEventListener('resize', resize);
-  resize();
+// --- Post: bloom makes the amber heart and agents read as light ------------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  small ? 0.45 : 0.55, 0.5, 0.75
+);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
 
-  function frame(t) {
-    for (var i = 0; i < COUNT; i++) {
-      var p = nodes[i].position;
-      p.x += vel[i][0]; p.y += vel[i][1]; p.z += vel[i][2];
-      if (Math.abs(p.x) > 11) vel[i][0] *= -1;
-      if (Math.abs(p.y) > 7) vel[i][1] *= -1;
-      if (Math.abs(p.z) > 3) vel[i][2] *= -1;
-    }
-    var k = 0;
-    for (var a = 0; a < COUNT; a++) {
-      for (var b = a + 1; b < COUNT; b++) {
-        var dx = nodes[a].position.x - nodes[b].position.x;
-        var dy = nodes[a].position.y - nodes[b].position.y;
-        var dz = nodes[a].position.z - nodes[b].position.z;
-        if (dx * dx + dy * dy + dz * dz < LINK * LINK) {
-          edgePos[k++] = nodes[a].position.x; edgePos[k++] = nodes[a].position.y; edgePos[k++] = nodes[a].position.z;
-          edgePos[k++] = nodes[b].position.x; edgePos[k++] = nodes[b].position.y; edgePos[k++] = nodes[b].position.z;
-        }
-      }
-    }
-    edgeGeo.setDrawRange(0, k / 3);
-    edgeGeo.attributes.position.needsUpdate = true;
-    curRX += (targetRX - curRX) * 0.05;
-    curRY += (targetRY - curRY) * 0.05;
-    group.rotation.x = curRX;
-    group.rotation.y = curRY + t * 0.00004;
-    core.rotation.y = t * 0.0003;
-    core.rotation.x = t * 0.0002;
-    var scroll = window.scrollY || 0;
-    camera.position.z = 15 - Math.min(scroll * 0.004, 3);
-    camera.lookAt(0, 0, 0);
-    renderer.render(scene, camera);
-  }
+// --- Layout: core right of the text on desktop, centered behind it mobile --
+function layout() {
+  const w = window.innerWidth, h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+  composer.setSize(w, h);
+  const heroH = hero.getBoundingClientRect().height || h;
+  const scale = small ? 0.6 : 1;
+  coreGroup.scale.setScalar(scale);
+  coreGroup.position.set(small ? 0 : Math.min(2.2, w * 0.0016), small ? -2.2 : 0.2, 0);
+  canvas.style.height = heroH + 'px';
+}
+layout();
+window.addEventListener('resize', layout);
 
-  if (reduced) {
-    frame(0);
-    return;
+// --- Interaction: drag orbit with spring damping, pointer parallax ---------
+let targetRY = 0.4, targetRX = 0.15;
+let curRY = 0.4, curRX = 0.15, velRY = 0, velRX = 0;
+let dragging = false, lastX = 0, lastY = 0;
+hero.addEventListener('pointerdown', (e) => {
+  if (e.target.closest('a, button')) return;
+  dragging = true; lastX = e.clientX; lastY = e.clientY;
+});
+window.addEventListener('pointermove', (e) => {
+  if (dragging) {
+    targetRY += (e.clientX - lastX) * 0.005;
+    targetRX = Math.max(-0.9, Math.min(0.9, targetRX + (e.clientY - lastY) * 0.003));
+    lastX = e.clientX; lastY = e.clientY;
+  } else {
+    targetRY = 0.4 + (e.clientX / window.innerWidth - 0.5) * 0.25;
+    targetRX = 0.15 + (e.clientY / window.innerHeight - 0.5) * 0.15;
   }
-  var visible = true;
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; }, { threshold: 0 }).observe(canvas);
+});
+window.addEventListener('pointerup', () => { dragging = false; });
+
+// --- Scroll: dolly back and speed the knot slightly -------------------------
+let scrollT = 0;
+window.addEventListener('scroll', () => {
+  scrollT = Math.min(1, window.scrollY / (window.innerHeight || 1));
+}, { passive: true });
+
+// --- Loop -------------------------------------------------------------------
+let visible = true, running = true;
+const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+io.observe(canvas);
+document.addEventListener('visibilitychange', () => { running = !document.hidden; });
+
+const clock = new THREE.Clock();
+let elapsed = 0;
+function renderFrame() {
+  const dt = Math.min(0.05, clock.getDelta());
+  elapsed += dt;
+  const t = elapsed;
+
+  // Spring: velocity pulls current toward target, damping settles it.
+  velRY += (targetRY - curRY) * 0.06;
+  velRY *= 0.9; curRY += velRY;
+  velRX += (targetRX - curRX) * 0.06;
+  velRX *= 0.9; curRX += velRX;
+  coreGroup.rotation.y = curRY + t * 0.05;
+  coreGroup.rotation.x = curRX;
+
+  knot.rotation.x = t * 0.18 + scrollT * 0.6;
+  knot.rotation.y = t * 0.24;
+  const pulse = 1 + Math.sin(t * 2.2) * 0.06;
+  heart.scale.setScalar(pulse);
+  amberPoint.intensity = 30 * pulse;
+  ringA.rotation.z = t * 0.12;
+  ringB.rotation.z = -t * 0.08;
+  for (const a of agents) {
+    const ang = a.phase + t * a.speed;
+    const v = new THREE.Vector3(Math.cos(ang) * a.radius, Math.sin(ang) * a.radius, 0).applyEuler(a.tilt);
+    a.m.position.copy(v);
   }
-  function loop(t) {
+  dust.rotation.y = t * 0.012;
+  camera.position.z = 9 + scrollT * 2.2;
+  camera.position.y = 0.4 - scrollT * 0.6;
+  camera.lookAt(0, 0.2, 0);
+
+  composer.render();
+}
+
+if (reduced) {
+  // One static frame, no loop: knot turned to a good angle, agents placed.
+  coreGroup.rotation.y = 0.7; coreGroup.rotation.x = 0.25;
+  knot.rotation.set(0.5, 0.8, 0);
+  for (const a of agents) {
+    const v = new THREE.Vector3(Math.cos(a.phase) * a.radius, Math.sin(a.phase) * a.radius, 0).applyEuler(a.tilt);
+    a.m.position.copy(v);
+  }
+  composer.render();
+} else {
+  (function loop() {
     requestAnimationFrame(loop);
-    if (visible && !document.hidden) frame(t);
-  }
-  requestAnimationFrame(loop);
-})();
+    if (visible && running) renderFrame();
+  })();
+}

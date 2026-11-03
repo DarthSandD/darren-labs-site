@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
 <link rel="stylesheet" href="styles.css">
 <script type="importmap">
-{"imports": {"three": "https://unpkg.com/three@0.170.0/build/three.module.js"}}
+{"imports": {"three": "https://unpkg.com/three@0.170.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"}}
 </script>
 </head>
 <body>
@@ -50,7 +50,7 @@
 
 <main id="main">
   <section class="hero" id="top">
-    <canvas id="hero3d" class="hero-canvas" aria-label="Interactive 3D agent mesh: nodes drift and link around one amber core. Drag to orbit."></canvas>
+    <canvas id="hero3d" class="hero-canvas" aria-label="Interactive 3D agent core: a chrome knot with an amber heart, agents orbiting it. Drag to orbit."></canvas>
     <noscript><p style="position:absolute;left:32px;bottom:24px;color:var(--faint);font-family:var(--font-mono);font-size:13px">3D needs JavaScript. The site still works without it.</p></noscript>
     <div class="wrap hero-inner">
       <h1>Agents that <em>do the work.</em></h1>
@@ -58,7 +58,7 @@
       <p class="tagline">An agentic AI studio. Models first, then the tools that run them.</p>
       <p class="hero-sub">Darren Labs builds AI systems that remove repetitive work, and checks every result with human eyes before it goes live.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="models.html">Run the models free</a> <a class="btn btn-ghost" href="styx.html">Get Styx</a></p>
-      <p class="hero-hint">Drag the mesh to orbit. Scroll to move through it.</p>
+      <p class="hero-hint">Drag the core to orbit. Scroll to move through it.</p>
       <dl class="spec-strip">
         <div><dt>First flagship</dt><dd>DarrenLabs AI Models, 7B and 32B, free and open</dd></div>
         <div><dt>Second flagship</dt><dd>Styx, a desktop agent that runs fully locally</dd></div>
