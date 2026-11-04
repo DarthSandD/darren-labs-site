@@ -9,31 +9,23 @@
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
-<style>
-.bench-table{width:100%;border-collapse:collapse;margin-top:18px;font-size:15.5px}
-.bench-table th,.bench-table td{border:1px solid var(--line);padding:10px 14px;text-align:left;vertical-align:top}
-.bench-table th{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:var(--panel)}
-.bench-table td{background:var(--bg-2);color:var(--text-2)}
-.bench-table td.task{color:var(--text);font-weight:600}
-.bench-table td.pass{color:var(--ok);font-weight:700}.bench-table td.fail{color:#E06C5B;font-weight:700}
-</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
-      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="seal" aria-hidden="true"></span>
+      <span class="brand-text">Darren Labs</span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
       <a href="models.html">Models</a>
-      <a href="index.html#story">Story</a>
-      <a href="index.html#flagships">Flagships</a>
+      <a href="styx.html">Styx</a>
+      <a href="index.html#flagships">Work</a>
       <div class="nav-dropdown">
         <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
         <div class="nav-menu">
@@ -41,9 +33,9 @@
           <a href="products.html">Products<small>Free tools and paid offers</small></a>
         </div>
       </div>
-      <a href="index.html#architecture">Architecture</a>
-      <a href="index.html#about">About</a>
       <a href="lab.html">Lab</a>
+      <a href="index.html#method">Method</a>
+      <a href="index.html#about">About</a>
       <a href="index.html#contact">Contact</a>
     </nav>
   </div>
@@ -51,7 +43,8 @@
 
 <main id="main">
   <section class="page-head">
-    <div class="wrap">
+    <div class="page-head-art" aria-hidden="true"></div>
+    <div class="wrap page-head-inner">
       <p class="section-label">The Lab</p>
       <h1 class="page-title">A working laboratory, in public.</h1>
       <p class="page-lead">Darren Labs runs a fleet of AI agents around the clock. This page is where the laboratory publishes what it learns: short notes from real operations, and the benchmark that decides whether a model's work can be trusted.</p>
@@ -62,7 +55,7 @@
     <div class="wrap">
       <p class="section-label">Lab Notes</p>
       <h2>Notes from real operations.</h2>
-      <p class="page-lead">Each note is one incident or one method from the fleet's own work: what happened, what it cost, and the standing rule it produced. Nothing here is a press release.</p>
+      <p class="page-lead">Each note is one incident or one method from the fleet's own work: what happened, what it cost, and the standing rule it produced.</p>
       <div class="offers offer-group">
 
         <article class="offer">
@@ -121,8 +114,8 @@
 
       </div>
 
-      <h3 style="margin-top:34px">First run: darren1, the house route: 23 October 2026</h3>
-      <p class="page-lead">The first live run put darren1, the model route Darren Labs runs its own fleet on, through the first four tasks. It passed all four: 20 of 20 gate checks. The remaining four tasks (numeric grounding, hallucination refusal) are gate-tested and run next.</p>
+      <h3 style="margin-top:34px">First run: the house route: 23 October 2026</h3>
+      <p class="page-lead">The first live run put the house route through the first four tasks. It passed all four: 20 of 20 gate checks. The remaining four tasks (numeric grounding, hallucination refusal) are gate-tested and run next.</p>
       <table class="bench-table">
         <thead><tr><th>Task</th><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
         <tbody>
@@ -139,9 +132,9 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
-    <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt, lattice transmission tower).</p>
+    <p>Built with agents, checked by hand.</p>
   </div>
   <div class="wrap">
     <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>

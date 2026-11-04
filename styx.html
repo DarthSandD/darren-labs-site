@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Styx: Darren Labs</title>
-<meta name="description" content="Styx, the second Darren Labs flagship. A desktop agent that runs fully locally, a fork of Nous Research Hermes Agent, with Apple liquid glass and a local-only first run.">
+<meta name="description" content="Styx, the second Darren Labs flagship. A desktop agent that runs on your own machine, a fork of Nous Research Hermes Agent, with Apple liquid glass and a local first run.">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,15 +17,15 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
-      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="seal" aria-hidden="true"></span>
+      <span class="brand-text">Darren Labs</span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
       <a href="models.html">Models</a>
-      <a href="index.html#story">Story</a>
-      <a href="index.html#flagships">Flagships</a>
+      <a href="styx.html">Styx</a>
+      <a href="index.html#flagships">Work</a>
       <div class="nav-dropdown">
         <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
         <div class="nav-menu">
@@ -33,6 +33,8 @@
           <a href="products.html">Products<small>Free tools and paid offers</small></a>
         </div>
       </div>
+      <a href="lab.html">Lab</a>
+      <a href="index.html#method">Method</a>
       <a href="index.html#about">About</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -41,18 +43,22 @@
 
 <main id="main">
   <section class="model-hero">
-    <div class="wrap">
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
       <p class="eyebrow">Darren Labs &middot; Second flagship &middot; Desktop agent &middot; 4 November 2026</p>
       <h1 class="model-title">Styx, on your<br>own machine.</h1>
-      <div class="rule-accent" aria-hidden="true"></div>
-      <p class="tagline">A desktop agent that runs fully locally, with Apple liquid glass, and no remote VM to connect to.</p>
-      <p class="hero-sub">Styx is a fork of Nous Research Hermes Agent, MIT licensed, upstream commit 25b5001. The agent, gateway, sessions, skills, cron and tools are Hermes, unchanged. What changed is the name, the amber theme, the glass materials and spring motion, and a local-only first run.</p>
+      <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
+        <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
+        <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
+      </svg>
+      <p class="tagline">A desktop agent that runs fully locally, with Apple liquid glass.</p>
+      <p class="hero-sub">Styx is a fork of Nous Research Hermes Agent, MIT licensed, upstream commit 25b5001. The agent, gateway, sessions, skills, cron and tools are Hermes, unchanged. What changed is the name, the amber theme, the glass materials and spring motion, and a local first run.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="https://github.com/DarthSandD/styx-agent/releases/download/v0.1.0/Styx-linux-x64.zip">Download for Linux</a> <a class="btn btn-ghost" href="#first-run">How first run works</a></p>
-      <dl class="spec-strip">
+      <dl class="spec-strip spec-strip-4">
         <div><dt>Second flagship</dt><dd>Styx</dd></div>
         <div><dt>Base</dt><dd>Hermes Agent, MIT, commit 25b5001</dd></div>
-        <div><dt>First run</dt><dd>Local install, no remote choice</dd></div>
-        <div><dt>Provider</dt><dd>Your own key, none shipped</dd></div>
+        <div><dt>First run</dt><dd>Local install</dd></div>
+        <div><dt>Provider</dt><dd>Your own key, added in Settings</dd></div>
       </dl>
     </div>
   </section>
@@ -69,13 +75,13 @@
         </article>
         <article class="model-card model-card-large">
           <p class="chapter-num">Changed &middot; First run</p>
-          <h3>Local only, no remote choice.</h3>
-          <p>End users have no remote VM, so Styx never asks remote versus local on first run. It installs the Hermes backend on your own computer and runs the local gateway there. Later launches skip install entirely, because the backend is already installed. Remote connections a user already saved are not removed.</p>
+          <h3>Local first run.</h3>
+          <p>Styx installs the Hermes backend on your own computer and runs the local gateway there. Later launches skip install entirely, because the backend is already installed. Remote connections a user already saved stay in place.</p>
         </article>
         <article class="model-card">
           <p class="chapter-num">Unchanged &middot; The agent</p>
           <h3>Same Hermes functions.</h3>
-          <p>Sessions, messaging, artifacts, scheduled jobs, skills, profiles, cron, and the gateway protocol are the same as upstream. Styx is not presented as an original Darren Labs product, and its fork file names the upstream repo, commit, licence, and every changed path.</p>
+          <p>Sessions, messaging, artifacts, scheduled jobs, skills, profiles, cron, and the gateway protocol are the same as upstream. Styx is a fork of Hermes Agent, and its fork file names the upstream repo, commit, licence, and every changed path.</p>
         </article>
       </div>
     </div>
@@ -86,7 +92,7 @@
       <p class="section-label">First run</p>
       <h2>How first run works.</h2>
       <p>First run needs internet once, and takes several minutes on a normal connection. A progress screen shows the stages: Prerequisites, Repository, Venv, Python deps, Config, Products, Setup, Gateway, Complete. Do not close the app while it installs. When it finishes, the app opens to provider setup. Add your own model provider key in Settings, then chat. No provider key ships with Styx, and no prompt is sent anywhere until you configure one.</p>
-      <p>Verified in an isolated test home on 4 November 2026: gateway ready at a local loopback endpoint, runtime protocol 1, code 25b5001 matching the desktop build, and the app reaching provider setup. Chat with a model was not run in that test, because no provider key was set, and that limit is stated here rather than hidden.</p>
+      <p>Verified in an isolated test home on 4 November 2026: gateway ready at a local loopback endpoint, runtime protocol 1, code 25b5001 matching the desktop build, and the app reaching provider setup. Chat with a model was not run in that test, because no provider key was set.</p>
       <p class="band-cta"><a class="btn btn-solid" href="https://github.com/DarthSandD/styx-agent">View on GitHub</a> <a class="btn btn-ghost" href="projects.html">Browse all projects</a></p>
     </div>
   </section>
@@ -94,11 +100,11 @@
   <section class="section" id="limits">
     <div class="wrap narrow">
       <p class="section-label">Honest limits</p>
-      <h2>What Styx is not yet.</h2>
+      <h2>Limits to know.</h2>
       <ul class="points">
-        <li>Linux only in this release. Windows and macOS builds are not verified.</li>
-        <li>Chat needs a provider key you supply. Without one, you can open the app and reach provider setup, but you cannot chat with a model.</li>
-        <li>First install is slow on a slow connection, and a slow first install can outlast the first connection attempt. Click Retry, which reconnects without reinstalling what already finished.</li>
+        <li>Linux only in this release. Windows and macOS builds await verification.</li>
+        <li>Chat needs a provider key you supply. With the app open at provider setup, add your key in Settings, then chat.</li>
+        <li>First install takes several minutes, longer on a slow connection. If the first connection attempt times out, Retry reconnects without reinstalling what already finished.</li>
         <li>Styx shares the agent home at ~/.hermes with Hermes Agent itself, by design, because the backend is the same Hermes gateway.</li>
       </ul>
     </div>
@@ -107,7 +113,7 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
     <p>Styx is a fork of Hermes Agent, Nous Research, MIT, upstream commit 25b5001. Not an original Darren Labs product.</p>
   </div>

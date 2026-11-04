@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DarrenLabs AI Models: Darren Labs</title>
-<meta name="description" content="Darren Labs first AI models. DarrenLabs-7B based on Qwen2.5-7B, DarrenLabs-32B based on Qwen3-32B, tested live on our own VM, free and open to run anywhere.">
+<meta name="description" content="Darren Labs first AI models. DarrenLabs-7B based on Qwen2.5-7B, DarrenLabs-32B based on Qwen3-32B, timed in public, free and open to run anywhere.">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,15 +17,15 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="index.html" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
-      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="seal" aria-hidden="true"></span>
+      <span class="brand-text">Darren Labs</span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
       <a href="models.html">Models</a>
-      <a href="index.html#story">Story</a>
-      <a href="index.html#flagships">Flagships</a>
+      <a href="styx.html">Styx</a>
+      <a href="index.html#flagships">Work</a>
       <div class="nav-dropdown">
         <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
         <div class="nav-menu">
@@ -33,6 +33,8 @@
           <a href="products.html">Products<small>Free tools and paid offers</small></a>
         </div>
       </div>
+      <a href="lab.html">Lab</a>
+      <a href="index.html#method">Method</a>
       <a href="index.html#about">About</a>
       <a href="index.html#contact">Contact</a>
     </nav>
@@ -41,16 +43,20 @@
 
 <main id="main">
   <section class="model-hero">
-    <div class="wrap">
-      <p class="eyebrow">Darren Labs AI Lab &middot; First models &middot; 24 October 2026</p>
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Darren Labs &middot; First models &middot; 24 October 2026</p>
       <h1 class="model-title">Our first<br>models.</h1>
-      <div class="rule-accent" aria-hidden="true"></div>
-      <p class="tagline">Ran on our own VM in Batam, timed in public, slow results included.</p>
+      <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
+        <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
+        <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
+      </svg>
+      <p class="tagline">Timed in public, slow results included.</p>
       <p class="hero-sub">7B answered in 16 seconds on CPU. 32B took about seven minutes on CPU. Both are free to run with Ollama.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="#run">Run them free</a> <a class="btn btn-ghost" href="#models">See the models</a></p>
-      <dl class="spec-strip">
+      <dl class="spec-strip spec-strip-4">
         <div><dt>First flagship</dt><dd>DarrenLabs AI Models</dd></div>
-        <div><dt>Models</dt><dd>7B and 32B, live on ai-lab</dd></div>
+        <div><dt>Models</dt><dd>7B and 32B</dd></div>
         <div><dt>Licence</dt><dd>Apache 2.0 bases, open recipe</dd></div>
         <div><dt>Speed shown</dt><dd>32GB VRAM average, CPU measured below</dd></div>
       </dl>
@@ -70,10 +76,10 @@
           <dl class="model-stats">
             <div><dt>Size</dt><dd>4.7 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>169 tokens / sec</dd></div>
-            <div><dt>On our CPU VM</dt><dd>8.8 tokens / sec</dd></div>
+            <div><dt>On CPU</dt><dd>8.8 tokens / sec</dd></div>
             <div><dt>Tokens</dt><dd>54</dd></div>
           </dl>
-          <blockquote class="model-quote">&ldquo;I am DarrenLabs-7B, an assistant running on the DarrenLabs AI Lab VM. I am based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.&rdquo;</blockquote>
+          <p class="model-note">Identity answer verified: the model names itself DarrenLabs-7B, based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.</p>
           <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average, about 19 times faster than our CPU. On CPU, the test took 16.0 seconds in total.</p>
         </article>
         <article class="model-card model-card-large">
@@ -84,10 +90,10 @@
           <dl class="model-stats">
             <div><dt>Size</dt><dd>20 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>54 tokens / sec</dd></div>
-            <div><dt>On our CPU VM</dt><dd>1.89 tokens / sec</dd></div>
+            <div><dt>On CPU</dt><dd>1.89 tokens / sec</dd></div>
             <div><dt>Tokens</dt><dd>292, incl. thinking</dd></div>
           </dl>
-          <blockquote class="model-quote">&ldquo;I am DarrenLabs-32B, an AI assistant deployed on the DarrenLabs AI Lab VM (Oracle Cloud). I am based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.&rdquo;</blockquote>
+          <p class="model-note">Identity answer verified: the model names itself DarrenLabs-32B, based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.</p>
           <p class="model-good">Use it for longer work, then review it. On 32GB VRAM, the 292-token test answer generates in about 5.4 seconds on average, about 29 times faster than our CPU. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
         </article>
       </div>
@@ -107,29 +113,29 @@
     <div class="wrap narrow">
       <p class="section-label">How it runs</p>
       <h2>How to run them.</h2>
-      <p>No website chat. You pull the base model, create the DarrenLabs version, and run it on your own machine. That is why it is free, and why the 32B version is slow on a CPU-only machine.</p>
-      <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on the DarrenLabs AI Lab VM, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
-        <rect x="10" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#A9C2E0" stroke-width="1.5"/>
-        <text x="95" y="135" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="15" font-weight="600" fill="#0B2545">You, at home</text>
-        <text x="95" y="160" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#4A657F">ollama pull</text>
-        <text x="95" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#4A657F">ollama create</text>
-        <rect x="270" y="30" width="180" height="240" rx="6" fill="#EAF1FB" stroke="#2563EB" stroke-width="2"/>
-        <text x="360" y="60" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="15" font-weight="600" fill="#0B2545">DarrenLabs AI Lab VM</text>
-        <text x="360" y="82" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#4A657F">Oracle Cloud, Batam</text>
-        <rect x="285" y="105" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#A9C2E0"/>
-        <text x="360" y="128" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0B2545">DarrenLabs-7B</text>
-        <text x="360" y="147" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2563EB">169 tok/s avg, 32GB VRAM</text>
-        <rect x="285" y="175" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#A9C2E0"/>
-        <text x="360" y="198" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="14" font-weight="600" fill="#0B2545">DarrenLabs-32B</text>
-        <text x="360" y="217" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#2563EB">54 tok/s avg, 32GB VRAM</text>
-        <rect x="540" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#A9C2E0" stroke-width="1.5"/>
-        <text x="625" y="135" text-anchor="middle" font-family="Space Grotesk, system-ui, sans-serif" font-size="15" font-weight="600" fill="#0B2545">An answer</text>
-        <text x="625" y="160" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#4A657F">checked by a human</text>
-        <text x="625" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#4A657F">before it goes anywhere</text>
-        <line x1="180" y1="150" x2="270" y2="150" stroke="#2563EB" stroke-width="2"/>
-        <polygon points="270,150 258,144 258,156" fill="#2563EB"/>
-        <line x1="450" y1="150" x2="540" y2="150" stroke="#2563EB" stroke-width="2"/>
-        <polygon points="540,150 528,144 528,156" fill="#2563EB"/>
+      <p>You pull the base model, create the DarrenLabs version, and run it on your own machine. That is why it is free, and why the 32B version is slow on a CPU-only machine.</p>
+      <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on your own machine, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
+        <rect x="10" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#C9C2B2" stroke-width="1.5"/>
+        <text x="95" y="135" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1B1A17">You, at home</text>
+        <text x="95" y="160" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">ollama pull</text>
+        <text x="95" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">ollama create</text>
+        <rect x="270" y="30" width="180" height="240" rx="6" fill="#EDE7D8" stroke="#C23B22" stroke-width="2"/>
+        <text x="360" y="60" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1B1A17">Your machine</text>
+        <text x="360" y="82" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">Ollama</text>
+        <rect x="285" y="105" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#C9C2B2"/>
+        <text x="360" y="128" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1B1A17">DarrenLabs-7B</text>
+        <text x="360" y="147" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">169 tok/s avg, 32GB VRAM</text>
+        <rect x="285" y="175" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#C9C2B2"/>
+        <text x="360" y="198" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1B1A17">DarrenLabs-32B</text>
+        <text x="360" y="217" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">54 tok/s avg, 32GB VRAM</text>
+        <rect x="540" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#C9C2B2" stroke-width="1.5"/>
+        <text x="625" y="135" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1B1A17">An answer</text>
+        <text x="625" y="160" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">checked by a human</text>
+        <text x="625" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">before it goes anywhere</text>
+        <line x1="180" y1="150" x2="270" y2="150" stroke="#C23B22" stroke-width="2"/>
+        <polygon points="270,150 258,144 258,156" fill="#C23B22"/>
+        <line x1="450" y1="150" x2="540" y2="150" stroke="#C23B22" stroke-width="2"/>
+        <polygon points="540,150 528,144 528,156" fill="#C23B22"/>
       </svg>
       <p class="model-diagram-note">Speeds: 32GB VRAM averages. CPU: 8.8 and 1.89, measured.</p>
     </div>
@@ -139,7 +145,7 @@
     <div class="wrap narrow">
       <p class="section-label">Run them free, anywhere</p>
       <h2>Run them.</h2>
-      <p>Ollama on your own machine. No account, no fee, no data sent to us.</p>
+      <p>Ollama on your own machine. Free means the method and the model files, not a public chat on our machine.</p>
       <pre class="model-code"><code># 7B
 ollama pull qwen2.5:7b
 ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
@@ -147,7 +153,6 @@ ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
 # 32B, give it time on CPU, use the Ollama API for first tests
 ollama pull qwen3:32b
 ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
-      <p>Free means the method and the model files, not a public chat on our machine. Our VM is not open to the internet for chat.</p>
     </div>
   </section>
 
@@ -155,7 +160,7 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
     <div class="wrap">
       <p class="section-label">Use, and limits</p>
       <h2>Use them. Check them.</h2>
-      <div class="model-grid model-grid-two">
+      <div class="model-grid">
         <div class="model-panel">
           <h3>Use them for</h3>
           <ul class="points">
@@ -181,7 +186,7 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
       <p class="section-label">What is next</p>
       <h2>Next.</h2>
       <ol class="model-next">
-        <li><strong>Smaller student model.</strong> Trained on 50 teacher examples we generated on our own VM, then scored against a held-out set.</li>
+        <li><strong>Smaller student model.</strong> Trained on 50 teacher examples, then scored against a held-out set.</li>
         <li><strong>Faster 32B.</strong> Thinking off first, then a 30B MoE model, or a stronger machine, whichever the timing proves fastest.</li>
         <li><strong>More models.</strong> Only after the same public test: identity answer, timing, and limits, on this page.</li>
       </ol>
@@ -192,7 +197,7 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
     <p>Base models: Qwen2.5-7B and Qwen3-32B, Alibaba Qwen, Apache 2.0.</p>
   </div>

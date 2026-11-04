@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" role="img" aria-label="Japanese ink painting: red sun over misty mountains, a pagoda on a cliff, pine trees">
+  <defs>
+    <radialGradient id="sun" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C23B22"/>
+      <stop offset="62%" stop-color="#C23B22" stop-opacity="0.96"/>
+      <stop offset="82%" stop-color="#C23B22" stop-opacity="0.42"/>
+      <stop offset="100%" stop-color="#C23B22" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <circle cx="215" cy="140" r="118" fill="url(#sun)"/>
+  <path d="M0 300 L180 210 L300 268 L430 190 L560 260 L700 170 L860 250 L1000 150 L1200 230 L1200 560 L0 560 Z" fill="#1B1A17" opacity="0.10"/>
+  <path d="M0 360 L150 290 L320 345 L520 280 L720 340 L900 270 L1200 350 L1200 560 L0 560 Z" fill="#1B1A17" opacity="0.16"/>
+  <ellipse cx="600" cy="360" rx="620" ry="70" fill="#F5F1E6" opacity="0.55" filter="url(#soft)"/>
+  <path d="M760 560 L820 420 L900 380 L980 430 L1040 560 Z" fill="#1B1A17" opacity="0.85"/>
+  <g fill="#1B1A17">
+    <rect x="892" y="318" width="56" height="62" opacity="0.92"/>
+    <path d="M878 322 L962 322 L952 306 L888 306 Z" opacity="0.92"/>
+    <path d="M884 296 L956 296 L948 282 L892 282 Z" opacity="0.92"/>
+    <path d="M890 272 L950 272 L944 260 L896 260 Z" opacity="0.92"/>
+    <rect x="918" y="238" width="4" height="24" opacity="0.92"/>
+    <circle cx="920" cy="234" r="4" opacity="0.92"/>
+    <rect x="912" y="330" width="16" height="30" fill="#F5F1E6" opacity="0.9"/>
+  </g>
+  <g stroke="#1B1A17" stroke-linecap="round" fill="none">
+    <g stroke-width="3" opacity="0.8">
+      <path d="M120 520 L120 430"/>
+      <path d="M120 470 L88 452 M120 470 L152 452"/>
+      <path d="M120 448 L92 432 M120 448 L148 432"/>
+      <path d="M120 492 L94 478 M120 492 L146 478"/>
+    </g>
+    <g stroke-width="2.5" opacity="0.65">
+      <path d="M205 520 L205 452"/>
+      <path d="M205 486 L180 472 M205 486 L230 472"/>
+      <path d="M205 468 L184 454 M205 468 L226 454"/>
+    </g>
+    <g stroke-width="2" opacity="0.5">
+      <path d="M280 520 L280 470"/>
+      <path d="M280 498 L260 486 M280 498 L300 486"/>
+    </g>
+  </g>
+  <ellipse cx="420" cy="505" rx="500" ry="60" fill="#F5F1E6" opacity="0.6" filter="url(#soft)"/>
+</svg>

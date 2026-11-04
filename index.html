@@ -10,23 +10,20 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darrenlabs.pages.dev/">
 <meta property="og:image" content="https://darrenlabs.pages.dev/docs/assets/darren-labs-banner.png">
-<meta name="color-scheme" content="dark">
+<meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap">
 <link rel="stylesheet" href="styles.css">
-<script type="importmap">
-{"imports": {"three": "https://unpkg.com/three@0.170.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.170.0/examples/jsm/"}}
-</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="Darren Labs home">
-      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="38" height="38"></span>
-      <span class="brand-text">Darren <span>Labs</span></span>
+      <span class="seal" aria-hidden="true"></span>
+      <span class="brand-text">Darren Labs</span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
@@ -41,6 +38,7 @@
           <a href="products.html">Products<small>Free tools and paid offers</small></a>
         </div>
       </div>
+      <a href="lab.html">Lab</a>
       <a href="#method">Method</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
@@ -50,28 +48,29 @@
 
 <main id="main">
   <section class="hero" id="top">
-    <canvas id="hero3d" class="hero-canvas" aria-label="Interactive 3D agent core: a chrome knot with an amber heart, agents orbiting it. Drag to orbit."></canvas>
-    <noscript><p style="position:absolute;left:32px;bottom:24px;color:var(--faint);font-family:var(--font-mono);font-size:13px">3D needs JavaScript. The site still works without it.</p></noscript>
+    <div class="hero-art" aria-hidden="true"></div>
     <div class="wrap hero-inner">
-      <h1>Agents that <em>do the work.</em></h1>
-      <div class="rule-accent" aria-hidden="true"></div>
+      <h1>Agents that do the work.</h1>
+      <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
+        <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
+        <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
+      </svg>
       <p class="tagline">Free models. Local tools.</p>
       <p class="hero-sub">Free to run. Measured in public.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="models.html">Run the models free</a> <a class="btn btn-ghost" href="styx.html">Get Styx</a></p>
-      <p class="hero-hint">Drag the core to orbit. Scroll to move through it.</p>
       <dl class="spec-strip">
         <div><dt>7B</dt><dd>169 tokens per second</dd></div>
         <div><dt>32B</dt><dd>54 tokens per second</dd></div>
-        <div><dt>Styx</dt><dd>On your machine, no cloud</dd></div>
+        <div><dt>Styx</dt><dd>Runs on your machine</dd></div>
       </dl>
     </div>
   </section>
 
   <section class="section" id="flagships">
     <div class="wrap">
-      <h2 class="reveal">The lineup.</h2>
+      <h2>The lineup.</h2>
       <div class="flagships">
-        <article class="flag-card flag-card-first reveal">
+        <article class="flag-card">
           <p class="flag-index">01</p>
           <div>
           <p class="chapter-num">Open models</p>
@@ -81,17 +80,17 @@
           </div>
           <span class="flag-arrow" aria-hidden="true">&rarr;</span>
         </article>
-        <article class="flag-card reveal">
+        <article class="flag-card">
           <p class="flag-index">02</p>
           <div>
-          <p class="chapter-num">Fork of Nous Research Hermes Agent, MIT</p>
+          <p class="chapter-num">Based on Nous Research Hermes Agent, MIT licensed</p>
           <h3>Styx</h3>
           <p class="flag-line">A desktop agent. On your machine.</p>
           <p><a class="card-link" href="styx.html">Open the Styx page</a></p>
           </div>
           <span class="flag-arrow" aria-hidden="true">&rarr;</span>
         </article>
-        <article class="flag-card reveal">
+        <article class="flag-card">
           <p class="flag-index">03</p>
           <div>
           <p class="chapter-num">Power-system CAD</p>
@@ -100,16 +99,16 @@
           <p class="flag-standards">IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E</p>
           </div>
         </article>
-        <article class="flag-card reveal">
+        <article class="flag-card">
           <p class="flag-index">04</p>
           <div>
           <p class="chapter-num">Building services</p>
           <h3>MEP Suits</h3>
           <p class="flag-line">Eight calculators. One 3D viewer.</p>
-          <p>A design aid. A licensed engineer verifies results before construction.</p>
+          <p>Prepared for licensed engineer verification before construction.</p>
           </div>
         </article>
-        <article class="flag-card reveal">
+        <article class="flag-card">
           <p class="flag-index">05</p>
           <div>
           <p class="chapter-num">Design notes</p>
@@ -124,19 +123,19 @@
   <section class="section" id="method">
     <div class="wrap">
       <p class="section-label">Method</p>
-      <h2 class="reveal">Nothing ships unchecked.</h2>
+      <h2>Nothing ships unchecked.</h2>
       <div class="method">
-        <div class="method-step reveal">
+        <div class="method-step">
           <p class="method-num">01</p>
           <h3>Direct</h3>
           <p>Darren sets the goal, the scope, and what counts as done.</p>
         </div>
-        <div class="method-step reveal">
+        <div class="method-step">
           <p class="method-num">02</p>
           <h3>Build</h3>
           <p>Agents build the first working version, with real numbers attached.</p>
         </div>
-        <div class="method-step reveal">
+        <div class="method-step">
           <p class="method-num">03</p>
           <h3>Verify</h3>
           <p>Run it, read it, fix it, run it again. Published only when it passes.</p>
@@ -146,7 +145,7 @@
   </section>
 
   <section class="section" id="projects">
-    <div class="wrap narrow reveal">
+    <div class="wrap narrow">
       <p class="section-label">Projects and products</p>
       <h2>Everything we make. Free or paid.</h2>
       <p>VoltWorks, MEP Suits, and Omni Eyes View are free. FlutterKit templates are paid.</p>
@@ -155,7 +154,7 @@
   </section>
 
   <section class="section" id="about">
-    <div class="wrap narrow reveal">
+    <div class="wrap narrow">
       <p class="section-label">About</p>
       <h2>Tri Adi S, known as Darren Lieu.</h2>
       <p>Darren runs Darren Labs and works as a CAD designer in building services. The tools are built for the desk he sits at.</p>
@@ -163,7 +162,7 @@
   </section>
 
   <section class="section" id="contact">
-    <div class="wrap narrow reveal">
+    <div class="wrap narrow">
       <p class="section-label">Contact</p>
       <h2>Tell us what to build.</h2>
       <p class="section-lead">Tell us the workflow, the volume, and what good looks like.</p>
@@ -196,7 +195,7 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-dark.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs, Agentic AI Studio</p>
     <p>Built with agents, checked by hand.</p>
   </div>
@@ -205,6 +204,5 @@
   </div>
 </footer>
 <script src="script.js"></script>
-<script type="module" src="hero3d.js"></script>
 </body>
 </html>
