@@ -104,13 +104,14 @@ h2{margin:0 0 16px;font-family:var(--font-display);font-weight:700;font-size:cla
 
 /* Flagships: an index of rows, not identical SaaS cards. */
 .flagships{display:flex;flex-direction:column;margin-top:40px;border-top:1px solid var(--line)}
-.flag-card{display:grid;grid-template-columns:96px 1fr auto;gap:28px;background:transparent;border-bottom:1px solid var(--line);padding:44px 0;transition:background .2s ease,box-shadow .2s ease}
+.flag-card{display:grid;grid-template-columns:96px 1fr auto;gap:28px;background:transparent;border-bottom:1px solid var(--line);padding:56px 0;transition:background .2s ease,box-shadow .2s ease}
 .flag-card:hover{background:var(--bg-2);box-shadow:inset 2px 0 0 var(--accent)}
 .flag-card:hover h3{color:var(--accent)}
 .flag-arrow{align-self:start;padding-top:6px;font-family:var(--font-display);font-size:30px;line-height:1;color:var(--accent);opacity:0;transform:translateX(-8px);transition:opacity .25s ease,transform .25s ease}
 .flag-card:hover .flag-arrow{opacity:1;transform:none}
 .flag-index{margin:0;font-family:var(--font-mono);font-size:13px;color:var(--accent);padding-top:8px}
-.flag-card h3{margin:0 0 12px;font-family:var(--font-display);font-weight:600;font-size:clamp(28px,3.4vw,42px);line-height:1.1;letter-spacing:-.02em}
+.flag-card h3{margin:0 0 12px;font-family:var(--font-display);font-weight:600;font-size:clamp(34px,4.5vw,56px);line-height:1.1;letter-spacing:-.02em}
+.flag-card .flag-line{margin:0 0 12px;color:var(--text-2);font-size:20px;line-height:1.6;max-width:72ch}
 .flag-card p{margin:0 0 12px;color:var(--muted);font-size:17px;line-height:1.7;max-width:72ch}
 .flag-card p:last-child{margin-bottom:0}
 .flag-standards{color:var(--accent)!important;font-weight:600;font-size:14.5px;font-family:var(--font-mono)}
