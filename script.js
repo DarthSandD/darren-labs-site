@@ -51,6 +51,27 @@
 
   var REDUCED = false;
   try { REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { REDUCED = false; }
+
+  /* Scroll reveal: elements with .reveal fade up once when they enter
+     view. Gated on html.js so pages without JavaScript show everything,
+     and skipped under reduced motion. */
+  (function () {
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if (!els.length) return;
+    document.documentElement.classList.add('js');
+    var RED = false;
+    try { RED = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { RED = false; }
+    if (RED || !('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
   var canvas = document.getElementById('story3d');
   var caption = document.getElementById('story-caption');
   var chapterEls = Array.prototype.slice.call(document.querySelectorAll('.story-chapter'));
