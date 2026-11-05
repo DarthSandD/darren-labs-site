@@ -7,9 +7,6 @@
 <meta name="description" content="Every Darren Labs project in one list: free tools and paid products, each marked with its real status. Flagships VoltWorks Power and MEP Suits, plus Omni Eyes, AI Architecture Patterns, FlutterKit, and more.">
 <meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,94 +40,148 @@
 
 <main id="main">
   <section class="page-head">
-    <div class="page-head-art" aria-hidden="true"></div>
+    <div class="page-head-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap page-head-inner">
-      <p class="section-label">Projects</p>
       <h1 class="page-title">All projects.</h1>
-      <p class="page-lead">First, the AI models. Then every other project, separated, each on its own page. Free means free to open and use. Paid means a product you buy. The status on each card is the real one.</p>
+      <p class="page-lead">First, the AI models. Then every other project. Free means free to open and use. Paid means a product you buy.</p>
     </div>
+    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="cards">
-        <article class="pcard" id="darrenlabs-models">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>DarrenLabs AI Models</h3>
-          <p>First flagship. Two Qwen-based models, timed: the 7B in 16 seconds on CPU, the 32B in about seven minutes on CPU, and 54 tokens per second on average on 32GB VRAM. Free to run on your own machine.</p>
-          <a class="card-link" href="models.html">Open the models page</a>
+      <div class="plist">
+        <article class="prow" id="darrenlabs-models">
+          <div>
+            <h2>DarrenLabs AI Models</h2>
+            <p>First flagship. Two Qwen-based models, timed: the 7B in 16 seconds on CPU, the 32B in about seven minutes on CPU, and 54 tokens per second on average on 32GB VRAM. Free to run on your own machine.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="models.html">Open the models page</a>
+          </div>
         </article>
 
-        <article class="pcard" id="styx">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>Styx</h3>
-          <p>Second flagship. A desktop agent that runs fully locally, with Apple liquid glass and a local first run. A fork of Nous Research Hermes Agent, MIT, with the agent itself unchanged. Add your own provider key, then chat.</p>
-          <a class="card-link" href="styx.html">Open the Styx page</a>
+        <article class="prow" id="styx">
+          <div>
+            <h2>Styx</h2>
+            <p>Second flagship. A desktop agent that runs fully locally, with a local first run. A fork of Nous Research Hermes Agent, MIT, with the agent itself unchanged. Add your own provider key, then chat.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="styx.html">Open the Styx page</a>
+          </div>
         </article>
 
-        <article class="pcard" id="voltworks-power">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>VoltWorks Power</h3>
-          <p>Power-engineering suite in the browser: engineering calculators, a single-line-diagram builder, a true-scale 3D substation viewer, and a live substation map.</p>
-          <a class="card-link" href="https://voltworks-power.pages.dev/">Visit site</a>
+        <article class="prow" id="voltworks-power">
+          <div>
+            <h2>VoltWorks Power</h2>
+            <p>Power-engineering suite in the browser: engineering calculators, a single-line-diagram builder, a true-scale 3D substation viewer, and a live substation map.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="https://voltworks-power.pages.dev/">Visit site</a>
+          </div>
         </article>
 
-        <article class="pcard" id="mep-suits">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>MEP Suits</h3>
-          <p>Building-services mechanical toolkit: eight calculators plus a live 3D system viewer, for the people who design and check plant-room systems.</p>
-          <a class="card-link" href="https://mepsuits.pages.dev/">Visit site</a>
+        <article class="prow" id="mep-suits">
+          <div>
+            <h2>MEP Suits</h2>
+            <p>Building-services mechanical toolkit: eight calculators plus a live 3D system viewer, for the people who design and check plant-room systems.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="https://mepsuits.pages.dev/">Visit site</a>
+          </div>
         </article>
 
-        <article class="pcard" id="omni-eyes">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>Omni Eyes View</h3>
-          <p>A real-time earth-intelligence globe with live aircraft, vessels, satellites, and CCTV layers on one map.</p>
-          <a class="card-link" href="https://omnieyes.pages.dev/">Visit site</a>
+        <article class="prow" id="omni-eyes">
+          <div>
+            <h2>Omni Eyes View</h2>
+            <p>A real-time earth-intelligence globe with live aircraft, vessels, satellites, and CCTV layers on one map.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="https://omnieyes.pages.dev/">Visit site</a>
+          </div>
         </article>
 
-        <article class="pcard" id="ai-architecture-patterns">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>AI Architecture Patterns</h3>
-          <p>A visual design library for AI systems: diagrams, trade-offs, and runnable demos, published as a public GitHub repository.</p>
-          <a class="card-link" href="https://github.com/DarthSandD/ai-architecture-patterns">View on GitHub</a>
+        <article class="prow" id="ai-architecture-patterns">
+          <div>
+            <h2>AI Architecture Patterns</h2>
+            <p>A visual design library for AI systems: diagrams, trade-offs, and runnable demos, published as a public GitHub repository.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="https://github.com/DarthSandD/ai-architecture-patterns">View on GitHub</a>
+          </div>
         </article>
 
-        <article class="pcard" id="flutterkit">
-          <div class="card-meta"><span class="status">Live</span><span class="chip chip-paid">Paid</span></div>
-          <h3>FlutterKit</h3>
-          <p>A store of ready-made Flutter app templates: working apps you buy once and build on, instead of starting from a blank project.</p>
-          <a class="card-link" href="https://flutterhubsaas.vercel.app">Visit the store</a>
+        <article class="prow" id="flutterkit">
+          <div>
+            <h2>FlutterKit</h2>
+            <p>A store of ready-made Flutter app templates: working apps you buy once and build on, instead of starting from a blank project.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip chip-paid">Paid</span>
+            <a class="card-link" href="https://flutterhubsaas.vercel.app">Visit the store</a>
+          </div>
         </article>
 
-        <article class="pcard" id="darren-labs-site">
-          <div class="card-meta"><span class="status">Live</span><span class="chip">Free</span></div>
-          <h3>Darren Labs (this site)</h3>
-          <p>The studio home: what Darren Labs is, the flagships, the lab, and the contact form.</p>
-          <a class="card-link" href="index.html">Visit home</a>
+        <article class="prow" id="darren-labs-site">
+          <div>
+            <h2>Darren Labs (this site)</h2>
+            <p>The studio home: what Darren Labs is, the flagships, the lab, and the contact form.</p>
+          </div>
+          <div class="row-side">
+            <span class="status">Live</span>
+            <span class="chip">Free</span>
+            <a class="card-link" href="index.html">Visit home</a>
+          </div>
         </article>
 
-        <article class="pcard" id="saku">
-          <div class="card-meta"><span class="status status-dev">In development</span><span class="chip">Free</span></div>
-          <h3>Saku QRIS Ledger</h3>
-          <p>A QRIS-first personal finance app: a salary is split into budget buckets, and the app warns before a bucket goes over its limit.</p>
-          <span class="card-nolink">Not public yet</span>
+        <article class="prow" id="saku">
+          <div>
+            <h2>Saku QRIS Ledger</h2>
+            <p>A QRIS-first personal finance app: a salary is split into budget buckets, and the app warns before a bucket goes over its limit.</p>
+          </div>
+          <div class="row-side">
+            <span class="status status-dev">In development</span>
+            <span class="chip">Free</span>
+            <span class="card-nolink">Not public yet</span>
+          </div>
         </article>
 
-        <article class="pcard" id="engineering-powertools">
-          <div class="card-meta"><span class="status status-dev">In development</span><span class="chip">Free</span></div>
-          <h3>Engineering PowerTools</h3>
-          <p>A native Autodesk Inventor add-in for as-built CAD work: move groups of components safely, edit conductor routes, and generate parallel conduit runs.</p>
-          <span class="card-nolink">Not public yet</span>
+        <article class="prow" id="engineering-powertools">
+          <div>
+            <h2>Engineering PowerTools</h2>
+            <p>A native Autodesk Inventor add-in for as-built CAD work: move groups of components safely, edit conductor routes, and generate parallel conduit runs.</p>
+          </div>
+          <div class="row-side">
+            <span class="status status-dev">In development</span>
+            <span class="chip">Free</span>
+            <span class="card-nolink">Not public yet</span>
+          </div>
         </article>
 
-        <article class="pcard" id="darrencad">
-          <div class="card-meta"><span class="status status-dev">In development</span><span class="chip">Free</span></div>
-          <h3>DarrenCAD</h3>
-          <p>A browser CAD tool in development: parametric sketches and solid modelling in the browser, with STEP, IGES, STL, and BREP import and export. Built as a derivative of Chili3D under AGPL-3.0.</p>
-          <span class="card-nolink">Not public yet</span>
+        <article class="prow" id="darrencad">
+          <div>
+            <h2>DarrenCAD</h2>
+            <p>A browser CAD tool in development: parametric sketches and solid modelling in the browser, with STEP, IGES, STL, and BREP import and export. Built as a derivative of Chili3D under AGPL-3.0.</p>
+          </div>
+          <div class="row-side">
+            <span class="status status-dev">In development</span>
+            <span class="chip">Free</span>
+            <span class="card-nolink">Not public yet</span>
+          </div>
         </article>
-
       </div>
     </div>
   </section>
@@ -140,10 +191,9 @@
   <div class="wrap footer-inner">
     <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
-    <p>Built with agents, checked by hand.</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
+    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
   </div>
 </footer>
 <script src="script.js"></script>

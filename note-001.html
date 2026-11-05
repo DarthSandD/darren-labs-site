@@ -7,9 +7,6 @@
 <meta name="description" content="Lab Note No. 1 from Darren Labs: how our comment watcher reported activity that never happened, and the standing rules the incident produced.">
 <meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -42,11 +39,12 @@
 </header>
 <main id="main">
   <section class="page-head">
-    <div class="page-head-art" aria-hidden="true"></div>
+    <div class="page-head-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap page-head-inner">
-      <p class="section-label">Lab Note No. 1 &middot; October 2026</p>
       <h1 class="page-title">The watcher that could not trust its own notes</h1>
+      <p class="note-byline">Lab Note No. 1, October 2026</p>
     </div>
+    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
   <section class="section">
     <div class="wrap note-body">
@@ -72,6 +70,7 @@
       <li>Re-verify live state against the baseline directly. A report that a write happened is not evidence that it happened.</li>
       </ol>
       <p>Two supporting habits came from the same days: print status to a separate stream rather than the file being written, and treat new comments appearing on several closed issues at once as a symptom to investigate before classifying any of it.</p>
+      <blockquote class="pull-quote">Verification is not a step after the work. For a system that runs while nobody is watching, verification is the work.</blockquote>
       <h2>What it means for anyone running agents unattended</h2>
       <p>An unattended agent keeps its memory in files, and those files become the ground it reasons from. When the ground is wrong, the agent does not become cautious. It becomes confidently wrong in both directions at once: it raised alarms over comments that did not exist and passed over one that did. The model was not the weak point in any of these incidents. The weak points were a copied id, a guessed field name, an unclosed file, a shortened comparison: ordinary code that no one re-checked because the reports coming back looked finished.</p>
       <p>Our conclusion is narrow: any state an agent will trust tomorrow has to be written by one writer, written completely, and read back before it is believed. Verification is not a step after the work. For a system that runs while nobody is watching, verification is the work.</p>
@@ -84,10 +83,9 @@
   <div class="wrap footer-inner">
     <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
-    <p>Built with agents, checked by hand.</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
+    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
   </div>
 </footer>
 <script src="script.js"></script>

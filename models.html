@@ -7,9 +7,6 @@
 <meta name="description" content="Darren Labs first AI models. DarrenLabs-7B based on Qwen2.5-7B, DarrenLabs-32B based on Qwen3-32B, timed in public, free and open to run anywhere.">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,9 +40,8 @@
 
 <main id="main">
   <section class="model-hero">
-    <div class="hero-art" aria-hidden="true"></div>
+    <div class="hero-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap hero-inner">
-      <p class="eyebrow">Darren Labs &middot; First models &middot; 24 October 2026</p>
       <h1 class="model-title">Our first<br>models.</h1>
       <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
         <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
@@ -61,16 +57,15 @@
         <div><dt>Speed shown</dt><dd>32GB VRAM average, CPU measured below</dd></div>
       </dl>
     </div>
+    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
 
   <section class="section" id="models">
     <div class="wrap">
-      <p class="section-label">The models</p>
       <h2>Two models, same CPU machine, both timings shown.</h2>
       <div class="model-grid">
         <article class="model-card">
           <p class="model-size">7B</p>
-          <p class="chapter-num">DarrenLabs-7B &middot; Live</p>
           <h3>The small one, for notes and first drafts.</h3>
           <p>Turn a rough site note into a readable checklist, or a messy drawing note into a first draft you can edit. Based on Qwen2.5-7B-Instruct.</p>
           <dl class="model-stats">
@@ -82,9 +77,8 @@
           <p class="model-note">Identity answer verified: the model names itself DarrenLabs-7B, based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.</p>
           <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average, about 19 times faster than our CPU. On CPU, the test took 16.0 seconds in total.</p>
         </article>
-        <article class="model-card model-card-large">
+        <article class="model-card">
           <p class="model-size">32B</p>
-          <p class="chapter-num">DarrenLabs-32B &middot; Live, slow on CPU</p>
           <h3>The bigger one, for longer documents.</h3>
           <p>For a full drawing quality note, a checklist with reasons, or a second pass over a long document. Based on Qwen3-32B. Fast on a 32GB GPU, slow on CPU, and the slow time is on this page.</p>
           <dl class="model-stats">
@@ -102,16 +96,21 @@
 
   <section class="section" id="speed">
     <div class="wrap narrow">
-      <p class="section-label">Speed</p>
       <h2>On 32GB VRAM.</h2>
       <p>7B: 169 tokens per second on average. 32B: 54. On CPU, measured: 8.8 and 1.89.</p>
       <p>Average: 7B (150 + 185.9 + 169.8) / 3. 32B (45.1 + 61.4 + 55.5) / 3. Published RTX 5090 benchmarks. Our GPU run is still to come.</p>
+      <div class="speedbars">
+        <div class="speedbar"><span class="speedbar-label">7B, 32GB VRAM average</span><span class="speedbar-track"><span class="speedbar-fill seal" style="width:100%"></span></span><span class="speedbar-value">169 tokens / sec</span></div>
+        <div class="speedbar"><span class="speedbar-label">32B, 32GB VRAM average</span><span class="speedbar-track"><span class="speedbar-fill" style="width:32%"></span></span><span class="speedbar-value">54 tokens / sec</span></div>
+        <div class="speedbar"><span class="speedbar-label">7B, CPU measured</span><span class="speedbar-track"><span class="speedbar-fill" style="width:5%"></span></span><span class="speedbar-value">8.8 tokens / sec</span></div>
+        <div class="speedbar"><span class="speedbar-label">32B, CPU measured</span><span class="speedbar-track"><span class="speedbar-fill" style="width:1%"></span></span><span class="speedbar-value">1.89 tokens / sec</span></div>
+      </div>
+      <p class="speedbar-scale">Bars scaled to 169 tokens per second.</p>
     </div>
   </section>
 
   <section class="section" id="how-it-runs">
     <div class="wrap narrow">
-      <p class="section-label">How it runs</p>
       <h2>How to run them.</h2>
       <p>You pull the base model, create the DarrenLabs version, and run it on your own machine. That is why it is free, and why the 32B version is slow on a CPU-only machine.</p>
       <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on your own machine, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
@@ -124,14 +123,14 @@
         <text x="360" y="82" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">Ollama</text>
         <rect x="285" y="105" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#C9C2B2"/>
         <text x="360" y="128" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1B1A17">DarrenLabs-7B</text>
-        <text x="360" y="147" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">169 tok/s avg, 32GB VRAM</text>
+        <text x="360" y="147" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">169 tok/s avg</text>
         <rect x="285" y="175" width="150" height="52" rx="4" fill="#FFFFFF" stroke="#C9C2B2"/>
         <text x="360" y="198" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1B1A17">DarrenLabs-32B</text>
-        <text x="360" y="217" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">54 tok/s avg, 32GB VRAM</text>
+        <text x="360" y="217" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#C23B22">54 tok/s avg</text>
         <rect x="540" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#C9C2B2" stroke-width="1.5"/>
         <text x="625" y="135" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1B1A17">An answer</text>
         <text x="625" y="160" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">checked by a human</text>
-        <text x="625" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#6B6560">before it goes anywhere</text>
+        <text x="625" y="180" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#6B6560">before it goes anywhere</text>
         <line x1="180" y1="150" x2="270" y2="150" stroke="#C23B22" stroke-width="2"/>
         <polygon points="270,150 258,144 258,156" fill="#C23B22"/>
         <line x1="450" y1="150" x2="540" y2="150" stroke="#C23B22" stroke-width="2"/>
@@ -143,7 +142,6 @@
 
   <section class="section" id="run">
     <div class="wrap narrow">
-      <p class="section-label">Run them free, anywhere</p>
       <h2>Run them.</h2>
       <p>Ollama on your own machine. Free means the method and the model files, not a public chat on our machine.</p>
       <pre class="model-code"><code># 7B
@@ -158,7 +156,6 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
 
   <section class="section" id="use">
     <div class="wrap">
-      <p class="section-label">Use, and limits</p>
       <h2>Use them. Check them.</h2>
       <div class="model-grid">
         <div class="model-panel">
@@ -183,7 +180,6 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
 
   <section class="section" id="next">
     <div class="wrap narrow">
-      <p class="section-label">What is next</p>
       <h2>Next.</h2>
       <ol class="model-next">
         <li><strong>Smaller student model.</strong> Trained on 50 teacher examples, then scored against a held-out set.</li>
@@ -202,7 +198,7 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
     <p>Base models: Qwen2.5-7B and Qwen3-32B, Alibaba Qwen, Apache 2.0.</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
+    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
   </div>
 </footer>
 <script src="script.js"></script>

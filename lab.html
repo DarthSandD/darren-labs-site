@@ -7,9 +7,6 @@
 <meta name="description" content="The Darren Labs laboratory, in public: Lab Notes from real agent operations, and the Verified Bench, a benchmark that scores AI models by hard verification gates.">
 <meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,19 +40,18 @@
 
 <main id="main">
   <section class="page-head">
-    <div class="page-head-art" aria-hidden="true"></div>
+    <div class="page-head-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap page-head-inner">
-      <p class="section-label">The Lab</p>
       <h1 class="page-title">A working laboratory, in public.</h1>
-      <p class="page-lead">Darren Labs runs a fleet of AI agents around the clock. This page is where the laboratory publishes what it learns: short notes from real operations, and the benchmark that decides whether a model's work can be trusted.</p>
+      <p class="page-lead">The laboratory publishes what it learns: short notes from real operations, and the benchmark that decides whether a model’s work can be trusted.</p>
     </div>
+    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <p class="section-label">Lab Notes</p>
       <h2>Notes from real operations.</h2>
-      <p class="page-lead">Each note is one incident or one method from the fleet's own work: what happened, what it cost, and the standing rule it produced.</p>
+      <p class="page-lead">Each note is one incident or one method from the fleet’s own work: what happened, what it cost, and the standing rule it produced.</p>
       <div class="offers offer-group">
 
         <article class="offer">
@@ -75,9 +71,8 @@
 
   <section class="section">
     <div class="wrap">
-      <p class="section-label">Verified Bench</p>
       <h2>Models, scored by gates, not impressions.</h2>
-      <p class="page-lead">The Verified Bench is the lab's own benchmark. A model is given real working tasks, and its answers are scored by hard gates: checks that pass or fail, with the evidence kept. A fluent answer that breaks a rule scores the same as a wrong one: zero.</p>
+      <p class="page-lead">The Verified Bench is the lab’s own benchmark. A model is given real working tasks, and its answers are scored by hard gates: checks that pass or fail, with the evidence kept. A fluent answer that breaks a rule scores the same as a wrong one: zero.</p>
       <div class="offers offer-group">
 
         <article class="offer">
@@ -99,7 +94,7 @@
         <article class="offer">
           <div>
             <h3>Numeric grounding</h3>
-            <p>An engineering calculation with given inputs: duct velocity, voltage drop. The model's number must land within two percent of the computed value.</p>
+            <p>An engineering calculation with given inputs: duct velocity, voltage drop. The model’s number must land within two percent of the computed value.</p>
           </div>
           <div class="offer-side"><span class="price">Gate 3</span></div>
         </article>
@@ -114,8 +109,11 @@
 
       </div>
 
-      <h3 style="margin-top:34px">First run: the house route: 23 October 2026</h3>
-      <p class="page-lead">The first live run put the house route through the first four tasks. It passed all four: 20 of 20 gate checks. The remaining four tasks (numeric grounding, hallucination refusal) are gate-tested and run next.</p>
+      <div class="bench-head">
+        <h3>First run: the house route: 23 October 2026</h3>
+        <p class="seal-stamp"><strong>20 / 20</strong><span>gate checks passed</span></p>
+      </div>
+      <p class="page-lead">The first live run put the house route through the first four tasks. It passed all four: 20 of 20 gate checks. Four more tasks cover numeric grounding and hallucination refusal, and run next.</p>
       <table class="bench-table">
         <thead><tr><th>Task</th><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
         <tbody>
@@ -134,10 +132,9 @@
   <div class="wrap footer-inner">
     <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
-    <p>Built with agents, checked by hand.</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
+    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
   </div>
 </footer>
 <script src="script.js"></script>

@@ -12,9 +12,6 @@
 <meta property="og:image" content="https://darrenlabs.pages.dev/docs/assets/darren-labs-banner.png">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -48,7 +45,7 @@
 
 <main id="main">
   <section class="hero" id="top">
-    <div class="hero-art" aria-hidden="true"></div>
+    <div class="hero-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap hero-inner">
       <h1>Agents that do the work.</h1>
       <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
@@ -63,7 +60,9 @@
         <div><dt>32B</dt><dd>54 tokens per second</dd></div>
         <div><dt>Styx</dt><dd>Runs on your machine</dd></div>
       </dl>
+      <p class="hero-caption">Ink study, Darren Labs</p>
     </div>
+    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
 
   <section class="section" id="flagships">
@@ -71,49 +70,42 @@
       <h2>The lineup.</h2>
       <div class="flagships">
         <article class="flag-card">
-          <p class="flag-index">01</p>
           <div>
-          <p class="chapter-num">Open models</p>
           <h3>DarrenLabs AI Models</h3>
           <p class="flag-line">Two open models. Free to run.</p>
+          <p class="flag-facts">7B 169 tokens per second, 32B 54, CPU timed in public.</p>
           <p><a class="card-link" href="models.html">Open the models page</a></p>
           </div>
           <span class="flag-arrow" aria-hidden="true">&rarr;</span>
         </article>
         <article class="flag-card">
-          <p class="flag-index">02</p>
           <div>
-          <p class="chapter-num">Based on Nous Research Hermes Agent, MIT licensed</p>
           <h3>Styx</h3>
           <p class="flag-line">A desktop agent. On your machine.</p>
+          <p class="flag-facts">v0.1.0, Linux only, MIT, upstream 25b5001.</p>
           <p><a class="card-link" href="styx.html">Open the Styx page</a></p>
           </div>
           <span class="flag-arrow" aria-hidden="true">&rarr;</span>
         </article>
         <article class="flag-card">
-          <p class="flag-index">03</p>
           <div>
-          <p class="chapter-num">Power-system CAD</p>
           <h3>VoltWorks Power</h3>
           <p class="flag-line">True-scale 3D. Calculators that show every step.</p>
           <p class="flag-standards">IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E</p>
           </div>
         </article>
         <article class="flag-card">
-          <p class="flag-index">04</p>
           <div>
-          <p class="chapter-num">Building services</p>
           <h3>MEP Suits</h3>
           <p class="flag-line">Eight calculators. One 3D viewer.</p>
           <p>Prepared for licensed engineer verification before construction.</p>
           </div>
         </article>
         <article class="flag-card">
-          <p class="flag-index">05</p>
           <div>
-          <p class="chapter-num">Design notes</p>
           <h3>AI Architecture Patterns</h3>
           <p class="flag-line">Design patterns. And their limits.</p>
+          <p class="flag-facts">Public GitHub repository, diagrams and runnable demos.</p>
           </div>
         </article>
       </div>
@@ -122,7 +114,6 @@
 
   <section class="section" id="method">
     <div class="wrap">
-      <p class="section-label">Method</p>
       <h2>Nothing ships unchecked.</h2>
       <div class="method">
         <div class="method-step">
@@ -146,7 +137,6 @@
 
   <section class="section" id="projects">
     <div class="wrap narrow">
-      <p class="section-label">Projects and products</p>
       <h2>Everything we make. Free or paid.</h2>
       <p>VoltWorks, MEP Suits, and Omni Eyes View are free. FlutterKit templates are paid.</p>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="products.html">See products</a></p>
@@ -155,15 +145,18 @@
 
   <section class="section" id="about">
     <div class="wrap narrow">
-      <p class="section-label">About</p>
       <h2>Tri Adi S, known as Darren Lieu.</h2>
       <p>Darren runs Darren Labs and works as a CAD designer in building services. The tools are built for the desk he sits at.</p>
+      <dl class="work-ledger">
+        <div><dt>Now</dt><dd>CAD Designer, building services, Jan 2026 to present</dd></div>
+        <div><dt>Before</dt><dd>Process and Automation Development Engineer, Jan 2025 to Jan 2026</dd></div>
+        <div><dt>Earlier</dt><dd>Manufacturing Engineer, Mar 2024 to Dec 2024</dd></div>
+      </dl>
     </div>
   </section>
 
   <section class="section" id="contact">
     <div class="wrap narrow">
-      <p class="section-label">Contact</p>
       <h2>Tell us what to build.</h2>
       <p class="section-lead">Tell us the workflow, the volume, and what good looks like.</p>
       <form class="contact-form" id="contact-form">
@@ -197,10 +190,9 @@
   <div class="wrap footer-inner">
     <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
     <p>&copy; 2026 Darren Labs, Agentic AI Studio</p>
-    <p>Built with agents, checked by hand.</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
+    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
   </div>
 </footer>
 <script src="script.js"></script>
