@@ -93,7 +93,7 @@
 
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog(PAPER, 34, 78);
-    var camera = new THREE.PerspectiveCamera(46, 1, 0.1, 200);
+    var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
     scene.add(new THREE.HemisphereLight(0xFBF8F0, INK2, 1.0));
     var key = new THREE.DirectionalLight(0xFBF8F0, 0.9);
     key.position.set(8, 14, 10);
@@ -265,11 +265,12 @@
     scene.add(cap);
 
     /* Camera orbit state, one spring per value (ios-touch Rule 2).
-       phi 1.28 is a flatter view than before: it aims up so the sun disc
-       and the pagoda roofs stay in frame at every station instead of
-       sliding out of the top edge. Field of view 46 and radius 28 pull
-       the focus back just enough to hold the painting and every label
-       around the station. */
+       The camera sits closer (radius 22) and aims at the painting's
+       vertical middle (ty 6.0) through a narrower field of view (42),
+       so the ink world fills the canvas instead of leaving a blank
+       cream band across the bottom. phi 1.28 still aims up so the sun
+       disc and the pagoda roofs stay in frame at every station instead
+       of sliding out of the top edge. */
     function spring(value) {
       return { x: value, v: 0, target: value,
         step: function (dt) {
@@ -281,8 +282,8 @@
           return false;
         } };
     }
-    var theta = spring(0), phi = spring(1.28), radius = spring(28);
-    var tx = spring(STATIONS[0].x), ty = spring(1.6), tz = spring(STATIONS[0].z);
+    var theta = spring(0), phi = spring(1.28), radius = spring(22);
+    var tx = spring(STATIONS[0].x), ty = spring(6.0), tz = spring(STATIONS[0].z);
     var THETA_MIN = -1.1, THETA_MAX = 1.1, PHI_MIN = 0.95, PHI_MAX = 1.35;
     function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
     /* Rubber-band, ios-touch Rule 4: progressive resistance with a ceiling. */
@@ -330,13 +331,15 @@
     /* Focus framing: the target pulls toward the painting centre for the
        right-hand stations and the camera swings to look back left, so the
        full sun disc and the pagoda stay in frame at stations 1 to 5.
-       Left stations keep their target: the painting already sits there. */
+       Left stations keep their target: the painting already sits there.
+       The target height (6.0) and radius (22) hold the ink world full
+       frame after every focus, with no blank cream band at the bottom. */
     onFocusChange = function (i) {
       var s = STATIONS[i];
       tx.target = s.x > 0 ? s.x * 0.55 : s.x;
-      ty.target = 1.6; tz.target = s.z;
+      ty.target = 6.0; tz.target = s.z;
       theta.target = Math.max(0, Math.min(0.38, s.x * 0.03));
-      phi.target = 1.28; radius.target = 28;
+      phi.target = 1.28; radius.target = 22;
       setActiveLabel(i);
       if (reduced) snapAll();
       applyCamera();
