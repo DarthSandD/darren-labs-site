@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: The Lab</title>
-<meta name="description" content="The Darren Labs laboratory, in public: Lab Notes from real agent operations, and the Verified Bench, a benchmark that scores AI models by hard verification gates.">
+<meta name="description" content="The Darren Labs laboratory: short notes on what went wrong and what fixed it, and the Verified Bench, which scores models by hard checks you can read.">
 <meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="stylesheet" href="styles.css">
@@ -43,7 +43,7 @@
     <div class="page-head-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap page-head-inner">
       <h1 class="page-title">A working laboratory, in public.</h1>
-      <p class="page-lead">The laboratory publishes what it learns: short notes from real operations, and the benchmark that decides whether a model’s work can be trusted.</p>
+      <p class="page-lead">Short notes on real failures and the rules they produced, plus the benchmark that checks whether a model’s work holds up.</p>
     </div>
     <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
   </section>
@@ -51,13 +51,13 @@
   <section class="section">
     <div class="wrap">
       <h2>Notes from real operations.</h2>
-      <p class="page-lead">Each note is one incident or one method from the fleet’s own work: what happened, what it cost, and the standing rule it produced.</p>
+      <p class="page-lead">Each note is one incident: what happened, what it cost, and the rule it produced, so you can use the rule yourself.</p>
       <div class="offers offer-group">
 
         <article class="offer">
           <div>
             <h3>Note No. 1: The watcher that could not trust its own notes</h3>
-            <p>In October 2026 our comment watcher reported activity that had never happened, dismissed a real comment as already read, and quoted totals from a file that was empty. The failures were ordinary programming errors.</p>
+            <p>In October 2026, a watcher reported activity that never happened, dismissed a real comment as read, and quoted totals from an empty file. The failures were ordinary programming errors, and the note names each one.</p>
           </div>
           <div class="offer-side">
             <span class="price">Oct 2026</span>
@@ -71,8 +71,8 @@
 
   <section class="section">
     <div class="wrap">
-      <h2>Models, scored by gates, not impressions.</h2>
-      <p class="page-lead">The Verified Bench is the lab’s own benchmark. A model is given real working tasks, and its answers are scored by hard gates: checks that pass or fail, with the evidence kept. A fluent answer that breaks a rule scores the same as a wrong one: zero.</p>
+      <h2>Models, scored by gates.</h2>
+      <p class="page-lead">The Verified Bench gives a model real working tasks and scores its answers by hard gates: checks that pass or fail, with the evidence kept. A fluent answer that breaks a rule scores zero, the same as a wrong one.</p>
       <div class="offers offer-group">
 
         <article class="offer">
@@ -86,7 +86,7 @@
         <article class="offer">
           <div>
             <h3>Defect spotting</h3>
-            <p>A short code snippet carrying one real defect, drawn from failures this lab has actually shipped and caught. The model must name the mechanism, not gesture at the area.</p>
+            <p>A short code snippet carrying one real defect. The model must name the mechanism, not gesture at the area.</p>
           </div>
           <div class="offer-side"><span class="price">Gate 2</span></div>
         </article>
@@ -110,10 +110,10 @@
       </div>
 
       <div class="bench-head">
-        <h3>First run: the house route: 23 October 2026</h3>
+        <h3>First run, 23 October 2026</h3>
         <p class="seal-stamp"><strong>20 / 20</strong><span>gate checks passed</span></p>
       </div>
-      <p class="page-lead">The first live run put the house route through the first four tasks. It passed all four: 20 of 20 gate checks. Four more tasks cover numeric grounding and hallucination refusal, and run next.</p>
+      <p class="page-lead">First run, 23 October 2026: four tasks passed, 20 of 20 gate checks. Four more tasks, numeric grounding and hallucination refusal, run next.</p>
       <table class="bench-table">
         <thead><tr><th>Task</th><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
         <tbody>
@@ -123,7 +123,7 @@
 <tr><td class="task">DS-2: The prefix comparison</td><td>Defect spotting</td><td class="pass">PASS</td><td>Named the mechanism: comparing ids by a 24-character prefix lets two different comments collide and one is dismissed as seen.</td></tr>
         </tbody>
       </table>
-      <p class="offer-note" style="margin-top:14px">Bench v1, smoke run: the first four of eight tasks. Raw answers and gate detail are kept with the bench code and published with each full run.</p>
+      <p class="offer-note" style="margin-top:14px">Bench v1: the first four of eight tasks. Raw answers and gate detail are published with each full run.</p>
     </div>
   </section>
 </main>

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: Agentic AI Studio</title>
-<meta name="description" content="Darren Labs. Open AI models and the tools that run them. Free to run. Measured in public.">
+<meta name="description" content="Two free AI models, 7B and 32B, that run on your machine. 7B at 169 tokens a second, 32B at 54, plus Styx and free engineering tools.">
 <meta property="og:title" content="Darren Labs: Agentic AI Studio">
-<meta property="og:description" content="Free models. Local tools.">
+<meta property="og:description" content="Two free models. 7B at 169 tokens a second, 32B at 54.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://darrenlabs.pages.dev/">
 <meta property="og:image" content="https://darrenlabs.pages.dev/docs/assets/darren-labs-banner.png">
@@ -47,13 +47,13 @@
   <section class="hero" id="top">
     <div class="hero-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap hero-inner">
-      <h1>Agents that do the work.</h1>
+      <h1>Free models that run on your machine.</h1>
       <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
         <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
         <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
       </svg>
-      <p class="tagline">Free models. Local tools.</p>
-      <p class="hero-sub">Free to run. Measured in public.</p>
+      <p class="tagline">DarrenLabs-7B at 4.7 GB, DarrenLabs-32B at 20 GB. Free to download, yours to run.</p>
+      <p class="hero-sub">The 7B answers at 169 tokens a second, the 32B at 54. Download them and run them with Ollama on your own machine.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="models.html">Run the models free</a> <a class="btn btn-ghost" href="styx.html">Get Styx</a></p>
       <dl class="spec-strip">
         <div><dt>7B</dt><dd>169 tokens per second</dd></div>
@@ -68,68 +68,85 @@
   <section class="section" id="flagships">
     <div class="wrap">
       <h2>The lineup.</h2>
-      <div class="flagships">
-        <article class="flag-card">
-          <div>
-          <h3>DarrenLabs AI Models</h3>
-          <p class="flag-line">Two open models. Free to run.</p>
-          <p class="flag-facts">7B 169 tokens per second, 32B 54, CPU timed in public.</p>
-          <p><a class="card-link" href="models.html">Open the models page</a></p>
+      <div class="slider" id="flag-slider">
+        <div class="slider-backdrop" aria-hidden="true"><img src="painting.svg" alt=""></div>
+        <div class="slider-viewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Flagships">
+          <div class="flagships slider-track">
+            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="1 of 5: DarrenLabs AI Models">
+              <div>
+              <h3>DarrenLabs AI Models</h3>
+              <p class="flag-line">7B and 32B, free to download and run.</p>
+              <p class="flag-facts">7B 169 tokens per second, 32B 54. Both run on CPU too.</p>
+              <p><a class="card-link" href="models.html">Open the models page</a></p>
+              </div>
+              <span class="flag-arrow" aria-hidden="true">&rarr;</span>
+            </article>
+            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="2 of 5: Styx">
+              <div>
+              <h3>Styx</h3>
+              <p class="flag-line">A desktop agent that lives on your machine. Bring your own provider key.</p>
+              <p class="flag-facts">v0.1.0, Linux only, free, MIT.</p>
+              <p><a class="card-link" href="styx.html">Open the Styx page</a></p>
+              </div>
+              <span class="flag-arrow" aria-hidden="true">&rarr;</span>
+            </article>
+            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="3 of 5: VoltWorks Power">
+              <div>
+              <h3>VoltWorks Power</h3>
+              <p class="flag-line">Power engineering in the browser. Every calculator shows its working.</p>
+              <p class="flag-standards">IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E</p>
+              </div>
+            </article>
+            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="4 of 5: MEP Suits">
+              <div>
+              <h3>MEP Suits</h3>
+              <p class="flag-line">Eight calculators and one 3D viewer for plant-room work.</p>
+              <p>Prepared for licensed engineer verification before construction.</p>
+              </div>
+            </article>
+            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="5 of 5: AI Architecture Patterns">
+              <div>
+              <h3>AI Architecture Patterns</h3>
+              <p class="flag-line">Patterns for AI systems, with the trade-offs and the limits.</p>
+              <p class="flag-facts">Public GitHub repository, diagrams and runnable demos.</p>
+              </div>
+            </article>
           </div>
-          <span class="flag-arrow" aria-hidden="true">&rarr;</span>
-        </article>
-        <article class="flag-card">
-          <div>
-          <h3>Styx</h3>
-          <p class="flag-line">A desktop agent. On your machine.</p>
-          <p class="flag-facts">v0.1.0, Linux only, MIT, upstream 25b5001.</p>
-          <p><a class="card-link" href="styx.html">Open the Styx page</a></p>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn slider-prev" type="button" aria-label="Previous flagship" disabled><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M11 3 L5 9 L11 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <p class="slider-count" aria-live="polite">1 of 5</p>
+          <div class="slider-dots">
+            <button class="slider-dot is-active" type="button" aria-label="Go to flagship 1: DarrenLabs AI Models" aria-current="true"></button>
+            <button class="slider-dot" type="button" aria-label="Go to flagship 2: Styx"></button>
+            <button class="slider-dot" type="button" aria-label="Go to flagship 3: VoltWorks Power"></button>
+            <button class="slider-dot" type="button" aria-label="Go to flagship 4: MEP Suits"></button>
+            <button class="slider-dot" type="button" aria-label="Go to flagship 5: AI Architecture Patterns"></button>
           </div>
-          <span class="flag-arrow" aria-hidden="true">&rarr;</span>
-        </article>
-        <article class="flag-card">
-          <div>
-          <h3>VoltWorks Power</h3>
-          <p class="flag-line">True-scale 3D. Calculators that show every step.</p>
-          <p class="flag-standards">IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E</p>
-          </div>
-        </article>
-        <article class="flag-card">
-          <div>
-          <h3>MEP Suits</h3>
-          <p class="flag-line">Eight calculators. One 3D viewer.</p>
-          <p>Prepared for licensed engineer verification before construction.</p>
-          </div>
-        </article>
-        <article class="flag-card">
-          <div>
-          <h3>AI Architecture Patterns</h3>
-          <p class="flag-line">Design patterns. And their limits.</p>
-          <p class="flag-facts">Public GitHub repository, diagrams and runnable demos.</p>
-          </div>
-        </article>
+          <button class="slider-btn slider-next" type="button" aria-label="Next flagship"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M7 3 L13 9 L7 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section" id="method">
     <div class="wrap">
-      <h2>Nothing ships unchecked.</h2>
+      <h2>What you get from how we work.</h2>
       <div class="method">
         <div class="method-step">
           <p class="method-num">01</p>
           <h3>Direct</h3>
-          <p>Darren sets the goal, the scope, and what counts as done.</p>
+          <p>You describe the goal, the scope, and what counts as done.</p>
         </div>
         <div class="method-step">
           <p class="method-num">02</p>
           <h3>Build</h3>
-          <p>Agents build the first working version, with real numbers attached.</p>
+          <p>The first working version arrives with real numbers attached.</p>
         </div>
         <div class="method-step">
           <p class="method-num">03</p>
           <h3>Verify</h3>
-          <p>Run it, read it, fix it, run it again. Published only when it passes.</p>
+          <p>It runs, gets read, gets fixed, and runs again. It ships only when it passes.</p>
         </div>
       </div>
     </div>
@@ -145,13 +162,8 @@
 
   <section class="section" id="about">
     <div class="wrap narrow">
-      <h2>Tri Adi S, known as Darren Lieu.</h2>
-      <p>Darren runs Darren Labs and works as a CAD designer in building services. The tools are built for the desk he sits at.</p>
-      <dl class="work-ledger">
-        <div><dt>Now</dt><dd>CAD Designer, building services, Jan 2026 to present</dd></div>
-        <div><dt>Before</dt><dd>Process and Automation Development Engineer, Jan 2025 to Jan 2026</dd></div>
-        <div><dt>Earlier</dt><dd>Manufacturing Engineer, Mar 2024 to Dec 2024</dd></div>
-      </dl>
+      <h2>Darren Lieu, Tri Adi S.</h2>
+      <p>Darren runs Darren Labs and works as a CAD designer in building services. Before this he worked in process automation and manufacturing engineering, so the tools here come from real desk work.</p>
     </div>
   </section>
 

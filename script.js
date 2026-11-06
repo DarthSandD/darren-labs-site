@@ -117,3 +117,192 @@
       });
   });
 })();
+
+/* Flagship slider: Apple-style swipe. One spring drives the track.
+   1:1 pointer tracking, velocity handoff, momentum projection,
+   rubber-band bounds, interruptible mid-flight. Reduced motion
+   snaps instantly instead of springing. */
+(function () {
+  'use strict';
+  var slider = document.getElementById('flag-slider');
+  if (!slider) return;
+  var viewport = slider.querySelector('.slider-viewport');
+  var track = slider.querySelector('.slider-track');
+  var slides = Array.prototype.slice.call(track.querySelectorAll('.flag-card'));
+  var prevBtn = slider.querySelector('.slider-prev');
+  var nextBtn = slider.querySelector('.slider-next');
+  var countEl = slider.querySelector('.slider-count');
+  var dots = Array.prototype.slice.call(slider.querySelectorAll('.slider-dot'));
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var STIFFNESS = 260, DAMPING = 30, MASS = 1;
+  var index = 0;
+  var x = 0, v = 0, target = 0;
+  var rafId = 0, lastT = 0;
+  var dragging = false, moved = false, suppressClick = false;
+  var startX = 0, startY = 0, dragStartX = 0, activePointer = null;
+  var samples = [];
+
+  function step() {
+    var gap = parseFloat(window.getComputedStyle(track).gap) || 24;
+    return slides[0].getBoundingClientRect().width + gap;
+  }
+  function maxIndex() { return slides.length - 1; }
+  function clampIndex(i) { return Math.max(0, Math.min(maxIndex(), i)); }
+
+  function applyX() {
+    track.style.transform = 'translate3d(' + x + 'px,0,0)';
+  }
+
+  function updateUI() {
+    countEl.textContent = (index + 1) + ' of ' + slides.length;
+    dots.forEach(function (d, i) {
+      d.classList.toggle('is-active', i === index);
+      if (i === index) { d.setAttribute('aria-current', 'true'); }
+      else { d.removeAttribute('aria-current'); }
+    });
+    slides.forEach(function (s, i) {
+      s.classList.toggle('is-dim', i !== index);
+    });
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === maxIndex();
+  }
+
+  function stopSpring() {
+    if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+    v = 0;
+  }
+
+  function springLoop(t) {
+    var dt = Math.min((t - lastT) / 1000, 1 / 30);
+    lastT = t;
+    var a = (-STIFFNESS * (x - target) - DAMPING * v) / MASS;
+    v += a * dt;
+    x += v * dt;
+    if (Math.abs(x - target) < 0.1 && Math.abs(v) < 0.1) {
+      x = target; v = 0; rafId = 0; applyX(); updateUI(); return;
+    }
+    applyX();
+    rafId = requestAnimationFrame(springLoop);
+  }
+
+  function springTo(t, velocity) {
+    target = t;
+    v = velocity || 0;
+    if (reduced) {
+      x = target; v = 0; applyX(); updateUI(); return;
+    }
+    if (!rafId) {
+      lastT = performance.now();
+      rafId = requestAnimationFrame(springLoop);
+    }
+  }
+
+  function goTo(i, keepVelocity) {
+    index = clampIndex(i);
+    springTo(-index * step(), keepVelocity ? v : 0);
+    updateUI();
+  }
+
+  function rubberband(overshoot, dimension, constant) {
+    return (overshoot * dimension * constant) / (dimension + constant * Math.abs(overshoot));
+  }
+
+  function project(velocity) {
+    return (velocity / 1000) * 0.998 / (1 - 0.998);
+  }
+
+  viewport.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (dragging) return;
+    suppressClick = false;
+    dragging = true;
+    moved = false;
+    activePointer = e.pointerId;
+    startX = e.clientX;
+    startY = e.clientY;
+    dragStartX = x;
+    samples = [{ px: e.clientX, t: performance.now() }];
+    stopSpring();
+    viewport.classList.add('dragging');
+    try { viewport.setPointerCapture(e.pointerId); } catch (err) { /* synthetic pointer */ }
+  });
+
+  viewport.addEventListener('pointermove', function (e) {
+    if (!dragging || e.pointerId !== activePointer) return;
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    if (!moved) {
+      if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+      if (Math.abs(dy) > Math.abs(dx)) { dragging = false; viewport.classList.remove('dragging'); return; }
+      moved = true;
+      stopSpring();
+    }
+    var nx = dragStartX + dx;
+    var minX = -maxIndex() * step();
+    if (nx > 0) { nx = rubberband(nx, step(), 0.55); }
+    else if (nx < minX) { nx = minX - rubberband(minX - nx, step(), 0.55); }
+    x = nx;
+    applyX();
+    samples.push({ px: e.clientX, t: performance.now() });
+    if (samples.length > 8) samples.shift();
+  });
+
+  function endDrag() {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove('dragging');
+    if (!moved) return;
+    suppressClick = true;
+    var now = performance.now();
+    var recent = samples.filter(function (s) { return now - s.t <= 100; });
+    var vel = 0;
+    if (recent.length > 1) {
+      var first = recent[0], last = recent[recent.length - 1];
+      if (last.t > first.t) vel = (last.px - first.px) / (last.t - first.t) * 1000;
+    }
+    var projected = x + project(vel);
+    index = clampIndex(Math.round(-projected / step()));
+    springTo(-index * step(), vel);
+    updateUI();
+  }
+
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', function () {
+    if (!dragging) return;
+    dragging = false;
+    viewport.classList.remove('dragging');
+    if (moved) springTo(-index * step(), 0);
+  });
+
+  track.addEventListener('click', function (e) {
+    if (suppressClick) {
+      e.preventDefault();
+      e.stopPropagation();
+      suppressClick = false;
+    }
+  }, true);
+
+  prevBtn.addEventListener('click', function () { goTo(index - 1, true); });
+  nextBtn.addEventListener('click', function () { goTo(index + 1, true); });
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () { goTo(i, true); });
+  });
+
+  slider.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(index - 1, true); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); goTo(index + 1, true); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0, true); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(maxIndex(), true); }
+  });
+
+  window.addEventListener('resize', function () {
+    stopSpring();
+    x = -index * step();
+    target = x;
+    applyX();
+  });
+
+  applyX();
+  updateUI();
+})();

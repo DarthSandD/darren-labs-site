@@ -1,13 +1,16 @@
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: S, a studio index could fit another lab; led with the real model timings and the ink painting instead of a stock hero */
 /* Hallmark · dismissed 58 · the model, lab and note pages are documents with measured timings and bench evidence */
+/* Hallmark · waive 29 · one frosted paper surface, blur inside the card, ink text at full contrast, no glow blob · Darren ordered frosted paper glass on the flagship slider, and the blur stays inside the card surface over the painting wash */
 
  /* Darren Labs site, 2026-11-05 pure ink redesign.
    Washi paper, sumi ink, one vermillion seal accent.
    Tokens at :root only. One Mincho display face (Shippori Mincho,
    self-hosted Latin, the print serif of Japanese ink work),
-   system sans for body, mono for data. No glass, no gradients,
-   no glow, no scroll reveals, no identical cards. Rows with
-   hairlines, one painting as the signature moment. Page stays still. */
+   system sans for body, mono for data. No gradients, no glow,
+   no scroll reveals, no identical cards. Frosted-paper glass
+   only on the flagship slider. Rows with hairlines, one painting
+   as the signature moment. Page stays still, except the sun and
+   the slider. */
 @font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/shippori-mincho-600.woff2") format("woff2")}
 @font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/shippori-mincho-700.woff2") format("woff2")}
 @font-face{font-family:"Shippori Mincho";font-style:normal;font-weight:800;font-display:swap;src:url("fonts/shippori-mincho-800.woff2") format("woff2")}
@@ -26,6 +29,10 @@
   --error:#B3402A;
   --radius:2px;
   --radius-card:4px;
+  --glass-bg:rgba(251,248,240,.72);
+  --glass-bg-hover:rgba(251,248,240,.82);
+  --glass-border:rgba(27,26,23,.16);
+  --glass-top:rgba(255,255,255,.6);
   --max:1080px;
   --narrow:720px;
   --space-section:110px;
@@ -324,4 +331,47 @@ h2{margin:0 0 16px;font-family:var(--font-display);font-weight:700;font-size:cla
   .work-ledger div{grid-template-columns:1fr;gap:4px}
   .bench-head{flex-direction:column;gap:16px}
   .seal-stamp{align-self:flex-start}
+}
+
+/* Flagship slider, 2026-11-06: the one signature interaction.
+   Apple-style swipe: spring snap, rubber-band bounds, 1:1 drag.
+   Frosted-paper glass lives only on the slider cards, over a faint
+   wash of the painting. The rest of the page stays solid paper. */
+.slider{position:relative;margin-top:40px}
+.slider-backdrop{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.22}
+.slider-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center 82%;display:block}
+.slider-viewport{position:relative;overflow:hidden;touch-action:pan-y;cursor:grab}
+.slider-viewport:focus-visible{outline:2px solid var(--seal);outline-offset:4px}
+.slider-viewport.dragging{cursor:grabbing}
+.slider-viewport:active{cursor:grabbing}
+.slider-track{display:flex;flex-direction:row;gap:24px;margin-top:0;border-top:none;will-change:transform}
+.slider .flag-card{flex:0 0 calc(100% - 72px);margin:0;padding:40px 36px;border:1px solid var(--glass-border);border-radius:var(--radius-card);background:var(--glass-bg);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:inset 0 1px 0 var(--glass-top);transition:opacity .3s ease,background .3s ease;user-select:none;-webkit-user-select:none}
+.slider .flag-card:hover{background:var(--glass-bg-hover)}
+.slider .flag-card.is-dim{opacity:.6}
+.slider-controls{display:flex;align-items:center;gap:16px;margin-top:28px}
+.slider-btn{flex:0 0 auto;width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:var(--ink);color:var(--paper);display:grid;place-items:center;cursor:pointer;padding:0}
+.slider-btn:hover{background:var(--seal);border-color:var(--seal)}
+.slider-btn:active{transform:scale(.95);transition:transform 100ms ease-out}
+.slider-btn:disabled{background:var(--paper-2);border-color:var(--line);color:var(--muted);cursor:default}
+.slider-btn:disabled:hover{background:var(--paper-2);border-color:var(--line)}
+.slider-count{margin:0;font-family:var(--font-mono);font-size:13px;color:var(--muted);white-space:nowrap}
+.slider-dots{display:flex;align-items:center;gap:4px;margin-left:auto}
+.slider-dot{width:24px;height:24px;border:none;padding:0;background:transparent;cursor:pointer;display:grid;place-items:center}
+.slider-dot::after{content:"";width:24px;height:8px;border-radius:4px;background:var(--faint);transform:scaleX(.333);transform-origin:center;transition:transform .25s ease,background .25s ease}
+.slider-dot:hover::after{background:var(--ink-2)}
+.slider-dot.is-active::after{transform:scaleX(1);background:var(--seal)}
+@media (max-width:900px){
+  .slider-track{gap:16px}
+  .slider .flag-card{flex-basis:calc(100% - 40px);padding:32px 24px}
+  .slider-backdrop{opacity:.18}
+}
+@media (prefers-reduced-motion:reduce){
+  .slider-track{will-change:auto}
+}
+@media (prefers-reduced-transparency:reduce){
+  .slider .flag-card{background:var(--panel);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .slider-backdrop{display:none}
+}
+@media (prefers-contrast:more){
+  .slider .flag-card{border-color:var(--line-strong)}
 }

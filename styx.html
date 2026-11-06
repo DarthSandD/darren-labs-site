@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Styx: Darren Labs</title>
-<meta name="description" content="Styx, the second Darren Labs flagship. A desktop agent that runs on your own machine, a fork of Nous Research Hermes Agent, with a local first run.">
+<meta name="description" content="Styx is a desktop agent that works on your machine. Your sessions and jobs stay local, and you chat with your own provider key. Linux only, v0.1.0, MIT.">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="stylesheet" href="styles.css">
@@ -47,12 +47,12 @@
         <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
         <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
       </svg>
-      <p class="tagline">A desktop agent that runs fully locally.</p>
-      <p class="hero-sub">Styx is a fork of Nous Research Hermes Agent, MIT licensed, upstream commit 25b5001. The agent, gateway, sessions, skills, cron and tools are Hermes, unchanged. What changed is the name, the amber theme, and a local first run.</p>
+      <p class="tagline">A desktop agent that lives on your machine.</p>
+      <p class="hero-sub">Styx is a desktop agent that works on your machine. It runs its own gateway locally, keeps your sessions, skills, and scheduled jobs on your computer, and chats with the model provider you choose. You add your own provider key in Settings. Based on Nous Research Hermes Agent, MIT, upstream commit 25b5001.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="https://github.com/DarthSandD/styx-agent/releases/download/v0.1.0/Styx-linux-x64.zip">Download for Linux</a> <a class="btn btn-ghost" href="#first-run">How first run works</a></p>
       <dl class="spec-strip spec-strip-4">
         <div><dt>Second flagship</dt><dd>Styx</dd></div>
-        <div><dt>Base</dt><dd>Hermes Agent, MIT, commit 25b5001</dd></div>
+        <div><dt>Built on</dt><dd>Hermes Agent, MIT</dd></div>
         <div><dt>First run</dt><dd>Local install</dd></div>
         <div><dt>Provider</dt><dd>Your own key, added in Settings</dd></div>
       </dl>
@@ -62,19 +62,19 @@
 
   <section class="section" id="what-changed">
     <div class="wrap">
-      <h2>A reskin, stated plainly.</h2>
+      <h2>What you get.</h2>
       <div class="model-grid">
         <article class="model-card">
-          <h3>Styx name, amber mark.</h3>
-          <p>Product name Styx, charcoal square with an amber S, amber #d97706 in place of Hermes blue, press feedback on pointer down, and solid fallbacks for reduced motion and reduced transparency.</p>
+          <h3>Your work stays on your machine.</h3>
+          <p>Styx installs its backend on your computer and runs the gateway there. Your sessions, messages, artifacts, and scheduled jobs live locally. A charcoal square with an amber S, amber #d97706, marks it as Styx.</p>
         </article>
         <article class="model-card">
-          <h3>Local first run.</h3>
-          <p>Styx installs the Hermes backend on your own computer and runs the local gateway there. Later launches skip install entirely, because the backend is already installed. Remote connections a user already saved stay in place.</p>
+          <h3>Set up once, then it just opens.</h3>
+          <p>First run installs everything locally and takes several minutes. Later launches skip the install, because the backend is already there. Remote connections you already saved stay put.</p>
         </article>
         <article class="model-card">
-          <h3>Same Hermes functions.</h3>
-          <p>Sessions, messaging, artifacts, scheduled jobs, skills, profiles, cron, and the gateway protocol are the same as upstream. Styx is a fork of Hermes Agent, and its fork file names the upstream repo, commit, licence, and every changed path.</p>
+          <h3>Chat with the provider you choose.</h3>
+          <p>Add your own model provider key in Settings, then chat. No provider key ships with Styx, and nothing is sent anywhere until you configure one. It opens fast, and stays readable if you prefer reduced motion.</p>
         </article>
       </div>
     </div>
@@ -83,7 +83,7 @@
   <section class="section" id="first-run">
     <div class="wrap narrow">
       <h2>How first run works.</h2>
-      <p>First run needs internet once, and takes several minutes on a normal connection. A progress screen shows the stages: Prerequisites, Repository, Venv, Python deps, Config, Products, Setup, Gateway, Complete. Do not close the app while it installs. When it finishes, the app opens to provider setup. Add your own model provider key in Settings, then chat. No provider key ships with Styx, and no prompt is sent anywhere until you configure one.</p>
+      <p>First run needs internet once, and takes several minutes on a normal connection. A progress screen shows the nine stages. Do not close the app while it installs. When it finishes, the app opens to provider setup. Add your own model provider key in Settings, then chat. No provider key ships with Styx, and no prompt is sent anywhere until you configure one.</p>
       <ol class="stages">
         <li><span class="stage-num">1</span><span class="stage-name">Prerequisites</span></li>
         <li><span class="stage-num">2</span><span class="stage-name">Repository</span></li>
@@ -95,7 +95,7 @@
         <li><span class="stage-num">8</span><span class="stage-name">Gateway</span></li>
         <li><span class="stage-num">9</span><span class="stage-name">Complete</span></li>
       </ol>
-      <p>Verified in an isolated test home on 4 November 2026: gateway ready at a local loopback endpoint, runtime protocol 1, code 25b5001 matching the desktop build, and the app reaching provider setup. Chat with a model was not run in that test, because no provider key was set.</p>
+      <p>First run was checked on 4 November 2026: the gateway came up locally and the app reached provider setup. A chat was not run in that check, because no provider key was set.</p>
       <p class="band-cta"><a class="btn btn-solid" href="https://github.com/DarthSandD/styx-agent">View on GitHub</a> <a class="btn btn-ghost" href="projects.html">Browse all projects</a></p>
     </div>
   </section>
@@ -105,9 +105,9 @@
       <h2>Limits to know.</h2>
       <ul class="points">
         <li>Linux only in this release. Windows and macOS builds await verification.</li>
-        <li>Chat needs a provider key you supply. With the app open at provider setup, add your key in Settings, then chat.</li>
+        <li>Chat needs a provider key you supply. Add it in Settings at provider setup, then chat.</li>
         <li>First install takes several minutes, longer on a slow connection. If the first connection attempt times out, Retry reconnects without reinstalling what already finished.</li>
-        <li>Styx shares the agent home at ~/.hermes with Hermes Agent itself, by design, because the backend is the same Hermes gateway.</li>
+        <li>Styx shares the agent home at ~/.hermes with Hermes Agent, so the two use the same local backend.</li>
       </ul>
     </div>
   </section>

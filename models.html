@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DarrenLabs AI Models: Darren Labs</title>
-<meta name="description" content="Darren Labs first AI models. DarrenLabs-7B based on Qwen2.5-7B, DarrenLabs-32B based on Qwen3-32B, timed in public, free and open to run anywhere.">
+<meta name="description" content="Two free AI models from Darren Labs: DarrenLabs-7B on Qwen2.5-7B and DarrenLabs-32B on Qwen3-32B. Free to download and run on your own machine.">
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="stylesheet" href="styles.css">
@@ -42,13 +42,13 @@
   <section class="model-hero">
     <div class="hero-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
     <div class="wrap hero-inner">
-      <h1 class="model-title">Our first<br>models.</h1>
+      <h1 class="model-title">Two free<br>models.</h1>
       <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
         <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
         <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
       </svg>
-      <p class="tagline">Timed in public, slow results included.</p>
-      <p class="hero-sub">7B answered in 16 seconds on CPU. 32B took about seven minutes on CPU. Both are free to run with Ollama.</p>
+      <p class="tagline">Free to download. Yours to run.</p>
+      <p class="hero-sub">On your machine with Ollama: the 7B answers in 16 seconds on CPU, the 32B in about seven minutes. On a 32GB GPU they run at 169 and 54 tokens a second.</p>
       <p class="hero-cta"><a class="btn btn-solid" href="#run">Run them free</a> <a class="btn btn-ghost" href="#models">See the models</a></p>
       <dl class="spec-strip spec-strip-4">
         <div><dt>First flagship</dt><dd>DarrenLabs AI Models</dd></div>
@@ -62,7 +62,7 @@
 
   <section class="section" id="models">
     <div class="wrap">
-      <h2>Two models, same CPU machine, both timings shown.</h2>
+      <h2>Two models, one machine, pick your speed.</h2>
       <div class="model-grid">
         <article class="model-card">
           <p class="model-size">7B</p>
@@ -74,21 +74,21 @@
             <div><dt>On CPU</dt><dd>8.8 tokens / sec</dd></div>
             <div><dt>Tokens</dt><dd>54</dd></div>
           </dl>
-          <p class="model-note">Identity answer verified: the model names itself DarrenLabs-7B, based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.</p>
-          <p class="model-good">Use it for a first draft, then review it. On 32GB VRAM, the 54-token test answer generates in about 0.3 seconds on average, about 19 times faster than our CPU. On CPU, the test took 16.0 seconds in total.</p>
+          <p class="model-note">It names itself DarrenLabs-7B, based on Qwen2.5-7B, an open-source model from Alibaba Qwen, used under the Apache 2.0 license.</p>
+          <p class="model-good">Use it for a first draft, then review it. On a 32GB GPU, the 54-token test answer generates in about 0.3 seconds on average, about 19 times faster than CPU. On CPU, the test took 16.0 seconds in total.</p>
         </article>
         <article class="model-card">
           <p class="model-size">32B</p>
           <h3>The bigger one, for longer documents.</h3>
-          <p>For a full drawing quality note, a checklist with reasons, or a second pass over a long document. Based on Qwen3-32B. Fast on a 32GB GPU, slow on CPU, and the slow time is on this page.</p>
+          <p>For a full drawing quality note, a checklist with reasons, or a second pass over a long document. Based on Qwen3-32B. Fast on a 32GB GPU, slow on CPU, so pick the GPU if you have one, or give the CPU about seven minutes.</p>
           <dl class="model-stats">
             <div><dt>Size</dt><dd>20 GB</dd></div>
             <div><dt>Speed, 32GB VRAM avg</dt><dd>54 tokens / sec</dd></div>
             <div><dt>On CPU</dt><dd>1.89 tokens / sec</dd></div>
             <div><dt>Tokens</dt><dd>292, incl. thinking</dd></div>
           </dl>
-          <p class="model-note">Identity answer verified: the model names itself DarrenLabs-32B, based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.</p>
-          <p class="model-good">Use it for longer work, then review it. On 32GB VRAM, the 292-token test answer generates in about 5.4 seconds on average, about 29 times faster than our CPU. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
+          <p class="model-note">It names itself DarrenLabs-32B, based on Qwen3-32B, an open-source model from Alibaba Qwen, licensed under Apache 2.0.</p>
+          <p class="model-good">Use it for longer work, then review it. On a 32GB GPU, the 292-token test answer generates in about 5.4 seconds on average, about 29 times faster than CPU. On CPU, the same answer took 413.9 seconds, about seven minutes. CPU is measured. GPU is an average from published benchmarks, not yet our own run.</p>
         </article>
       </div>
     </div>
@@ -98,7 +98,7 @@
     <div class="wrap narrow">
       <h2>On 32GB VRAM.</h2>
       <p>7B: 169 tokens per second on average. 32B: 54. On CPU, measured: 8.8 and 1.89.</p>
-      <p>Average: 7B (150 + 185.9 + 169.8) / 3. 32B (45.1 + 61.4 + 55.5) / 3. Published RTX 5090 benchmarks. Our GPU run is still to come.</p>
+      <p>These GPU speeds are averages from published RTX 5090 benchmarks: 7B (150 + 185.9 + 169.8) / 3, 32B (45.1 + 61.4 + 55.5) / 3. They are not a Darren Labs GPU run yet. CPU speeds were measured directly: 8.8 and 1.89.</p>
       <div class="speedbars">
         <div class="speedbar"><span class="speedbar-label">7B, 32GB VRAM average</span><span class="speedbar-track"><span class="speedbar-fill seal" style="width:100%"></span></span><span class="speedbar-value">169 tokens / sec</span></div>
         <div class="speedbar"><span class="speedbar-label">32B, 32GB VRAM average</span><span class="speedbar-track"><span class="speedbar-fill" style="width:32%"></span></span><span class="speedbar-value">54 tokens / sec</span></div>
@@ -112,7 +112,7 @@
   <section class="section" id="how-it-runs">
     <div class="wrap narrow">
       <h2>How to run them.</h2>
-      <p>You pull the base model, create the DarrenLabs version, and run it on your own machine. That is why it is free, and why the 32B version is slow on a CPU-only machine.</p>
+      <p>Three commands and the models run on your own machine. The 32B needs a GPU for speed, or about seven minutes on CPU.</p>
       <svg class="model-diagram" viewBox="0 0 720 300" role="img" aria-label="Diagram: your prompt goes to Ollama on your own machine, which runs DarrenLabs-7B in 16 seconds or DarrenLabs-32B in about 7 minutes, and returns an answer.">
         <rect x="10" y="90" width="170" height="120" rx="6" fill="#FFFFFF" stroke="#C9C2B2" stroke-width="1.5"/>
         <text x="95" y="135" text-anchor="middle" font-family="ui-sans-system, system-ui, sans-serif" font-size="15" font-weight="600" fill="#1B1A17">You, at home</text>
@@ -143,7 +143,7 @@
   <section class="section" id="run">
     <div class="wrap narrow">
       <h2>Run them.</h2>
-      <p>Ollama on your own machine. Free means the method and the model files, not a public chat on our machine.</p>
+      <p>Ollama on your own machine. Download the model files and run them yourself.</p>
       <pre class="model-code"><code># 7B
 ollama pull qwen2.5:7b
 ollama create darrenlabs-7b -f Modelfile.darrenlabs-7b
@@ -167,7 +167,7 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
           </ul>
         </div>
         <div class="model-panel">
-          <h3>Do not use them for, unchecked</h3>
+          <h3>Check first, before you use them for</h3>
           <ul class="points">
             <li>Putting an unchecked number on a drawing</li>
             <li>Sending an unchecked answer to a client</li>
@@ -182,9 +182,9 @@ ollama create darrenlabs-32b -f Modelfile.darrenlabs-32b</code></pre>
     <div class="wrap narrow">
       <h2>Next.</h2>
       <ol class="model-next">
-        <li><strong>Smaller student model.</strong> Trained on 50 teacher examples, then scored against a held-out set.</li>
-        <li><strong>Faster 32B.</strong> Thinking off first, then a 30B MoE model, or a stronger machine, whichever the timing proves fastest.</li>
-        <li><strong>More models.</strong> Only after the same public test: identity answer, timing, and limits, on this page.</li>
+        <li><strong>Smaller student model.</strong> Trained on 50 teacher examples, so you get a lighter model that still answers well.</li>
+        <li><strong>Faster 32B.</strong> A 30B MoE model, or a stronger machine, whichever proves fastest, so long documents take less of your time.</li>
+        <li><strong>More models.</strong> Each one timed and checked the same way before it lands here.</li>
       </ol>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="index.html">Back home</a></p>
     </div>

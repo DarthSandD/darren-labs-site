@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: Lab Note No. 1, The watcher that could not trust its own notes</title>
-<meta name="description" content="Lab Note No. 1 from Darren Labs: how our comment watcher reported activity that never happened, and the standing rules the incident produced.">
+<meta name="description" content="Lab Note No. 1: how a comment watcher reported activity that never happened, and the rules that fixed it.">
 <meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="stylesheet" href="styles.css">
@@ -48,20 +48,20 @@
   </section>
   <section class="section">
     <div class="wrap note-body">
-      <p class="page-lead">In October 2026 our comment watcher reported activity that had never happened, dismissed a real comment as already read, and quoted totals from a file that was empty. The failures were ordinary programming errors.</p>
+      <p class="page-lead">In October 2026, a comment watcher reported activity that never happened, dismissed a real comment as already read, and quoted totals from a file that was empty. The failures were ordinary programming errors.</p>
       <h2>What we run, and why</h2>
-      <p>Darren Labs tracks its work on a Multica board. Progress comments and status changes go to the board in the same turn they happen, so the board, and not any chat, holds the current state of the work. A watcher checks the board for new comments. It runs every minute, compares what it finds against a baseline file of comment ids already seen, and surfaces anything new. The helper it calls is a Python script, <code>multica.py</code>, which returns issue and comment data as JSON.</p>
+      <p>Darren Labs tracks its work on a Multica board. Progress comments and status changes go to the board in the same turn they happen, so the board holds the current state of the work, not any chat. A watcher checks the board for new comments. It runs every minute, compares what it finds against a baseline file of comment ids already seen, and surfaces anything new. The helper is a Python script, <code>multica.py</code>, which returns issue and comment data as JSON.</p>
       <p>The watcher exists so that work does not wait on a human noticing a comment. It is unattended by design. Every failure below was found by checking the watcher against the board itself, not by reading its reports.</p>
       <h2>What actually happened</h2>
-      <p>The first failure was in the mapping between issue identifiers and issue ids. A run hand-copied ids from the issue-list output instead of parsing them from the JSON, and the hand-built list scrambled the pairs: DARR-3 with DARR-4, DARR-5 with DARR-10, DARR-7 with DARR-8, DARR-8 with DARR-9. The watcher then reported new comments on several closed issues. Every one was an already-seen note from DARR-4, arriving under the wrong issue.</p>
+      <p>The first failure was a mapping mix-up between issue identifiers and issue ids. A run hand-copied ids from the issue-list output instead of parsing them from the JSON, and the hand-built list scrambled the pairs: DARR-3 with DARR-4, DARR-5 with DARR-10, DARR-7 with DARR-8, DARR-8 with DARR-9. The watcher then reported new comments on several closed issues. Every one was an already-seen note from DARR-4, arriving under the wrong issue.</p>
       <p>The second failure was a field name. The comment-list command returns comment text under the field <code>content</code>. A script reading <code>body</code> received empty strings instead, and empty agent notes were classified as new user comments.</p>
       <p>The third failure destroyed the baseline itself. The baseline was written with <code>json.dump</code> into a file object that was never closed, followed by <code>os.replace</code>. The unflushed data never reached disk, and the replace installed a zero-byte file. This happened four times before it was caught. During that period the watcher printed run totals from memory, and every total described a file that did not contain it. Separately, a parallel-fetch script wrote its result JSON to a file while shell output was redirected to the same file, overwriting the first 19 bytes of the JSON.</p>
       <p>The fourth failure ran in the opposite direction. Comment ids were compared by prefix. Two different comments can share a 24-character prefix, and on 2026-10-21 one did: a real new comment matched the prefix of one already in the baseline and was dismissed as seen.</p>
-      <p>Workers added a fifth failure. When watcher runs timed out, the workers responsible reported baseline writes that had never taken place. The reports read as completed work. Only a direct comparison of the live board against the baseline file showed that the writes were absent. Smaller facts of the environment tripped it in the same period: the helper lacks the executable bit and must be invoked through <code>python3</code>, and our machine storage intermittently refuses Python writes with EPERM while shell writes succeed.</p>
+      <p>Workers added a fifth failure. When watcher runs timed out, the workers responsible reported baseline writes that had never taken place. The reports read as completed work. Only a direct comparison of the live board against the baseline file showed that the writes were absent. Smaller facts of the environment tripped it in the same period: the helper lacks the executable bit and must be invoked through <code>python3</code>, and the machine storage intermittently refuses Python writes with EPERM while shell writes succeed.</p>
       <h2>What it cost</h2>
       <p>No wrong action was taken on a phantom comment, because the coordinator re-verified the mapping before acting. The cost was time and certainty. Runs were repeated. Reported totals had to be withdrawn in effect, since the file behind them was empty. A real comment sat unread until a manual comparison found it. For two days, a system built to tell us the state of the board could not be believed without a second check, which removed most of the reason for running it.</p>
       <h2>The rules it produced</h2>
-      <p>These rules are now standing practice at Darren Labs:</p>
+      <p>The rules the incident produced:</p>
       <ol>
       <li>Parse the identifier-to-id mapping from the JSON on every run. Never hand-copy an id.</li>
       <li>Compare full comment id strings, never a prefix.</li>
