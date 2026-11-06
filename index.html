@@ -4,31 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Darren Labs: Agentic AI Studio</title>
-<meta name="description" content="Two free AI models, 7B and 32B, that run on your machine. 7B at 169 tokens a second, 32B at 54, plus Styx and free engineering tools.">
-<meta property="og:title" content="Darren Labs: Agentic AI Studio">
-<meta property="og:description" content="Two free models. 7B at 169 tokens a second, 32B at 54.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://darrenlabs.pages.dev/">
-<meta property="og:image" content="https://darrenlabs.pages.dev/docs/assets/darren-labs-banner.png">
-<meta name="color-scheme" content="light">
+<meta name="description" content="Darren Labs is an agentic AI studio. First flagship: DarrenLabs AI Models, 7B and 32B, free and open. Other projects are separated, each on its own page.">
+<meta name="color-scheme" content="light"/>
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"/>
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="ink3d.css">
 </head>
-<body>
+<body class="theme-light">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="#top" aria-label="Darren Labs home">
-      <span class="seal" aria-hidden="true"></span>
-      <span class="brand-text">Darren Labs</span>
+      <span class="mark" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="38" height="38"></span>
+      <span class="brand-text">Darren <span>Labs</span></span>
       <span class="brand-tag">Agentic AI Studio</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
     <nav id="nav" class="nav" aria-label="Primary">
       <a href="models.html">Models</a>
-      <a href="styx.html">Styx</a>
-      <a href="#flagships">Work</a>
+      <a href="#story">Story</a>
+      <a href="#flagships">Flagships</a>
       <div class="nav-dropdown">
         <button class="nav-drop-btn" type="button" aria-expanded="false" aria-haspopup="true">Projects <svg class="nav-caret" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" focusable="false"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
         <div class="nav-menu">
@@ -36,8 +33,7 @@
           <a href="products.html">Products<small>Free tools and paid offers</small></a>
         </div>
       </div>
-      <a href="lab.html">Lab</a>
-      <a href="#method">Method</a>
+      <a href="#architecture">Architecture</a>
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
@@ -46,157 +42,181 @@
 
 <main id="main">
   <section class="hero" id="top">
-    <div class="hero-art hero-art-video" aria-hidden="true"><video class="hero-video" src="painting-video.mp4" poster="painting-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video></div>
-    <div class="wrap hero-inner">
-      <h1>Free models that run on your machine.</h1>
-      <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
-        <path d="M4 9 C 50 3, 90 12, 140 7 S 200 5, 216 8" fill="none" stroke="#C23B22" stroke-width="3.5" stroke-linecap="round" />
-        <path d="M10 11 C 60 8, 120 13, 200 10" fill="none" stroke="#1B1A17" stroke-width="1" stroke-linecap="round" opacity="0.35" />
-      </svg>
-      <p class="tagline">DarrenLabs-7B at 4.7 GB, DarrenLabs-32B at 20 GB. Free to download, yours to run.</p>
-      <p class="hero-sub">The 7B answers at 169 tokens a second, the 32B at 54. Download them and run them with Ollama on your own machine.</p>
-      <p class="hero-cta"><a class="btn btn-solid" href="models.html">Run the models free</a> <a class="btn btn-ghost" href="styx.html">Get Styx</a></p>
+    <svg class="hero-drawing" viewBox="0 0 1200 560" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+      <defs>
+        <pattern id="hero-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+          <path d="M28 0H0V28" fill="none" stroke="#262B33" stroke-width="1"/>
+        </pattern>
+      </defs>
+      <rect width="1200" height="560" fill="url(#hero-grid)" opacity="0.55"/>
+      <g class="hero-sld" fill="none" stroke="#3A414A" stroke-width="1.5" stroke-linecap="square">
+        <line x1="740" y1="170" x2="1150" y2="170" stroke="#D9D6CE" stroke-width="2.5"/>
+        <rect x="808" y="158" width="24" height="24" fill="#0E1013" stroke="#D9D6CE"/>
+        <rect x="938" y="158" width="24" height="24" fill="#0E1013" stroke="#D9D6CE"/>
+        <line x1="820" y1="170" x2="820" y2="262"/>
+        <circle cx="820" cy="270" r="6" stroke="#D9D6CE"/>
+        <line x1="950" y1="170" x2="950" y2="238"/>
+        <circle cx="950" cy="264" r="26" stroke="#D9D6CE"/>
+        <circle cx="950" cy="298" r="26" stroke="#D9D6CE"/>
+        <line x1="950" y1="324" x2="950" y2="352"/>
+        <line x1="890" y1="352" x2="1010" y2="352" stroke="#D9D6CE" stroke-width="2"/>
+        <line x1="890" y1="352" x2="890" y2="378"/>
+        <line x1="1010" y1="352" x2="1010" y2="378"/>
+        <circle cx="890" cy="386" r="6" stroke="#D9D6CE"/>
+        <circle cx="1010" cy="386" r="6" stroke="#D9D6CE"/>
+        <line x1="1080" y1="170" x2="1080" y2="262"/>
+        <circle cx="1080" cy="270" r="6" stroke="#D9D6CE"/>
+        <circle cx="890" cy="170" r="5" fill="#FFB224" stroke="none"/>
+      </g>
+    </svg>
+    <div class="wrap hero-single">
+      <p class="eyebrow">Darren Labs AI Lab &middot; 24 October 2026</p>
+      <h1>DarrenLabs-7B and DarrenLabs-32B.</h1>
+      <div class="rule-accent" aria-hidden="true"></div>
+      <p class="tagline">Two models we ran on our own Oracle VM in Batam, timed in public, free to run with Ollama.</p>
+      <p class="hero-sub">7B: 169 tokens per second on 32GB VRAM, on average, 8.8 on our CPU. 32B: 54 on 32GB VRAM, on average, 1.89 on our CPU. The 32B test took about seven minutes on CPU.</p>
+      <p class="hero-cta"><a class="btn btn-solid" href="models.html">Run the models free</a> <a class="btn btn-ghost" href="#story">See how they were built</a></p>
+      <p class="hero-note">Darren Labs, founded by Tri Adi S, known as Darren Lieu, a CAD designer in building services.</p>
       <dl class="spec-strip">
-        <div><dt>7B</dt><dd>169 tokens per second</dd></div>
-        <div><dt>32B</dt><dd>54 tokens per second</dd></div>
-        <div><dt>Styx</dt><dd>Runs on your machine</dd></div>
+        <div><dt>First thing here</dt><dd>DarrenLabs AI Models, 7B and 32B</dd></div>
+        <div><dt>Where they ran</dt><dd>Oracle Cloud, Batam, on ai-lab</dd></div>
+        <div><dt>Base models</dt><dd>Qwen2.5-7B and Qwen3-32B, Alibaba Qwen, Apache 2.0</dd></div>
       </dl>
-      <p class="hero-caption">Ink study, Darren Labs</p>
     </div>
-    <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
+    <div class="hero-titleblock" aria-hidden="true">
+      <div class="hero-titleblock-cell"><span class="hero-titleblock-key">DWG NO</span><span class="hero-titleblock-value">DL-SLD-001</span></div>
+      <div class="hero-titleblock-cell"><span class="hero-titleblock-key">REV</span><span class="hero-titleblock-value">A</span></div>
+      <div class="hero-titleblock-cell"><span class="hero-titleblock-key">SCALE</span><span class="hero-titleblock-value">NTS</span></div>
+      <div class="hero-titleblock-cell"><span class="hero-titleblock-key">SHEET</span><span class="hero-titleblock-value">1 OF 1</span></div>
+    </div>
   </section>
 
-  <section class="ink3d" id="ink3d" aria-label="Explore the products">
-    <div class="ink3d-inner">
-      <h2 class="ink3d-title">Walk the ridge.</h2>
-      <p class="ink3d-lead">Drag the painting to travel between the five products. Choose one to open its page.</p>
-      <div class="ink3d-stage">
-        <canvas id="ink3d-canvas" class="ink3d-canvas" tabindex="0" aria-label="Ink painting ridge with five product stations. Drag to look around. Use the left and right arrow keys to move between stations."></canvas>
-        <p class="ink3d-hint">Drag to look around. Arrow keys, scroll, or the buttons below move between stations.</p>
-        <ul class="ink3d-chips" role="group" aria-label="Products">
-          <li><button type="button" class="ink3d-chip is-active" data-station="0" aria-current="true">DarrenLabs AI Models</button></li>
-          <li><button type="button" class="ink3d-chip" data-station="1">Styx</button></li>
-          <li><button type="button" class="ink3d-chip" data-station="2">VoltWorks Power</button></li>
-          <li><button type="button" class="ink3d-chip" data-station="3">MEP Suits</button></li>
-          <li><button type="button" class="ink3d-chip" data-station="4">AI Architecture Patterns</button></li>
-        </ul>
+  <section class="section story" id="story">
+    <div class="wrap">
+      <p class="section-label">The story</p>
+      <h2>The studio builds itself as you scroll.</h2>
+      <p class="section-lead">One scene, four moments. Scroll to build it.</p>
+      <div class="story-layout">
+        <div class="story-stage">
+          <div class="story-stage-inner">
+            <div class="plate-label"><span>Plate I</span><span>The studio builds itself</span></div>
+            <canvas id="story3d" class="viz-canvas" width="640" height="420" tabindex="0" aria-label="Interactive 3D scene with three labeled zones: AI Studio with agents at desks, VoltWorks Power equipment, and the AI Architecture Patterns diagram board. Scroll builds the scene. Drag to orbit. Select an item for a short description."></canvas>
+            <p class="viz-caption" id="story-caption" aria-live="polite">Three zones: AI Studio &middot; VoltWorks Power &middot; AI Architecture Patterns. Drag to orbit &middot; Scroll builds the scene &middot; Select an item for a short description.</p>
+            <noscript><p class="viz-caption">3D needs JavaScript. The site still works without it.</p></noscript>
+          </div>
+        </div>
+        <div class="story-chapters">
+          <article class="story-chapter active" id="story-chapter-0" data-chapter="0">
+            <p class="chapter-num">01 &middot; Studio</p>
+            <h3>One person directs. Agents build. A human verifies.</h3>
+            <p>Darren sets the goal and defines what &ldquo;good&rdquo; looks like. Agents build the first version. Darren reviews the result.</p>
+            <p class="rule">Brief &rarr; Generate &rarr; Verify &rarr; Fix &rarr; Re-verify.</p>
+          </article>
+          <article class="story-chapter" id="story-chapter-1" data-chapter="1">
+            <p class="chapter-num">02 &middot; VoltWorks Power</p>
+            <h3>Power-system CAD without repetitive drafting.</h3>
+            <p>Engineers design with confidence. Newcomers can follow the drawings.</p>
+            <ul class="points">
+              <li><strong>True-scale 3D</strong>: 1 unit = 1 m; inspect equipment at full size.</li>
+              <li><strong>Single-line-diagram (SLD) builder</strong> with an integrated 3D view.</li>
+              <li><strong>Engineering calculators that show their work</strong>: IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E.</li>
+            </ul>
+          </article>
+          <article class="story-chapter" id="story-chapter-2" data-chapter="2">
+            <p class="chapter-num">03 &middot; AI Architecture Patterns</p>
+            <h3>Diagrams, trade-offs, judgment.</h3>
+            <p>A visual design library for AI systems: what works, what it costs, and when not to use it.</p>
+            <ul class="points">
+              <li><strong>Visual patterns</strong> in plain language.</li>
+              <li><strong>Measured trade-offs</strong>: gains, costs, and failure modes.</li>
+              <li><strong>Runnable demos</strong>: try the idea instead of only reading about it.</li>
+            </ul>
+          </article>
+          <article class="story-chapter" id="story-chapter-3" data-chapter="3">
+            <p class="chapter-num">04 &middot; Verify loop</p>
+            <h3>Brief, build, check with our own eyes, fix, check again.</h3>
+            <p>That loop built this site, VoltWorks, and MEP Suits. Nothing goes live unchecked.</p>
+          </article>
+        </div>
       </div>
-      <article class="ink3d-card" id="ink3d-card" aria-live="polite">
-        <p class="ink3d-card-num" id="ink3d-card-num">1</p>
-        <h3 class="ink3d-card-title" id="ink3d-card-title">DarrenLabs AI Models</h3>
-        <p class="ink3d-card-hook" id="ink3d-card-hook">7B and 32B, free to download and run.</p>
-        <p class="ink3d-card-facts" id="ink3d-card-facts">7B 169 tokens per second, 32B 54.</p>
-        <p class="ink3d-card-link"><a id="ink3d-card-link" href="models.html">Open the models page</a></p>
-      </article>
     </div>
   </section>
 
   <section class="section" id="flagships">
     <div class="wrap">
-      <h2>The lineup.</h2>
-      <div class="slider" id="flag-slider">
-        <div class="slider-backdrop" aria-hidden="true"><img src="painting.svg" alt=""></div>
-        <div class="slider-viewport" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Flagships">
-          <div class="flagships slider-track">
-            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="1 of 5: DarrenLabs AI Models">
-              <div>
-              <h3>DarrenLabs AI Models</h3>
-              <p class="flag-line">7B and 32B, free to download and run.</p>
-              <p class="flag-facts">7B 169 tokens per second, 32B 54. Both run on CPU too.</p>
-              <p><a class="card-link" href="models.html">Open the models page</a></p>
-              </div>
-              <span class="flag-arrow" aria-hidden="true">&rarr;</span>
-            </article>
-            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="2 of 5: Styx">
-              <div>
-              <h3>Styx</h3>
-              <p class="flag-line">A desktop agent that lives on your machine. Bring your own provider key.</p>
-              <p class="flag-facts">v0.1.0, Linux only, free, MIT.</p>
-              <p><a class="card-link" href="styx.html">Open the Styx page</a></p>
-              </div>
-              <span class="flag-arrow" aria-hidden="true">&rarr;</span>
-            </article>
-            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="3 of 5: VoltWorks Power">
-              <div>
-              <h3>VoltWorks Power</h3>
-              <p class="flag-line">Power engineering in the browser. Every calculator shows its working.</p>
-              <p class="flag-standards">IEC 60364 and 60909, IEEE 1584-2018, NFPA 70E</p>
-              </div>
-            </article>
-            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="4 of 5: MEP Suits">
-              <div>
-              <h3>MEP Suits</h3>
-              <p class="flag-line">Eight calculators and one 3D viewer for plant-room work.</p>
-              <p>Prepared for licensed engineer verification before construction.</p>
-              </div>
-            </article>
-            <article class="flag-card" role="group" aria-roledescription="slide" aria-label="5 of 5: AI Architecture Patterns">
-              <div>
-              <h3>AI Architecture Patterns</h3>
-              <p class="flag-line">Patterns for AI systems, with the trade-offs and the limits.</p>
-              <p class="flag-facts">Public GitHub repository, diagrams and runnable demos.</p>
-              </div>
-            </article>
+      <p class="section-label">First flagship</p>
+      <h2>Models first. The rest, each on its own page.</h2>
+      <p class="section-lead">Start with the models above. Below them: VoltWorks for power-system CAD, MEP Suits for building services, and AI Architecture Patterns, the notes from building both.</p>
+      <div class="flagships">
+        <article class="flag-card flag-card-first">
+          <p class="flag-index">01</p>
+          <div>
+          <p class="chapter-num">First flagship &middot; AI Models &middot; Live &middot; Free</p>
+          <h3>DarrenLabs AI Models</h3>
+          <p>Two open Qwen models, renamed for DarrenLabs, with house rules that say what they are and what they must not invent. Ran on ai-lab in Batam. Timed in public, slow results included. 7B: 169 tokens per second on 32GB VRAM, on average. 32B: 54. Run both free, on your own machine, with Ollama.</p>
+          <p><a class="card-link" href="models.html">Open the models page</a></p>
           </div>
-        </div>
-        <div class="slider-controls">
-          <button class="slider-btn slider-prev" type="button" aria-label="Previous flagship" disabled><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M11 3 L5 9 L11 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <p class="slider-count" aria-live="polite">1 of 5</p>
-          <div class="slider-dots">
-            <button class="slider-dot is-active" type="button" aria-label="Go to flagship 1: DarrenLabs AI Models" aria-current="true"></button>
-            <button class="slider-dot" type="button" aria-label="Go to flagship 2: Styx"></button>
-            <button class="slider-dot" type="button" aria-label="Go to flagship 3: VoltWorks Power"></button>
-            <button class="slider-dot" type="button" aria-label="Go to flagship 4: MEP Suits"></button>
-            <button class="slider-dot" type="button" aria-label="Go to flagship 5: AI Architecture Patterns"></button>
+        </article>
+        <article class="flag-card flag-card-large">
+          <p class="flag-index">02</p>
+          <div>
+          <p class="chapter-num">Flagship &middot; Power</p>
+          <h3>VoltWorks Power</h3>
+          <p>Power-system CAD that removes repetitive drafting. True-scale 3D (1 unit = 1 m), a single-line-diagram (SLD) builder with an integrated 3D view, and engineering calculators that show their work.</p>
+          <p class="flag-standards">IEC 60364 and 60909 &middot; IEEE 1584-2018 &middot; NFPA 70E</p>
           </div>
-          <button class="slider-btn slider-next" type="button" aria-label="Next flagship"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M7 3 L13 9 L7 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="method">
-    <div class="wrap">
-      <h2>What you get from how we work.</h2>
-      <div class="method">
-        <div class="method-step">
-          <p class="method-num">01</p>
-          <h3>Direct</h3>
-          <p>You describe the goal, the scope, and what counts as done.</p>
-        </div>
-        <div class="method-step">
-          <p class="method-num">02</p>
-          <h3>Build</h3>
-          <p>The first working version arrives with real numbers attached.</p>
-        </div>
-        <div class="method-step">
-          <p class="method-num">03</p>
-          <h3>Verify</h3>
-          <p>It runs, gets read, gets fixed, and runs again. It ships only when it passes.</p>
-        </div>
+        </article>
+        <article class="flag-card flag-card-large">
+          <p class="flag-index">03</p>
+          <div>
+          <p class="chapter-num">Flagship &middot; Building Services</p>
+          <h3>MEP Suits</h3>
+          <p>A building-services mechanical toolkit, built by an engineer for the plant room. Eight calculators: Duct Sizer, Psychrometrics, Ventilation (ASHRAE 62.1), Pipe Hydraulics, Water and Coil Loads, Fan Laws, Room Cooling Load, and Unit Converter; plus a 3D System Viewer (outdoor AC unit, duct runs, industrial pipes) linked live to the duct and pipe calculators.</p>
+          <p>Every tool shows its method and formula, and checks results against ASHRAE and CIBSE design bands. This is a design aid: results must be verified by a licensed engineer before construction or procurement.</p>
+          </div>
+        </article>
+        <article class="flag-card flag-card-compact">
+          <p class="flag-index">04</p>
+          <div>
+          <p class="chapter-num">Flagship &middot; Architecture</p>
+          <h3>AI Architecture Patterns</h3>
+          <p>A visual design library for AI systems: diagrams, trade-offs, runnable demos, and when not to use each pattern.</p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
 
   <section class="section" id="projects">
     <div class="wrap narrow">
-      <h2>Everything we make. Free or paid.</h2>
-      <p>VoltWorks, MEP Suits, and Omni Eyes View are free. FlutterKit templates are paid.</p>
+      <p class="section-label">Projects and products</p>
+      <h2>Every project, marked free or paid.</h2>
+      <p>The models are first. The Projects page lists the rest, each on its own page, marked free or paid, live or in development. The Products page is what you can use or buy: VoltWorks, MEP Suits, and Omni Eyes View are free, FlutterKit templates are paid.</p>
       <p class="band-cta"><a class="btn btn-solid" href="projects.html">Browse all projects</a> <a class="btn btn-ghost" href="products.html">See products</a></p>
+    </div>
+  </section>
+
+  <section class="section" id="architecture">
+    <div class="wrap narrow">
+      <p class="section-label">Architecture</p>
+      <h2>What VoltWorks and MEP Suits actually do.</h2>
+      <p>VoltWorks draws power systems at true scale, 1 unit to 1 metre, with calculators for IEC 60364, IEC 60909, IEEE 1584, and NFPA 70E. MEP Suits has eight building-services calculators, from Duct Sizer to Room Cooling Load, linked to a 3D plant-room viewer. Patterns is the written judgment from building both: which pattern to use, what it costs, and when to avoid it.</p>
     </div>
   </section>
 
   <section class="section" id="about">
     <div class="wrap narrow">
-      <h2>Darren Lieu, Tri Adi S.</h2>
-      <p>Darren runs Darren Labs and works as a CAD designer in building services. Before this he worked in process automation and manufacturing engineering, so the tools here come from real desk work.</p>
+      <p class="section-label">About</p>
+      <h2>Tri Adi S, known as Darren Lieu.</h2>
+      <p>Darren is CEO of Darren Labs and a CAD designer in building services. He sets the direction, agents build the first version, and he checks the result before it goes live.</p>
     </div>
   </section>
 
   <section class="section" id="contact">
     <div class="wrap narrow">
-      <h2>Tell us what to build.</h2>
-      <p class="section-lead">Tell us the workflow, the volume, and what good looks like.</p>
+      <p class="section-label">Contact</p>
+      <h2>Send a project query.</h2>
+      <p class="section-lead">Tell us what you want built: the workflow it replaces, the volume it should handle, and what a good result looks like. We read every query.</p>
       <form class="contact-form" id="contact-form">
         <input type="hidden" name="access_key" value="2a3ce100-4433-4f2b-afb0-b15483befc9f" id="web3forms-key">
         <input type="hidden" name="subject" value="New project query from the Darren Labs website">
@@ -219,21 +239,21 @@
         <button type="submit" class="btn btn-solid" id="form-submit">Send query</button>
         <p class="contact-form__feedback" id="form-feedback" role="status" aria-live="polite"></p>
       </form>
-      <p class="contact-alt">Prefer LinkedIn: Tri Adi S. Company page: <a href="https://www.linkedin.com/company/darren-labs/">Darren Labs</a>.</p>
+      <p class="contact-alt">Prefer LinkedIn: Tri Adi S &middot; Company page: Darren Labs (coming soon).</p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <p class="footer-brand"><span class="seal" aria-hidden="true"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
-    <p>&copy; 2026 Darren Labs, Agentic AI Studio</p>
+    <p class="footer-brand"><span class="mark mark-footer" aria-hidden="true"><img src="brand/logo-symbol-light.svg" alt="" width="32" height="32"></span><span class="footer-brand-text">Darren Labs</span><small>Agentic AI Studio</small></p>
+    <p>&copy; 2026 Darren Labs &middot; Agentic AI Studio</p>
+    <p>Built with agents, checked by humans. 3D models: Robot (CC0, Quaternius) &middot; Generator (CC0, Poly Haven) &middot; Pylon (BSD-3-Clause, smalltown2kt, lattice transmission tower).</p>
   </div>
   <div class="wrap">
-    <p class="footer-credit"><span>Made by Darren Labs</span><span>Built by Darren Lieu (Tri Adi S.)</span><span><a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a></span><span>Paper #F5F1E6, ink #1B1A17, seal #C23B22.</span><span><a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></span></p>
+    <p class="footer-credit">Made by Darren Labs &middot; Built by Darren Lieu (Tri Adi S.) &middot; <a href="https://saweria.co/darren111" target="_blank" rel="noopener">Support on Saweria</a> &middot; <a href="https://darrenlabs.pages.dev">darrenlabs.pages.dev</a></p>
   </div>
 </footer>
 <script src="script.js"></script>
-<script src="ink3d.js"></script>
 </body>
 </html>
