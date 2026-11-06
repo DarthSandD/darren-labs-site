@@ -101,6 +101,8 @@
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog(PAPER, 34, 78);
     var camera = new THREE.PerspectiveCamera(42, 1, 0.1, 200);
+    /* Temporary diagnostic counters (removed after the scroll-click cause is found). */
+    var frameCount = 0, resizeCount = 0, reassertCount = 0;
     scene.add(new THREE.HemisphereLight(0xFBF8F0, INK2, 1.0));
     var key = new THREE.DirectionalLight(0xFBF8F0, 0.9);
     key.position.set(8, 14, 10);
@@ -400,6 +402,7 @@
       camera.lookAt(tx.x, ty.x, tz.x);
     }
     function resize() {
+      resizeCount++;
       var w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
       renderer.setSize(w, h, false);
       camera.aspect = w / h;
@@ -415,6 +418,7 @@
        when page scrolling settles. */
     var reassertTimer = null;
     function reassert() {
+      reassertCount++;
       resize();
       applyCamera();
       renderer.render(scene, camera);
@@ -537,6 +541,7 @@
     var capX = STATIONS[0].x, capZ = STATIONS[0].z;
     function loop() {
       requestAnimationFrame(loop);
+      frameCount++;
       var dt = Math.min(clock.getDelta(), 0.05);
       var t = clock.elapsedTime;
       [theta, phi, radius, tx, ty, tz].forEach(function (s) { s.step(dt); });
@@ -556,6 +561,34 @@
       applyCamera();
       renderer.render(scene, camera);
     }
+    /* Temporary diagnostic readout (removed after the scroll-click cause is
+       found). Writes the live viewer state into a small visible line under
+       the canvas, so a real browser check can read the exact numbers the
+       local harness cannot see: canvas rect, client size, buffer size,
+       device pixel ratio, camera values and targets, aspect, scroll, and
+       how many frames, resizes and re-asserts have run. */
+    var dbg = document.createElement('pre');
+    dbg.id = 'ink3d-debug';
+    dbg.setAttribute('aria-label', 'Viewer diagnostic, temporary');
+    dbg.style.cssText = 'font:11px/1.5 monospace;color:#8a8378;background:#f5f1e6;border:1px solid #d8d2c4;padding:8px 10px;margin:12px 0 0;white-space:pre-wrap;word-break:break-word;';
+    dbg.textContent = 'viewer diagnostic loading...';
+    canvas.parentNode.insertBefore(dbg, canvas.nextSibling);
+    function dumpState(tag) {
+      var r = canvas.getBoundingClientRect();
+      dbg.textContent = 'ink3d [' + tag + '] frames=' + frameCount + ' resizes=' + resizeCount + ' reasserts=' + reassertCount +
+        ' scrollY=' + Math.round(window.scrollY) +
+        ' rect=' + Math.round(r.width) + 'x' + Math.round(r.height) + '@top' + Math.round(r.top) +
+        ' client=' + canvas.clientWidth + 'x' + canvas.clientHeight +
+        ' buf=' + canvas.width + 'x' + canvas.height +
+        ' dpr=' + (window.devicePixelRatio || 1) +
+        ' cam tx=' + tx.x.toFixed(2) + '/' + tx.target + ' ty=' + ty.x.toFixed(2) + '/' + ty.target + ' tz=' + tz.x.toFixed(2) + '/' + tz.target +
+        ' th=' + theta.x.toFixed(3) + '/' + theta.target + ' ph=' + phi.x.toFixed(3) + '/' + phi.target + ' r=' + radius.x.toFixed(2) + '/' + radius.target +
+        ' aspect=' + camera.aspect.toFixed(3) + ' fov=' + camera.fov +
+        ' station=' + current + ' reduced=' + reduced;
+    }
+    setInterval(function () { dumpState('tick'); }, 500);
+    dumpState('boot');
+
     applyCamera();
     renderer.render(scene, camera);
     loop();
