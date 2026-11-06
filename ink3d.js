@@ -480,18 +480,21 @@
       canvas.style.height = (h + 1) + 'px';
       void canvas.offsetHeight;
       canvas.style.height = '';
-      /* If the canvas top is scrolled above the viewport, the browser
-         leaves the canvas blank even after a rebuild. Put the whole canvas
-         back in view (top 88px, just below the nav) and tell the scroll
-         guard to protect the new position instead of the old one. */
+      resize();
+      applyCamera();
+      renderer.render(scene, camera);
+    }
+    /* Put the whole canvas in view after a station change, if its top is
+       scrolled above the viewport. This runs ONLY on a focus change (a tap,
+       wheel, or key), never on scrollend: running it on scrollend trapped
+       the page, yanking the scroll back to the canvas every time the user
+       scrolled past it. Normal scrolling must stay free. */
+    function ensureCanvasVisible() {
       var top = canvas.getBoundingClientRect().top;
       if (top < 0) {
         window.scrollTo({ top: window.scrollY + top - 88, behavior: 'instant' });
         scrollGuardY = window.scrollY;
       }
-      resize();
-      applyCamera();
-      renderer.render(scene, camera);
     }
 
     function setActiveLabel(i) {
@@ -528,6 +531,7 @@
       renderer.render(scene, camera);
       scheduleReassert(700);
       forceRepaint();
+      ensureCanvasVisible();
     };
 
     /* Drag: pointer events, 1:1 tracking, velocity handoff, tap to select. */
