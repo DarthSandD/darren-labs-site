@@ -55,6 +55,34 @@
     if (onFocusChange) onFocusChange(current);
   }
 
+  /* Scroll guard: a tap on a chip must never move the page. The chip is
+     already under the cursor, so no scroll is needed to see it, yet the
+     browser still scrolls on activation (focus scroll, and automation
+     scroll-into-view), which is the trigger that blanks the canvas in a
+     real browser. mousedown preventDefault stops the focus scroll for a
+     mouse, but a touch tap or a programmatic click can still scroll, so
+     record the scroll position on pointerdown and restore it instantly on
+     click and for 600ms after, with smooth scrolling suspended while the
+     guard is armed so no smooth animation can fight the restore. */
+  var scrollGuardY = null, scrollGuardUntil = 0, scrollGuardTimer = null;
+  function armScrollGuard() {
+    scrollGuardY = window.scrollY;
+    scrollGuardUntil = Date.now() + 600;
+    document.documentElement.style.scrollBehavior = 'auto';
+    if (scrollGuardTimer) { clearTimeout(scrollGuardTimer); }
+    scrollGuardTimer = setTimeout(function () {
+      scrollGuardTimer = null; scrollGuardY = null;
+      document.documentElement.style.scrollBehavior = '';
+    }, 600);
+  }
+  function restoreScrollIfNeeded() {
+    if (scrollGuardY === null || Date.now() > scrollGuardUntil) return;
+    if (Math.abs(window.scrollY - scrollGuardY) > 2) {
+      window.scrollTo({ top: scrollGuardY, behavior: 'instant' });
+    }
+  }
+  window.addEventListener('scroll', function () { restoreScrollIfNeeded(); }, { passive: true });
+
   chips.forEach(function (chip, k) {
     /* A mouse click must never focus the chip: focusing a below-fold chip
        makes the browser smooth-scroll the page while the station
@@ -62,8 +90,9 @@
        showing the world compressed into a strip. The chip is already under
        the cursor, so it needs no scroll. Keyboard use is unaffected: Tab
        still focuses chips and Enter/Space still activate them. */
-    chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
-    chip.addEventListener('click', function () { focus(k, true); });
+    chip.addEventListener('mousedown', function (e) { e.preventDefault(); armScrollGuard(); });
+    chip.addEventListener('pointerdown', function () { armScrollGuard(); });
+    chip.addEventListener('click', function () { focus(k, true); restoreScrollIfNeeded(); });
   });
   canvas.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowRight') { e.preventDefault(); focus(current + 1, true); }
@@ -433,7 +462,36 @@
       scrollTimer = setTimeout(function () { scrollTimer = null; reassert(); }, 300);
     }, { passive: true });
     if ('onscrollend' in window) {
-      window.addEventListener('scrollend', function () { reassert(); });
+      window.addEventListener('scrollend', function () { reassert(); forceRepaint(); });
+    }
+
+    /* Force the compositor to re-present the canvas layer. The live
+       diagnostic proved the failure is not in the render: while the canvas
+       shows blank cream, the loop still runs, the camera values are exactly
+       correct, and the buffer is the right size. The browser is showing a
+       stale blank layer instead of the buffer. Re-rendering alone does not
+       fix it. A 1px CSS height change, a forced reflow, then restoring the
+       rule rebuilds the layer and makes the browser present the current
+       buffer. Runs after every focus change and when scrolling settles. */
+    var repaintCount = 0;
+    function forceRepaint() {
+      repaintCount++;
+      var h = canvas.clientHeight || 1;
+      canvas.style.height = (h + 1) + 'px';
+      void canvas.offsetHeight;
+      canvas.style.height = '';
+      /* If the canvas top is scrolled above the viewport, the browser
+         leaves the canvas blank even after a rebuild. Put the whole canvas
+         back in view (top 88px, just below the nav) and tell the scroll
+         guard to protect the new position instead of the old one. */
+      var top = canvas.getBoundingClientRect().top;
+      if (top < 0) {
+        window.scrollTo({ top: window.scrollY + top - 88, behavior: 'instant' });
+        scrollGuardY = window.scrollY;
+      }
+      resize();
+      applyCamera();
+      renderer.render(scene, camera);
     }
 
     function setActiveLabel(i) {
@@ -469,6 +527,7 @@
       applyCamera();
       renderer.render(scene, camera);
       scheduleReassert(700);
+      forceRepaint();
     };
 
     /* Drag: pointer events, 1:1 tracking, velocity handoff, tap to select. */
@@ -575,7 +634,7 @@
     canvas.parentNode.insertBefore(dbg, canvas.nextSibling);
     function dumpState(tag) {
       var r = canvas.getBoundingClientRect();
-      dbg.textContent = 'ink3d [' + tag + '] frames=' + frameCount + ' resizes=' + resizeCount + ' reasserts=' + reassertCount +
+      dbg.textContent = 'ink3d [' + tag + '] frames=' + frameCount + ' resizes=' + resizeCount + ' reasserts=' + reassertCount + ' repaints=' + repaintCount +
         ' scrollY=' + Math.round(window.scrollY) +
         ' rect=' + Math.round(r.width) + 'x' + Math.round(r.height) + '@top' + Math.round(r.top) +
         ' client=' + canvas.clientWidth + 'x' + canvas.clientHeight +
