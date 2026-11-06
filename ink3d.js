@@ -56,6 +56,13 @@
   }
 
   chips.forEach(function (chip, k) {
+    /* A mouse click must never focus the chip: focusing a below-fold chip
+       makes the browser smooth-scroll the page while the station
+       transition runs, and in a real browser that leaves the canvas stuck
+       showing the world compressed into a strip. The chip is already under
+       the cursor, so it needs no scroll. Keyboard use is unaffected: Tab
+       still focuses chips and Enter/Space still activate them. */
+    chip.addEventListener('mousedown', function (e) { e.preventDefault(); });
     chip.addEventListener('click', function () { focus(k, true); });
   });
   canvas.addEventListener('keydown', function (e) {
@@ -120,11 +127,46 @@
     ridge([[-30, 5], [-20, 7.5], [-10, 4.5], [0, 7], [10, 5], [20, 6.5], [30, 4.5]], -1.3, INK, 0.14, -11);
     ridge([[-30, 3.5], [-18, 5.5], [-6, 3], [6, 5], [18, 3.5], [28, 5]], -1.6, INK, 0.22, -6);
     ridge([[-32, 1.6], [-20, 2.4], [-8, 1.2], [4, 2.2], [16, 1.4], [28, 2]], -2.2, INK, 0.35, 2.5);
+    /* Two more layers: a very far faint wash and a mid wash, so the
+       mountains read as depth, not four flat bands. */
+    ridge([[-30, 8], [-20, 11], [-10, 7.5], [0, 10], [10, 7], [20, 9.5], [30, 8]], -0.6, INK, 0.05, -21);
+    ridge([[-28, 4], [-16, 6], [-4, 3.5], [8, 5.5], [20, 4], [28, 5]], -1.5, INK, 0.11, -13);
 
     var ground = new THREE.Mesh(new THREE.PlaneGeometry(160, 60), flat(PAPER2, 1));
     ground.rotation.x = -Math.PI / 2;
     ground.position.set(0, -2.3, -6);
     scene.add(ground);
+
+    /* Ground detail: the ground was a flat featureless cream rectangle, so
+       any low framing read as blank cream. A soft darker wash near the
+       horizon, low foreground hills, and ink brush strokes lying on the
+       ground keep the lower frame reading as painting, never as empty. */
+    var groundWash = new THREE.Mesh(new THREE.PlaneGeometry(160, 10), flat(0xE4DCCB, 1));
+    groundWash.rotation.x = -Math.PI / 2;
+    groundWash.position.set(0, -2.27, -18);
+    scene.add(groundWash);
+    ridge([[-30, 0.8], [-18, 1.4], [-6, 0.7], [6, 1.2], [18, 0.8], [28, 1.1]], -2.2, INK, 0.25, 8);
+    ridge([[-28, 0.6], [-14, 1.0], [0, 0.6], [14, 0.9], [26, 0.6]], -2.2, INK, 0.35, 14);
+    function groundStroke(x, z, len, wid, angle, opacity) {
+      var c = Math.cos(angle), s = Math.sin(angle);
+      var hx = c * len / 2, hy = s * len / 2;
+      var wx = -s * wid / 2, wy = c * wid / 2;
+      var shape = new THREE.Shape();
+      shape.moveTo(-hx - wx, -hy - wy);
+      shape.lineTo(hx - wx, hy - wy);
+      shape.lineTo(hx + wx, hy + wy);
+      shape.lineTo(-hx + wx, -hy + wy);
+      shape.closePath();
+      var m = new THREE.Mesh(new THREE.ShapeGeometry(shape), flat(INK, opacity));
+      m.rotation.x = -Math.PI / 2;
+      m.position.set(x, -2.24, z);
+      scene.add(m);
+      return m;
+    }
+    groundStroke(-12, 4, 18, 0.5, 0.12, 0.10);
+    groundStroke(10, 8, 22, 0.4, -0.08, 0.08);
+    groundStroke(0, 12, 14, 0.6, 0.05, 0.10);
+    groundStroke(-24, -2, 12, 0.4, 0.2, 0.07);
 
     /* Vermillion sun, upper left, moved central and higher so every
        focused view holds the full disc. Breathes gently unless reduced motion. */
@@ -133,45 +175,66 @@
     scene.add(sun);
 
     /* Cliff and pagoda, moved central with the sun so the pagoda stays
-       in frame at every station instead of falling off the left edge. */
+       in frame at every station instead of falling off the left edge.
+       The pagoda is a solid object now, not a flat wash: four tiers with
+       eave slabs, a stone base and a spire with an orb, in a standard
+       material so the light gives each face a slightly different ink. */
     var cliff = ridge([[-2, 0], [1, 7.5], [4, 8.5], [7, 7], [9, 0]], -2.2, INK, 0.85, -8);
     cliff.position.x = -20;
     var pagoda = new THREE.Group();
     var inkMat = flat(INK, 1);
+    var inkStd = new THREE.MeshStandardMaterial({ color: INK, roughness: 1, metalness: 0 });
     function box(w, h, d, y) {
-      var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), inkMat);
+      var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), inkStd);
       m.position.y = y;
       pagoda.add(m);
       return m;
     }
     function roof(r, y) {
-      var m = new THREE.Mesh(new THREE.ConeGeometry(r, 0.9, 4), inkMat);
+      var m = new THREE.Mesh(new THREE.ConeGeometry(r, 0.9, 4), inkStd);
       m.rotation.y = Math.PI / 4;
       m.position.y = y;
       pagoda.add(m);
       return m;
     }
-    box(2.6, 0.5, 2.6, 0.25);
-    box(1.9, 1.0, 1.9, 1.0);
-    roof(1.9, 1.9);
-    box(1.5, 0.9, 1.5, 2.7);
-    roof(1.5, 3.55);
-    box(1.1, 0.8, 1.1, 4.3);
-    roof(1.15, 5.0);
-    var spire = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1.1, 8), inkMat);
-    spire.position.y = 5.9;
+    function eave(w, y) {
+      var m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.18, w), inkStd);
+      m.position.y = y;
+      pagoda.add(m);
+      return m;
+    }
+    box(3.6, 0.35, 3.6, 0.17);
+    box(2.2, 1.0, 2.2, 1.0);
+    eave(2.9, 1.6);
+    roof(2.1, 2.05);
+    box(1.7, 0.9, 1.7, 2.7);
+    eave(2.3, 3.25);
+    roof(1.7, 3.65);
+    box(1.3, 0.8, 1.3, 4.3);
+    eave(1.8, 4.75);
+    roof(1.35, 5.05);
+    box(0.9, 0.6, 0.9, 5.55);
+    roof(1.0, 6.0);
+    var spire = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 1.1, 8), inkStd);
+    spire.position.y = 6.55;
     pagoda.add(spire);
+    var orb = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 8), inkStd);
+    orb.position.y = 7.15;
+    pagoda.add(orb);
     pagoda.position.set(-19.5, 5.6, -8);
     scene.add(pagoda);
 
-    /* Pine silhouettes. */
+    /* Pine silhouettes, layered foliage: five cones per pine so the
+       canopy reads as stacked branches, in the same shaded ink as the
+       pagoda. A few more pines at varied depths, one low in the
+       foreground right. */
     function pine(x, z, s) {
       var g = new THREE.Group();
-      var trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 1.1, 6), inkMat);
+      var trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.1, 1.1, 6), inkStd);
       trunk.position.y = 0.55;
       g.add(trunk);
-      [[0.85, 1.5, 1.0], [0.65, 2.2, 1.5], [0.42, 2.85, 2.0]].forEach(function (c) {
-        var cone = new THREE.Mesh(new THREE.ConeGeometry(c[0], 1.3, 7), inkMat);
+      [[0.95, 1.35, 0.9], [0.8, 2.0, 1.4], [0.62, 2.6, 1.9], [0.45, 3.1, 2.35], [0.28, 3.5, 2.75]].forEach(function (c) {
+        var cone = new THREE.Mesh(new THREE.ConeGeometry(c[0], 1.3, 7), inkStd);
         cone.position.y = c[2];
         g.add(cone);
       });
@@ -183,17 +246,44 @@
     pine(-26, -4, 1.6); pine(-22, -6, 1.2); pine(-29, -7, 1.0);
     pine(28, -4, 1.5); pine(27, -6, 1.1);
     pine(-13, -3, 0.9); pine(13.5, -3.2, 0.85);
+    pine(-31, -5, 1.3); pine(24, -5, 1.3); pine(22, 3, 0.8);
 
-    /* Drifting mist planes, paper coloured, slow. */
+    /* Drifting mist planes, paper coloured, slow. Six planes at varied
+       depths and widths, so the mist reads as layers, not one sheet. */
     var mists = [];
-    [[0, 1.4, -8, 0], [-6, 2.8, -12, 2], [7, 0.6, -4, 4]].forEach(function (m, i) {
-      var p = new THREE.Mesh(new THREE.PlaneGeometry(64, 3.4), new THREE.MeshBasicMaterial({ color: PAPER, transparent: true, opacity: 0.5, depthWrite: false }));
+    [[0, 1.4, -8, 0, 64], [-6, 2.8, -12, 2, 64], [7, 0.6, -4, 4, 64],
+     [-14, 3.6, -14, 1, 56], [12, 2.0, -10, 3, 72], [-2, 4.2, -16, 5, 48]].forEach(function (m, i) {
+      var p = new THREE.Mesh(new THREE.PlaneGeometry(m[4] || 64, 3.4), new THREE.MeshBasicMaterial({ color: PAPER, transparent: true, opacity: 0.5, depthWrite: false }));
       p.position.set(m[0], m[1], m[2]);
       p.userData.baseX = m[0];
       p.userData.phase = m[3];
       scene.add(p);
       mists.push(p);
     });
+
+    /* Ink birds drifting across the sky: shallow V gulls, slow, wrapping
+       around the scene. Frozen under reduced motion, like the mist. */
+    var birds = [];
+    function bird(x, y, z, speed, scale) {
+      var g = new THREE.Group();
+      var wingMat = flat(INK, 0.85);
+      var wl = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.06, 0.18), wingMat);
+      wl.position.x = -0.42;
+      wl.rotation.z = 0.35;
+      var wr = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.06, 0.18), wingMat);
+      wr.position.x = 0.42;
+      wr.rotation.z = -0.35;
+      g.add(wl); g.add(wr);
+      g.position.set(x, y, z);
+      g.scale.setScalar(scale);
+      g.userData.speed = speed;
+      scene.add(g);
+      birds.push(g);
+      return g;
+    }
+    bird(-20, 11, -15, 1.4, 1.0);
+    bird(8, 13, -17, 1.1, 0.8);
+    bird(18, 12, -14, 1.7, 1.1);
 
     /* Five stations along the ridge path. */
     var STATIONS = [
@@ -250,7 +340,7 @@
       var tex = labelTexture(i, i === 0);
       var mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false });
       var sprite = new THREE.Sprite(mat);
-      sprite.scale.set(5.0, 2.5, 1);
+      sprite.scale.set(4.6, 2.3, 1);
       sprite.position.set(s.x, 5.9, s.z);
       sprite.userData.index = i;
       scene.add(sprite);
@@ -319,6 +409,29 @@
     window.addEventListener('resize', resize);
     resize();
 
+    /* Self-heal: if a render ever lands in a bad state (for example a
+       resize mid-scroll), re-asserting the size, camera and render
+       recovers it without user action. Runs after every focus change and
+       when page scrolling settles. */
+    var reassertTimer = null;
+    function reassert() {
+      resize();
+      applyCamera();
+      renderer.render(scene, camera);
+    }
+    function scheduleReassert(ms) {
+      if (reassertTimer) { clearTimeout(reassertTimer); }
+      reassertTimer = setTimeout(function () { reassertTimer = null; reassert(); }, ms);
+    }
+    var scrollTimer = null;
+    window.addEventListener('scroll', function () {
+      if (scrollTimer) { clearTimeout(scrollTimer); }
+      scrollTimer = setTimeout(function () { scrollTimer = null; reassert(); }, 300);
+    }, { passive: true });
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', function () { reassert(); });
+    }
+
     function setActiveLabel(i) {
       labelMats.forEach(function (lm, k) {
         var active = k === i;
@@ -333,17 +446,25 @@
        full sun disc and the pagoda stay in frame at stations 1 to 5.
        Left stations keep their target: the painting already sits there.
        The target height (6.0) and radius (22) hold the ink world full
-       frame after every focus, with no blank cream band at the bottom. */
+       frame after every focus, with no blank cream band at the bottom.
+       On narrow screens the horizontal field is small, so the pull and
+       the swing are gentler: otherwise the focused station's own label
+       is pushed past the frame edge. */
     onFocusChange = function (i) {
       var s = STATIONS[i];
-      tx.target = s.x > 0 ? s.x * 0.55 : s.x;
+      var aspect = canvas.clientWidth / Math.max(1, canvas.clientHeight);
+      var narrow = aspect < 1.2;
+      var pull = narrow ? 0.85 : 0.55;
+      var thetaCap = narrow ? 0.22 : 0.38;
+      tx.target = s.x > 0 ? s.x * pull : s.x;
       ty.target = 6.0; tz.target = s.z;
-      theta.target = Math.max(0, Math.min(0.38, s.x * 0.03));
+      theta.target = Math.max(0, Math.min(thetaCap, s.x * 0.03));
       phi.target = 1.28; radius.target = 22;
       setActiveLabel(i);
       if (reduced) snapAll();
       applyCamera();
       renderer.render(scene, camera);
+      scheduleReassert(700);
     };
 
     /* Drag: pointer events, 1:1 tracking, velocity handoff, tap to select. */
@@ -423,6 +544,10 @@
         var s = 1 + 0.018 * Math.sin(t * 0.4);
         sun.scale.set(s, s, 1);
         mists.forEach(function (m) { m.position.x = m.userData.baseX + Math.sin(t * 0.05 + m.userData.phase) * 2.5; });
+        birds.forEach(function (b) {
+          b.position.x += b.userData.speed * dt;
+          if (b.position.x > 34) { b.position.x = -34; }
+        });
       }
       var targetCapX = STATIONS[current].x, targetCapZ = STATIONS[current].z;
       capX += (targetCapX - capX) * Math.min(1, dt * 6);
