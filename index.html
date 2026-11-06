@@ -13,6 +13,7 @@
 <meta name="color-scheme" content="light">
 <link rel="icon" type="image/png" sizes="64x64" href="brand/favicon-64.png">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="ink3d.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -45,7 +46,7 @@
 
 <main id="main">
   <section class="hero" id="top">
-    <div class="hero-art" aria-hidden="true"><img src="painting.svg" alt=""></div>
+    <div class="hero-art hero-art-video" aria-hidden="true"><video class="hero-video" src="painting-video.mp4" poster="painting-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video></div>
     <div class="wrap hero-inner">
       <h1>Free models that run on your machine.</h1>
       <svg class="brush-line" viewBox="0 0 220 14" aria-hidden="true">
@@ -63,6 +64,31 @@
       <p class="hero-caption">Ink study, Darren Labs</p>
     </div>
     <div class="ridge" aria-hidden="true"><svg viewBox="0 0 1200 44" preserveAspectRatio="xMidYMax slice"><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20 L1200 44 L0 44 Z" fill="#1B1A17" opacity="0.07"/><path d="M0 32 L150 14 L300 26 L450 10 L600 24 L760 8 L920 26 L1060 12 L1200 20" fill="none" stroke="#1B1A17" stroke-width="1.5" opacity="0.35"/></svg></div>
+  </section>
+
+  <section class="ink3d" id="ink3d" aria-label="Explore the products">
+    <div class="ink3d-inner">
+      <h2 class="ink3d-title">Walk the ridge.</h2>
+      <p class="ink3d-lead">Drag the painting to travel between the five products. Choose one to open its page.</p>
+      <div class="ink3d-stage">
+        <canvas id="ink3d-canvas" class="ink3d-canvas" tabindex="0" aria-label="Ink painting ridge with five product stations. Drag to look around. Use the left and right arrow keys to move between stations."></canvas>
+        <p class="ink3d-hint">Drag to look around. Arrow keys, scroll, or the buttons below move between stations.</p>
+        <ul class="ink3d-chips" role="group" aria-label="Products">
+          <li><button type="button" class="ink3d-chip is-active" data-station="0" aria-current="true">DarrenLabs AI Models</button></li>
+          <li><button type="button" class="ink3d-chip" data-station="1">Styx</button></li>
+          <li><button type="button" class="ink3d-chip" data-station="2">VoltWorks Power</button></li>
+          <li><button type="button" class="ink3d-chip" data-station="3">MEP Suits</button></li>
+          <li><button type="button" class="ink3d-chip" data-station="4">AI Architecture Patterns</button></li>
+        </ul>
+      </div>
+      <article class="ink3d-card" id="ink3d-card" aria-live="polite">
+        <p class="ink3d-card-num" id="ink3d-card-num">1</p>
+        <h3 class="ink3d-card-title" id="ink3d-card-title">DarrenLabs AI Models</h3>
+        <p class="ink3d-card-hook" id="ink3d-card-hook">7B and 32B, free to download and run.</p>
+        <p class="ink3d-card-facts" id="ink3d-card-facts">7B 169 tokens per second, 32B 54.</p>
+        <p class="ink3d-card-link"><a id="ink3d-card-link" href="models.html">Open the models page</a></p>
+      </article>
+    </div>
   </section>
 
   <section class="section" id="flagships">
@@ -208,5 +234,6 @@
   </div>
 </footer>
 <script src="script.js"></script>
+<script src="ink3d.js"></script>
 </body>
 </html>
